@@ -2,17 +2,17 @@ import { Outlet } from 'react-router-dom'
 import './App.css'
 import { Provider } from './Store/Store'
 import { GridContainer } from './Component/GridContainer/GridContainer'
+import { Header } from './Component/Header/Header'
 
 function App() {
 
   return (
     <Provider>
       <div className="App">
-        {/* <Header /> */}
+      <Header />
         <GridContainer>
           <div className="Outlet">
             <Outlet />
-            Test
           </div>
         </GridContainer>
         {/* <Footer /> */}
