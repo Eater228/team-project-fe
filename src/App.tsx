@@ -12,6 +12,7 @@ function App() {
         <GridContainer>
           <div className="Outlet">
             <Outlet />
+            Test
           </div>
         </GridContainer>
         {/* <Footer /> */}
