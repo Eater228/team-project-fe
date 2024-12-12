@@ -10,13 +10,13 @@ import { AuthPage } from './Component/AuthPage/AuthPage'
 export const Root = () => (
   <Router>
     <Routes>
+        <Route path='/auth' element={<AuthPage />} />
       <Route path='/' element={<App />}>
         <Route index element={<MainPage />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/product' element={<ProductPage />} />
         <Route path='/top' element={<TopPage />} />
         <Route path='/new' element={<NewPage />} />
-        <Route path='/auth' element={<AuthPage />} />
       </Route>
     </Routes>
   </Router>
