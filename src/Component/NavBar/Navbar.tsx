@@ -1,39 +1,48 @@
 import styles from './Navbar.module.scss';
 import classNames from 'classnames';
-import { useContext } from 'react';
-import { NavLink } from 'react-router-dom';
-// import { Context } from '../../Store/Store';
-// import { BurgerMenu } from '../BurgerMenu';
+import { useDispatch, useSelector } from 'react-redux';
+import { NavLink, useNavigate } from 'react-router-dom';
+import { logout } from '../../Reducer/UsersSlice';
+import { AppDispatch, RootState } from 'Store/Store';
 
 export const Navbar = () => {
+  // Отримання стану авторизації з Redux Store
+  const { isLoggedIn, currentUser } = useSelector((state: RootState) => state.userData);
+
+  // Ініціалізація dispatch
+  const dispatch = useDispatch<AppDispatch>();
+
+  // Ініціалізація navigate 
+  const navigate = useNavigate();
+
+  // Клас для посилань навігації
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     classNames('', {
       [styles.isActive]: isActive,
     });
 
+  // Клас для посилань у кінці навігації
   const getLinkClassForEnds = ({ isActive }: { isActive: boolean }) =>
     classNames(styles.itemEnd, {
       [styles.isActive]: isActive,
     });
 
-  const AuthToProfile = (userStatus: boolean) => {
-    if (userStatus === true) {
-      return 'profile'
-    } else {
-      return 'auth'
-    }
-  }
+  // Визначення посилання для авторизації або профілю
+  const getAuthLink = () => (isLoggedIn ? '/profile' : '/auth');
 
-  // const { favorite, carts, burgerMenuOpen, setBurgerMenuOpen } =
-  //   useContext(Context);
+  // Визначення тексту для кнопки авторизації або профілю
+  const getAuthText = () => (isLoggedIn ? currentUser?.username || 'Profile' : 'Auth');
 
-  // const toggleBurgerMenu = () => {
-  //   setBurgerMenuOpen(!burgerMenuOpen);
-  // };
+  // Обробник виходу з системи
+  const handleLogout = () => {
+    dispatch(logout());
+    navigate('/')
+  };
 
   return (
     <nav className={styles.nav}>
       <ul className={styles.list}>
+        {/* Ліва частина навігації */}
         <div className={styles.start}>
           <li className={styles.item}>
             <NavLink className={getLinkClass} to="/product">
@@ -51,43 +60,26 @@ export const Navbar = () => {
             </NavLink>
           </li>
         </div>
+
+        {/* Права частина навігації */}
         <div className={styles.end}>
-          {/* <NavLink className={getLinkClassForEnds} to="/favorites">
-            <li>
-              <img src="img/icons/favourites_icon.svg" alt="favorites" />
-              {favorite.length !== 0 && (
-                <span className={styles.counter}>{favorite.length}</span>
-              )}
-            </li> 
-           
-          </NavLink>
-          <NavLink className={getLinkClassForEnds} to="/cart">
-            <li>
-              <img src="img/icons/cart_icon.svg" alt="cart" />
-              {carts.length !== 0 && (
-                <span className={styles.counter}>{carts.length}</span>
-              )}
+          <li className={styles.itemEnd}>
+            <NavLink className={getLinkClassForEnds} to={getAuthLink()}>
+              {getAuthText()}
+            </NavLink>
+          </li>
+          {isLoggedIn && (
+            <li className={styles.itemEnd}>
+              <button
+                className={classNames(styles.itemEnd, styles.linkButton)}
+                onClick={handleLogout}
+              >
+                Log Out
+              </button>
             </li>
-          </NavLink> */}
-          
-        <li className={styles.itemEnd}>
-          <NavLink className={getLinkClassForEnds} to={AuthToProfile(false)}>
-              {`${AuthToProfile(false)}`}
-          </NavLink>
-        </li>
+          )}
         </div>
-        {/* <div className={styles.burgerСcontainer}>
-          <img
-            src="img/icons/Menu.svg"
-            alt="burger menu"
-          />
-        </div> */}
       </ul>
-      {/* {burgerMenuOpen && (
-        <div className={styles.burgerMenu}>
-          <BurgerMenu toggleMenu={toggleBurgerMenu} />
-        </div>
-      )} */}
     </nav>
   );
 };
