@@ -1,13 +1,15 @@
 import { Outlet } from 'react-router-dom'
 import './App.css'
-import { Provider } from './Store/Store'
+// import { Provider } from './Store/Store'
 import { GridContainer } from './Component/GridContainer/GridContainer'
 import { Header } from './Component/Header/Header'
+import { Provider } from 'react-redux'
+import store from './Store/Store'
 
 function App() {
 
   return (
-    <Provider>
+    
       <div className="App">
       <Header />
         <GridContainer>
@@ -17,7 +19,6 @@ function App() {
         </GridContainer>
         {/* <Footer /> */}
       </div>
-    </Provider>
   )
 }
 
