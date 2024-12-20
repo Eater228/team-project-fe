@@ -94,7 +94,7 @@ export const AuthPageFormik = () => {
 
   function validUserName(value: string) {
     if(!value) return 'Username is required'
-    if(value.length < 5) return 'At least 5 charters'
+    if(value.length < 2) return 'At least 2 charters'
   }
 
   function validEmpty(value: string) {
@@ -162,7 +162,10 @@ export const AuthPageFormik = () => {
               formikHelpers.setSubmitting(true);
               authService
                 .register({userName, firstName, lastName, email, password, repeatPassword})
-                .then(() => {setIsSignInMode(false)})
+                .then((data) => {
+                  setIsSignInMode(false)
+                  console.log(data)
+                })
                 .catch((error) => {
                   console.log(error)
                 })
