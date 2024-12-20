@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export const authClient = axios.create({
-  baseURL: `http://localhost:3005/auth`,
+  baseURL: `http://localhost:8000/`,
   withCredentials: true,
 });
 
@@ -20,4 +20,5 @@ authClient.interceptors.request.use((request) => {
 authClient.interceptors.response.use(
   // eslint-disable-next-line @typescript-eslint/no-unsafe-return
   res => res.data,
+  error => Promise.reject(error)
 );

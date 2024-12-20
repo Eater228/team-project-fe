@@ -21,11 +21,11 @@ export const authService = {
       return Promise.reject(new Error("Passwords do not match"));
     }
 
-    return client.post('/registration', { userName, firstName, lastName, email, password });
+    return client.post('/registration/', { userName, firstName, lastName, email, password });
   },
 
   login: ({ email, password }: LoginCredentials): Promise<any> => {
-    return client.post('/login', { email, password });
+    return client.post('/token', { email, password });
   },
 
   refresh: (): Promise<any> => {
