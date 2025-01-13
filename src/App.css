@@ -1,28 +1,29 @@
 #root {
-  /* max-width: 1280px; */
   margin: 0;
-  /* padding: 2rem; */
   text-align: center;
   height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .App {
+  /* display: flex; */
+  /* flex-direction: column; */
   height: 100%;
 }
 
-/* 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.Content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+
+.Outlet {
+  flex: 1;
+  grid-column: 1 / -1;
+  min-height: calc(100vh - (68px + 96px));
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
-} */
 
 @keyframes logo-spin {
   from {
@@ -45,9 +46,4 @@
 
 .read-the-docs {
   color: #888;
-}
-
-.Outlet {
-  min-height: calc(100vh - (68px + 96px * 2));
-  grid-column: 1 / -1;
 }

@@ -1,181 +1,7 @@
-// .container {
-//   grid-column: 1 / -1;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-// }
-
-// .authForm {
-//   background-color: #242424;
-//   border: 1px solid white;
-//   height: 50%;
-//   width: 60%;
-//   border-radius: 50px;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: space-between;
-//   align-items: center;
-//   padding: 20px;
-//   box-shadow: 0 10px 30px rgba(138, 134, 134, 0.205);
-//   // transition: box-shadow 0.3s ease;
-
-//   // &:hover {
-//   //   box-shadow: 0 20px 60px rgba(0, 0, 0, 0.25);
-//   // }
-// }
-
-// .switchContainer {
-//   width: 100%;
-//   max-width: 300px;
-//   height: 50px;
-//   background-color: rgba(122, 122, 122, 0.267);
-//   border-radius: 30px;
-//   position: relative;
-//   overflow: hidden;
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   box-shadow: 0 5px 15px rgba(33, 34, 34, 0.979);;
-
-//   .switchTextContainer {
-//     width: 100%;
-//     display: flex;
-//     justify-content: space-between;
-//     align-items: center;
-//     position: relative;
-//     z-index: 1;
-
-//     .signUp,
-//     .logIn {
-//       cursor: pointer;
-//       color: rgb(0, 0, 0);
-//       font-weight: bold;
-//       user-select: none;
-//       height: 100%;
-//       display: flex;
-//       align-items: center;
-//       justify-content: center;
-//       flex: 1;
-
-//       &.active {
-//         color: rgb(255, 255, 255);
-//       }
-//     }
-//   }
-
-//   .switchButton {
-//     position: absolute;
-//     top: 0;
-//     left: 0;
-//     height: 100%;
-//     width: 50%;
-//     background-color: rgb(94, 159, 197);
-//     border-radius: 30px;
-//     transition: transform 0.3s ease, background-color 0.3s ease;
-
-//     &.activeLogIn {
-//       transform: translateX(0);
-//       background-color: rgba(255, 255, 255, 0.5);
-//     }
-
-//     &.activeSignUp {
-//       transform: translateX(100%);
-//       background-color: rgba(255, 255, 255, 0.5);
-//     }
-//   }
-// }
-
-// .formContainer {
-//   flex-grow: 1;
-//   display: flex;
-//   flex-direction: column;
-//   justify-content: center;
-//   align-items: center;
-//   width: 100%;
-// }
-
-// .form {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   justify-content: center;
-//   width: 100%;
-//   position: relative;
-  
-//   input {
-//     margin: 10px 0;
-//     padding: 12px;
-//     width: 100%;
-//     height: 50px;
-//     border: 1px solid #ddd;
-//     border-radius: 12px;
-//     outline: none;
-//     box-sizing: border-box;
-//     background-color: #333;
-//     color: white;
-//     transition: all 0.3s ease;
-
-//     &.focused {
-//       background-color: #444; // Темніший фон при фокусі
-//     }
-
-//     &:focus {
-//       border-color: rgb(94, 159, 197); // Підсвічуємо поле при фокусі
-//       box-shadow: 0 0 8px rgba(94, 159, 197, 0.5); // Тінь при фокусі
-//     }
-//   }
-
-//   .is-danger {
-//     border-color: rgb(197, 94, 94); // Червоний колір для помилки
-//     background-color: rgb(50, 50, 50); // Трохи темніше для помилки
-//     box-shadow: 0 0 8px rgba(197, 94, 94, 0.6); // Червона тінь
-//   }
-
-//   .errorMessage {
-//     color: rgb(197, 94, 94);  // Червоний колір для повідомлень про помилки
-//     font-size: 12px;
-//     margin-top: -5px;
-//     // margin-bottom: 10px;
-//     text-align: left;
-//   }
-
-//   button {
-//     margin-top: 60px;
-//     padding: 12px 25px;
-//     border: none;
-//     border-radius: 12px;
-//     background-color: rgb(0, 0, 0);
-//     color: white;
-//     font-weight: bold;
-//     cursor: pointer;
-//     transition: all 0.3s ease;
-
-//     &:hover {
-//       background-color: rgb(56, 54, 61);
-//       transform: translateY(-3px);
-//     }
-
-//     &:active {
-//       transform: translateY(1px);
-//     }
-//   }
-// }
-
-// .resetPassword {
-//   position: absolute;
-//   bottom: 0;
-//   right: 50px;
-
-//   a {
-//     text-decoration: none;
-//     color: red;
-//   }
-// }
-
 .backToHome {
   position: absolute;
-  right: 50px;
-  bottom: 50px;
+  top: 10px;
+  right: 10px;
 }
 
 .container {
@@ -183,35 +9,63 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  height: 834px;
 }
 
-.authForm {
-  background-color: #242424;
-  border: 1px solid white;
-  // height: 50%;
-  width: 60%;
-  border-radius: 50px;
+.authFormRegister {
+  box-sizing: border-box;
+  position: relative;
+  background-color: #1c1c1d;
+  // border: 1px solid white;
+  height: 834px;
+  width: 662px;
+  border-radius: 32px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   align-items: center;
-  padding: 20px;
-  box-shadow: 0 10px 30px rgba(138, 134, 134, 0.205);
+  padding: 82px 114px;
+  // box-shadow: 0 10px 30px rgba(138, 134, 134, 0.205);
+}
+
+.authFormLogin {
+  box-sizing: border-box;
+  position: relative;
+  background-color: #1c1c1d;
+  // border: 1px solid white;
+  height: 706px;
+  width: 662px;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 82px 114px;
+  // box-shadow: 0 10px 30px rgba(138, 134, 134, 0.205);
 }
 
 .switchContainer {
+  box-sizing: border-box;
+  padding: 10px;
   width: 100%;
-  margin-bottom: 20px;
-  max-width: 300px;
-  height: 50px;
+  // margin-bottom: 20px;
+  max-width: 434px;
+  height: 81px;
   background-color: rgba(122, 122, 122, 0.267);
-  border-radius: 30px;
+  border-radius: 24px;
   position: relative;
   overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
   box-shadow: 0 5px 15px rgba(33, 34, 34, 0.979);
+
+  .switchBlock {
+    box-sizing: border-box;
+    position: relative;
+    width: 407px;
+    height: 59px;
+    display: flex;
+    align-items: center;
+  }
 
   .switchTextContainer {
     width: 100%;
@@ -232,6 +86,10 @@
       align-items: center;
       justify-content: center;
       flex: 1;
+      font-size: 18px;
+      font-weight: 500;
+      line-height: 27px;
+      letter-spacing: -8%;
 
       &.active {
         color: rgb(255, 255, 255);
@@ -240,23 +98,25 @@
   }
 
   .switchButton {
+    box-sizing: border-box;
+    // margin: 10px;
     position: absolute;
     top: 0;
     left: 0;
     height: 100%;
     width: 50%;
-    background-color: rgb(94, 159, 197);
-    border-radius: 30px;
+    // background-color: rgb(94, 159, 197);
+    border-radius: 16px;
     transition: transform 0.3s ease, background-color 0.3s ease;
 
     &.activeLogIn {
       transform: translateX(0);
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: #ecd57b;
     }
 
     &.activeSignUp {
       transform: translateX(100%);
-      background-color: rgba(255, 255, 255, 0.5);
+      background-color: #ecd57b;
     }
   }
 }
@@ -265,34 +125,63 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
   width: 100%;
+  height: 100%;
 }
 
 .form {
+  margin-top: 40px;
   display: flex;
   flex-direction: column;
   // align-items: center;
   justify-content: center;
+  flex: 1;
   width: 100%;
-  position: relative;
   height: 100%;
+  position: relative;
   padding-bottom: 55px;
 }
 
+.nameContainer {
+  display: flex;
+  gap: 16px;
+  width: 100%;
+}
+
+.fieldsContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 15px; /* Проміжок між полями */
+  flex-grow: 1; /* Забезпечує центрування полів */
+}
+
 .field {
+  box-sizing: border-box;
     margin: 10px 0;
-    padding: 12px 12px 12px 40px;
+    // text-align: bottom;
+    padding: 37px 24px 8px 24px;
     width: 100%;
-    height: 50px;
+    height: 72px;
     border: 1px solid #ddd;
     border-radius: 12px;
     outline: none;
     box-sizing: border-box;
-    background-color: #333;
+    background-color: #1c1c1d;
     color: white;
     transition: all 0.3s ease;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+    letter-spacing: -8%;
+}
+
+.nameControl{
+  position: relative;
+  flex: 1;
 }
 
 .control {
@@ -300,44 +189,76 @@
 }
 
 .iconRight {
+  color: #b3afbb;
   position: absolute;
-  top: 33%;
-  left: 2%;
+  top: 18px;
+  left: 24px;
 }
 
 .iconLeft {
   position: absolute;
   top: 33%;
-  right: 2%;
+  right: 5%;
+}
+
+.errorMessageBlock {
+  margin-top: 8px;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.forgotPassword {
+  margin-top: 16px;
+  display: flex;
+  justify-content: flex-end;
+
+  a {
+    text-decoration: none;
+    color: #879FFE;
+  }
 }
 
 .fullWidthLine {
   width: 100%;
-  height: 2px; /* Висота лінії */
-  background-color: #ffffff; /* Колір лінії */
-  margin: 15px 0; /* Відступи */
+  height: 1px; /* Висота лінії */
+  background-color: #3b3b3c; /* Колір лінії */
+  margin: 28px 0; /* Відступи */
 }
 
 .authWihtContainer {
   display: flex;
   justify-content: center;
-  gap: 150px;
-  margin-top: 10px;
-  margin-bottom: 20px;
-
-
+  gap: 48px;
+  // margin-top: 10px;
+  // margin-bottom: 20px;
 }
 
 .buttonContainer {
+  // margin-top: 40px;
   position: absolute;
   width: 100%;
-  bottom: 0;
+  bottom: -40px;
   left: 50%; /* Вирівнювання по горизонталі */
   transform: translateX(-50%); /* Зміщення на половину ширини */
 
   button {
     width: 100%;
+    height: 64px;
   }
+}
+
+.buttonText {
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 27px;
+  letter-spacing: -8%;
+}
+
+.errorMessage {
+  // position: absolute;
+  // top: 0;
+  // right: 50%;
+  color: red;
 }
 
 .isDanger {
@@ -373,17 +294,18 @@
 }
 
 .isSuccess {
-  background-color: #06ff5d77;  // зелений для успіху
+  background-color: #204dff;  // зелений для успіху
   color: white;
   border: 1px solid transparent;
   padding: 12px 25px;
-  border-radius: 12px;
+  border-radius: 50px;
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
 
   &:hover {
-    background-color: #36a45d;
+    background-color: 
+    #5073ff;
   }
 
   &:active {

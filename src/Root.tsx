@@ -8,19 +8,21 @@ import { NewPage } from './Component/NewPage/NewPage'
 import { AuthPage } from './Component/AuthPage/AuthPage'
 import { ResetPage } from './Component/ResetPage/ResetPage'
 import { AuthPageFormik } from './Component/AuthPage/AurhPageFormik'
+import { ForgotPassword } from './Component/AuthPage/ForgotPassword/ForgotPassword'
+import { ResetPassword } from './Component/AuthPage/ResetPassword/ResetPassword'
 
 export const Root = () => (
   <Router>
     <Routes>
         {/* <Route path='/auth' element={<AuthPage />} /> */}
         <Route path='/auth' element={<AuthPageFormik />} />
-          <Route path='reset' element={<ResetPage />} />
+          <Route path='/forgotPassword' element={<ForgotPassword />} />
+          <Route path='/reset' element={<ResetPage />} />
+          <Route path='/refreshPasssword' element={<ResetPassword/>} />
       <Route path='/' element={<App />}>
-        <Route index element={<MainPage />} />
-        <Route path='/profile' element={<Profile />} />
-        <Route path='/product' element={<ProductPage />} />
-        <Route path='/top' element={<TopPage />} />
-        <Route path='/new' element={<NewPage />} />
+        <Route path='Home' element={<MainPage />} />
+        <Route path='profile' element={<Profile />} />
+        <Route path='product' element={<ProductPage />} />
       </Route>
     </Routes>
   </Router>
