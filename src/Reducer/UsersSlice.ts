@@ -58,6 +58,14 @@ const usersSlice = createSlice({
       }
     },
 
+    // Оновлення пароля користувача
+    updatePassword: (state, action: PayloadAction<{ email: string, password: string }>) => {
+      const userIndex = state.users.findIndex(user => user.email === action.payload.email);
+      if (userIndex !== -1) {
+        state.users[userIndex].password = action.payload.password;
+      }
+    },
+
     // Вихід з системи
     logout: (state) => {
       state.currentUser = null; // Видалити поточного користувача
@@ -67,7 +75,7 @@ const usersSlice = createSlice({
 });
 
 // Експорт дій
-export const { register, login, logout } = usersSlice.actions;
+export const { register, login, updatePassword, logout } = usersSlice.actions;
 
 // Експорт ред'юсера
 export default usersSlice.reducer;

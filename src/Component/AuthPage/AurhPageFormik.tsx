@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './AuthPage.module.scss';
 import { GridContainer } from '../GridContainer/GridContainer';
 import { Field, Form, Formik, FormikProps } from 'formik';
-import { authService } from '../../Service/authService';
+import { authService } from '../../Service/authServiceForTest';
 import cn from 'classnames';
 import '@fortawesome/fontawesome-free/css/all.min.css';
 // import 'bulma/css/bulma.css';
@@ -22,64 +22,14 @@ interface Errors {
 }
 
 export const AuthPageFormik = () => {
-  const [isSignInMode, setIsSignInMode] = useState(false);
+  const [isSignInMode, setIsSignInMode] = useState(true);
   const [error, setError] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
+  const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const navigate = useNavigate();
 
   const formikRef = useRef<FormikProps<any>>(null); // створення рефу для Formik
 
-  //test ->
-  // const [credential, setCredential] = useState<any>()
-  // const responseMessage = (response:  CredentialResponse) => {
-  //   console.log(response);
-  //   const decodToken = jwtDecode(response.credential!)
-  //   console.log(decodToken);
-
-  //   setCredential(decodToken)
-  // };
-
-  // const errorMessage = () => {
-  //     console.log('Login Faild');
-  // };
-
-  //   const [ credential, setCredential ] = useState([]);
-  //   const [ profile, setProfile ] = useState([]);
-
-  //   const googleLogin = useGoogleLogin({
-  //     onSuccess: (codeResposne) => setCredential(codeResposne),
-  //     onError: (error) => console.log('Login Failed', error)
-  //   })
-
-  //   useEffect(() => {
-  //     if(credential) {
-  //       axios
-  //       .get(
-  //         `https://www.googleapis.com/oauth2/v1/userinfo?access_token=${credential.access_token}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${credential.access_token}`,
-  //             Accept: 'application/json',
-  //           },
-  //         }
-  //       )
-  //       .then((res) => {
-  //           setProfile(res.data);
-  //       })
-  //       .catch((err) => console.log(err));
-  //     }
-  //   }, [credential])
-
-  //   const logOut = () => {
-  //     googleLogout();
-  //     setProfile(null);
-  // };
-
-  // console.log("profile", profile)
-  // console.log("user", credential)
-  //<-
-
-  /* validation */
-  /* -> */
   const EMAIL_PATTERN = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
 
   function validateEmail(value: string) {
@@ -92,10 +42,15 @@ export const AuthPageFormik = () => {
     if (value.length < 6) return 'At least 6 characters';
   }
 
-  function validUserName(value: string) {
-    if(!value) return 'Username is required'
-    if(value.length < 2) return 'At least 2 charters'
+  function validateRepeat(value: string, password: string) {
+    if (!value) return 'Repeat password is required';
+    if (value !== password) return 'Passwords do not match';
   }
+
+  // function validUserName(value: string) {
+  //   if(!value) return 'Username is required'
+  //   if(value.length < 2) return 'At least 2 charters'
+  // }
 
   function validEmpty(value: string) {
     if(value === '') {
@@ -110,42 +65,52 @@ export const AuthPageFormik = () => {
     
     if (formikRef.current) {
       formikRef.current.resetForm();
+      setError('');
     }
+  };
+
+  const toggleShowPassword = () => {
+    setShowPassword(prev => !prev);
+  };
+
+  const toggleShowRepeatPassword = () => {
+    setShowRepeatPassword(prev => !prev);
   };
 
   return (
     <>
-      <button className={styles.backToHome} onClick={() => navigate('/')}>Back To Home</button>
       <GridContainer>
         <div className={styles.container}>
-          <div className={styles.authForm}>
+          <div className={cn( {
+                        [styles.authFormRegister]: !isSignInMode,
+                        [styles.authFormLogin]: isSignInMode,
+                      })}>
+      <button className={styles.backToHome} onClick={() => navigate('/Home')}>
+        <img src="/img/icons/Close.svg" alt="" />
+      </button>
             <div className={styles.switchContainer}>
-              <div
-                className={`${styles.switchButton} ${isSignInMode ? styles.activeSignUp : styles.activeLogIn}`}
-              ></div>
-              <div className={styles.switchTextContainer}>
+              <div className={styles.switchBlock}>
                 <div
-                  className={`${styles.signUp} ${isSignInMode ? styles.active : ''}`}
-                  onClick={toggleFormMode}
-                >
-                  Sign Up
-                </div>
-                <div
-                  className={`${styles.logIn} ${!isSignInMode ? styles.active : ''}`}
-                  onClick={toggleFormMode}
-                >
-                  Log In
+                  className={`${styles.switchButton} ${isSignInMode ? styles.activeSignUp : styles.activeLogIn}`}
+                ></div>
+                <div className={styles.switchTextContainer}>
+                  <div
+                    className={`${styles.signUp} ${isSignInMode ? styles.active : ''}`}
+                    onClick={toggleFormMode}
+                  >
+                    Register
+                  </div>
+                  <div
+                    className={`${styles.logIn} ${!isSignInMode ? styles.active : ''}`}
+                    onClick={toggleFormMode}
+                  >
+                    Log In
+                  </div>
                 </div>
               </div>
             </div>
 {
-// Доробити валідацію touch
 }
-          {/* <div className={styles.googleAuth}> */}
-            {/* <GoogleLogin onSuccess={responseMessage} onError={errorMessage} /> */}
-            {/* <button onClick={() => googleLogin()}>Sign in with Google 🚀 </button>
-            <button onClick={logOut}>Log out</button> */}
-          {/* </div> */}
           { !isSignInMode ? 
           (<Formik 
             innerRef={formikRef}
@@ -155,7 +120,7 @@ export const AuthPageFormik = () => {
               lastName: '',
               email: '',
               password: '',
-              repeatPasswotd: '',
+              repeatPassword: '',
             }}
             validateOnMount={true}
             onSubmit={({userName, firstName, lastName, email, password, repeatPassword}, formikHelpers) => {
@@ -163,21 +128,23 @@ export const AuthPageFormik = () => {
               authService
                 .register({userName, firstName, lastName, email, password, repeatPassword})
                 .then((data) => {
-                  setIsSignInMode(false)
                   console.log(data)
+                  setIsSignInMode(true)
                 })
                 .catch((error) => {
+                  setError(error.message);
                   console.log(error)
                 })
                 .finally(() => formikHelpers.setSubmitting(false))
             }}
           >
-            {({ touched, errors, isSubmitting }) => (
+            {({ touched, errors, isSubmitting, values }) => (
                 <Form className={styles.form}>
-                <div className={styles.control}>
+                {/* <div className={styles.control}>
                     <span className={styles.iconRight}>
                       <i className="fa fa-user"></i>
                     </span>
+                    <div className={styles.nameContainer}></div>
                   <Field
                     validate={validUserName}
                     name='userName'
@@ -194,124 +161,137 @@ export const AuthPageFormik = () => {
                       <i className="fas fa-exclamation-triangle"></i>
                     </span>
                   )}
-                </div>
-                <div className={styles.control}>
-                    <span className={styles.iconRight}>
-                      <i className="fa fa-user"></i>
+                </div> */}
+                <div className={styles.nameContainer}>
+                  <div className={styles.nameControl}>
+                      <span className={styles.iconRight}>
+                        First name
+                      </span>
+                  <Field
+                    validate={validEmpty}
+                    name="firstName"
+                    type="text"
+                    id="firstName"
+                    // placeholder="First name"
+                    className={cn(styles.field, {
+                      [styles.isDanger] : touched.firstName && errors.firstName,
+                    })} 
+                  />
+{/* 
+                  {touched.firstName && errors.firstName && (
+                    <span className={cn("is-right has-text-danger", styles.iconLeft)}>
+                      <i className="fas fa-exclamation-triangle"></i>
                     </span>
-                <Field
-                  validate={validEmpty}
-                  name="firstName"
-                  type="text"
-                  id="firstName"
-                  placeholder="First name"
-                  className={cn(styles.field, {
-                    [styles.isDanger] : touched.firstName && errors.firstName,
-                  })} 
-                />
+                  )} */}
+                  </div>
+                  <div className={styles.nameControl}>
+                      <span className={styles.iconRight}>
+                        Last name
+                      </span>
+                  <Field
+                    validate={validEmpty}
+                    name="lastName"
+                    type="text"
+                    id="lastName"
+                    // placeholder="Last name"
+                    className={cn(styles.field, {
+                      [styles.isDanger] : touched.lastName && errors.lastName,
+                    })} 
+                  />
 
-                {touched.firstName && errors.firstName && (
-                  <span className={cn("is-right has-text-danger", styles.iconLeft)}>
-                    <i className="fas fa-exclamation-triangle"></i>
-                  </span>
-                )}
-                </div>
-                <div className={styles.control}>
-                    <span className={styles.iconRight}>
-                      <i className="fa fa-user"></i>
+                  {/* {touched.lastName && errors.lastName && (
+                    <span className={cn("is-right has-text-danger", styles.iconLeft)}>
+                      <i className="fas fa-exclamation-triangle"></i>
                     </span>
-                <Field
-                  validate={validEmpty}
-                  name="lastName"
-                  type="text"
-                  id="lastName"
-                  placeholder="First name"
-                  className={cn(styles.field, {
-                    [styles.isDanger] : touched.lastName && errors.lastName,
-                  })} 
-                />
-
-                {touched.lastName && errors.lastName && (
-                  <span className={cn("is-right has-text-danger", styles.iconLeft)}>
-                    <i className="fas fa-exclamation-triangle"></i>
-                  </span>
-                )}
+                  )} */}
+                  </div>
                 </div>
                 <div className={styles.control}>
                     <span className={styles.iconRight}>
-                      <i className="fa fa-envelope"></i>
+                      Email
                     </span>
                 <Field
                   validate={validateEmail}
                   name="email"
                   type="email"
                   id="email"
-                  placeholder="bobsmith@gmail.com"
+                  // placeholder="bobsmith@gmail.com"
                   className={cn(styles.field, {
                     [styles.isDanger] : touched.email && errors.email,
                   })} 
                 />
-
+{/* 
                 {touched.email && errors.email && (
                   <span className={cn("is-right has-text-danger", styles.iconLeft)}>
                   <i className="fas fa-exclamation-triangle"></i>
                 </span>
-                )}
+                )} */}
                 </div>
                 <div className={styles.control}>
                     <span className={styles.iconRight}>
-                      <i className="fa fa-lock"></i>
+                     Password
                     </span>
                 <Field
                   validate={validatePassword}
                   name="password"
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
-                  placeholder="*******"
+                  // placeholder="*******"
                   className={cn(styles.field, {
                     [styles.isDanger] : touched.password && errors.password,
                   })} 
                 />
-
-                {touched.password && errors.password && (
+                <span className={styles.iconLeft} onClick={toggleShowPassword}>
+                  {showPassword 
+                    ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" /> 
+                    : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
+                </span>
+                {/* {touched.password && errors.password && (
                   <span className={cn("is-right has-text-danger", styles.iconLeft)}>
                     <i className="fas fa-exclamation-triangle"></i>
                   </span>
-                )}
+                )} */}
                 </div>
                 <div className={styles.control}>
                     <span className={styles.iconRight}>
-                      <i className="fa fa-lock"></i>
+                      Repeat password
                     </span>
                 <Field
-                  validate={validatePassword}
+                  validate={(value: string) => validateRepeat(value, values.password)}
                   name="repeatPassword"
-                  type="password"
+                  type={showRepeatPassword ? "text" : "password"}
                   id="repeatPassword"
-                  placeholder="*******"
+                  // placeholder="*******"
                   className={cn(styles.field, {
                     [styles.isDanger] : touched.repeatPassword && errors.repeatPassword,
                   })} 
                 />
-
-                {touched.repeatPassword && errors.repeatPassword && (
+                <span className={styles.iconLeft} onClick={toggleShowRepeatPassword}>
+                {showRepeatPassword 
+                    ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" /> 
+                    : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
+                </span>
+                {/* {touched.repeatPassword && errors.repeatPassword && (
                   <span className={cn("is-right has-text-danger", styles.iconLeft)}>
                     <i className="fas fa-exclamation-triangle"></i>
                   </span>
-                )}
+                )} */}
                 </div>
                 
                 <div className={styles.fullWidthLine}></div>
 
                 <div className={styles.authWihtContainer}>
                   <div className="google">
-                    <i className="fa-brands fa-google fa-2xl"></i>
+                    {/* <i className="fa-brands fa-google fa-2xl"></i> */}
+                    <img src="/img/icons/Google.png" alt="Google icons" />
                   </div>
                   <div className="apple">
-                    <i className="fa-brands fa-apple fa-2xl"></i>
+                    {/* <i className="fa-brands fa-apple fa-2xl"></i> */}
+                    <img src="/img/icons/Apple.png" alt="Apple icons" />
                   </div>
                   <div className="facebook">
-                    <i className="fa-brands fa-facebook fa-2xl"></i>
+                    {/* <i className="fa-brands fa-facebook fa-2xl"></i> */}
+                    <img src="/img/icons/Facebook.png" alt="Facebook icons" />
                   </div>
                 </div>
 
@@ -321,11 +301,19 @@ export const AuthPageFormik = () => {
                     className={cn(styles.isSuccess, {
                       [styles.isLoading]: isSubmitting,
                     })}
-                    disabled={isSubmitting || !!errors.email || !!errors.password}
+                    disabled={isSubmitting 
+                      || !!errors.email 
+                      || !!errors.password 
+                      || !!errors.userName
+                      || !!errors.firstName
+                      || !!errors.lastName
+                      || !!errors.repeatPassword
+                    }
                   >
-                    <span className={styles.buttonText}>Sing in</span>
+                    <span className={styles.buttonText}>Register</span>
                   </button>
                 </div>
+                {error && <div className={styles.errorMessage}>{error}</div>}
               </Form>
             )}
 
@@ -345,69 +333,104 @@ export const AuthPageFormik = () => {
                 .then(() => {
                   // const state = location.state;
                   // console.log(location)
-                  // navigate(state.from?.pathname ?? '/');
+                  navigate('/Home');
                 })
                 .catch((error) => {
-                  setError(error);
-                });
+                  setError(error.message);
+                  console.log('Error:', error); 
+                })
+                .finally(() => setTimeout(() => formikHelpers.setSubmitting(false), 1000))  
+                
             }}
           >
             {({ touched, errors, isSubmitting }) => (
-              <Form className={styles.form}>
-                <div className={styles.control}>
-                  <span className={styles.iconRight}>
-                    <i className="fa fa-envelope"></i>
-                  </span>
-                <Field
-                  validate={validateEmail}
-                  name="email"
-                  type="email"
-                  id="email"
-                  placeholder="bobsmith@gmail.com"
-                  className={cn(styles.field, {
-                    [styles.isDanger] : touched.email && errors.email,
-                  })} 
-                />
+                <Form className={styles.form}>
+                  <div className={styles.control}>
+                    <span className={styles.iconRight}>
+                      Email
+                    </span>
+                  <Field
+                    validate={validateEmail}
+                    name="email"
+                    type="email"
+                    id="email"
+                    // placeholder="bobsmith@gmail.com"
+                    className={cn(styles.field, {
+                      [styles.isDanger] : touched.email && errors.email,
+                    })} 
+                  />
 
-                {touched.email && errors.email && (
-                  <span className={cn("is-right has-text-danger", styles.iconLeft)}>
+                  {/* {touched.email && errors.email && (
+                    <span className={cn("is-right has-text-danger", styles.iconLeft)}>
+                      <i className="fas fa-exclamation-triangle"></i>
+                    </span>
+                  )} */}
+                  </div>
+                  <div className={styles.control}>
+                    <span className={styles.iconRight}>
+                      Password
+                    </span>
+                  <Field
+                    validate={validatePassword}
+                    name="password"
+                    type={showPassword ? "text" : "password"}
+                    id="password"
+                    // placeholder="*******"
+                    className={cn(styles.field, {
+                      [styles.isDanger] : touched.password && errors.password,
+                    })} 
+                  />
+
+                  <span className={styles.iconLeft} onClick={toggleShowPassword}>
+                  {showPassword 
+                    ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" /> 
+                    : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
+                </span>
+
+                  {/* {touched.password && errors.password && (
+                    <span className={cn("is-right has-text-danger", styles.iconLeft)}>
                     <i className="fas fa-exclamation-triangle"></i>
                   </span>
-                )}
-                </div>
-                <div className={styles.control}>
-                  <span className={styles.iconRight}>
-                    <i className="fa fa-lock"></i>
-                  </span>
-                <Field
-                  validate={validatePassword}
-                  name="password"
-                  type="password"
-                  id="password"
-                  placeholder="*******"
-                  className={cn(styles.field, {
-                    [styles.isDanger] : touched.password && errors.password,
-                  })} 
-                />
+                  )} */}
+                  </div>
 
-                {touched.password && errors.password && (
-                  <span className={cn("is-right has-text-danger", styles.iconLeft)}>
-                  <i className="fas fa-exclamation-triangle"></i>
-                </span>
-                )}
+                  <div className={styles.errorMessageBlock}>
+                    {error && <div className={styles.errorMessage}>{error}</div>}
+                  </div>
+
+                  
+                  <div className={styles.forgotPassword}>
+                    <NavLink to="/forgotPassword">Forgot Password?</NavLink>
+                  </div>
+
+                  <div className={styles.fullWidthLine}></div>
+
+                  <div className={styles.authWihtContainer}>
+                  <div className="google">
+                    {/* <i className="fa-brands fa-google fa-2xl"></i> */}
+                    <img src="/img/icons/Google.png" alt="Google icons" />
+                  </div>
+                  <div className="apple">
+                    {/* <i className="fa-brands fa-apple fa-2xl"></i> */}
+                    <img src="/img/icons/Apple.png" alt="Apple icons" />
+                  </div>
+                  <div className="facebook">
+                    {/* <i className="fa-brands fa-facebook fa-2xl"></i> */}
+                    <img src="/img/icons/Facebook.png" alt="Facebook icons" />
+                  </div>
                 </div>
-                <div className={styles.buttonContainer}>
-                  <button
-                    type="submit"
-                    className={cn(styles.isSuccess, {
-                      [styles.isLoading]: isSubmitting,
-                    })}
-                    disabled={isSubmitting || !!errors.email || !!errors.password}
-                  >
-                    <span className={styles.buttonText}>Log in</span>
-                  </button>
-                </div>
-              </Form>
+                  <div className={styles.buttonContainer}>
+                    <button
+                      type="submit"
+                      className={cn(styles.isSuccess, {
+                        [styles.isLoading]: isSubmitting,
+                      })}
+                      disabled={isSubmitting || !!errors.email || !!errors.password}
+                    >
+                      <span className={styles.buttonText}>Log in</span>
+                    </button>
+                  </div>
+                </Form>
             )}
           </Formik>) 
           }

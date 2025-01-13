@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "category": "electronics",
+    "images": ["img1.jpg", "img2.jpg"],
+    "name": "Smartphone X1",
+    "fullPrice": 799,
+    "startPrice": 699,
+    "currentPrice": 750,
+    "reservePrice": 730,
+    "bids": [
+      { "userId": 101, "amount": 700, "time": "2025-01-02T10:00:00.000Z" },
+      { "userId": 102, "amount": 750, "time": "2025-01-02T11:00:00.000Z" }
+    ],
+    "seller": { "id": 1, "name": "John Doe" },
+    "status": "active",
+    "location": "New York, USA",
+    "startingTime": "2025-01-01T09:00:00.000Z",
+    "endTime": "2025-01-10T09:00:00.000Z",
+    "description": "A brand new smartphone with amazing features.",
+    "createdAt": "2024-12-31T10:00:00.000Z",
+    "updatedAt": "2025-01-01T10:00:00.000Z"
+  },
+  {
+    "id": 2,
+    "category": "furniture",
+    "images": ["chair1.jpg", "chair2.jpg"],
+    "name": "Ergonomic Chair",
+    "fullPrice": 299,
+    "startPrice": 200,
+    "currentPrice": 250,
+    "reservePrice": 220,
+    "bids": [
+      { "userId": 103, "amount": 220, "time": "2025-01-01T14:00:00.000Z" },
+      { "userId": 104, "amount": 250, "time": "2025-01-01T16:00:00.000Z" }
+    ],
+    "seller": { "id": 2, "name": "Jane Smith" },
+    "status": "active",
+    "location": "Los Angeles, USA",
+    "startingTime": "2025-01-01T08:00:00.000Z",
+    "endTime": "2025-01-07T08:00:00.000Z",
+    "description": "A comfortable ergonomic chair for home or office use.",
+    "createdAt": "2024-12-25T12:00:00.000Z",
+    "updatedAt": "2025-01-01T12:00:00.000Z"
+  },
+  {
+    "id": 3,
+    "category": "furniture",
+    "images": ["chair1.jpg", "chair2.jpg"],
+    "name": "Ergonomic Chair",
+    "fullPrice": 299,
+    "startPrice": 200,
+    "currentPrice": 250,
+    "reservePrice": 220,
+    "bids": [
+      { "userId": 103, "amount": 220, "time": "2025-01-01T14:00:00.000Z" },
+      { "userId": 104, "amount": 250, "time": "2025-01-01T16:00:00.000Z" }
+    ],
+    "seller": { "id": 2, "name": "Jane Smith" },
+    "status": "active",
+    "location": "Los Angeles, USA",
+    "startingTime": "2025-01-01T08:00:00.000Z",
+    "endTime": "2025-01-07T08:00:00.000Z",
+    "description": "A comfortable ergonomic chair for home or office use.",
+    "createdAt": "2024-12-25T12:00:00.000Z",
+    "updatedAt": "2025-01-01T12:00:00.000Z"
+  },
+  {
+    "id": 4,
+    "category": "furniture",
+    "images": ["chair1.jpg", "chair2.jpg"],
+    "name": "Ergonomic Chair",
+    "fullPrice": 299,
+    "startPrice": 200,
+    "currentPrice": 250,
+    "reservePrice": 220,
+    "bids": [
+      { "userId": 103, "amount": 220, "time": "2025-01-01T14:00:00.000Z" },
+      { "userId": 104, "amount": 250, "time": "2025-01-01T16:00:00.000Z" }
+    ],
+    "seller": { "id": 2, "name": "Jane Smith" },
+    "status": "active",
+    "location": "Los Angeles, USA",
+    "startingTime": "2025-01-01T08:00:00.000Z",
+    "endTime": "2025-01-07T08:00:00.000Z",
+    "description": "A comfortable ergonomic chair for home or office use.",
+    "createdAt": "2024-12-25T12:00:00.000Z",
+    "updatedAt": "2025-01-01T12:00:00.000Z"
+  }
+]

@@ -1,0 +1,87 @@
+.container {
+  border-radius: 0.25rem;
+  box-shadow:
+    0 0.5em 1em -0.13em rgba(12, 2, 2, 0.1),
+    0 1px 0 1px rgba(44, 39, 49, 0.2);
+  color: var(--secondary);
+  position: relative;
+  display: flex;
+  max-width: 321px;
+  // min-width: 321px;
+  max-height: 407px;
+  flex-direction: column;
+  // padding: 16px; /* Відступи всередині контейнера */
+  background-color: #3B3B3C; /* Прозорий фон */
+  overflow: hidden;
+  border-radius: 24px;
+  // margin-inline: 8px;
+}
+
+.normaliz {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.image {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 280px;
+}
+
+.nameSection {
+  font-weight: 500;
+  font-size: 18px;
+  line-height: 27px;
+  letter-spacing: -8%;
+}
+
+.nameContainer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 16px 0 16px;
+}
+
+.button {
+  cursor: pointer;
+  border: none;
+  background: none;
+  padding: 0;
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.isAdd {
+  color: var(--white);
+}
+
+.isUnadd {
+  color: var(--white);
+}
+
+.priceContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 0px 16px 0 16px;
+}
+
+.description {
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 21px;
+  letter-spacing: -8%;
+  text-align: left;
+  width: 80%;
+}
+
+.timeContainer {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 16px 10px 16px;
+}
