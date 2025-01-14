@@ -9,7 +9,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 834px;
+  height: 100%;
+  min-height: 834px;
   // position: relative;
 }
 
@@ -30,7 +31,7 @@
   box-sizing: border-box;
   position: relative;
   background-color: #1c1c1d;
-  height: 834px;
+  min-height: 834px;
   width: 662px;
   border-radius: 32px;
   display: flex;
@@ -43,7 +44,7 @@
   box-sizing: border-box;
   position: relative;
   background-color: #1c1c1d;
-  height: 706px;
+  min-height: 706px;
   width: 662px;
   border-radius: 24px;
   display: flex;
@@ -206,6 +207,7 @@
 }
 
 .errorMessageBlock {
+  color: red;
   margin-top: 8px;
   display: flex;
   justify-content: flex-start;
