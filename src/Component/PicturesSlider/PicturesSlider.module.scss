@@ -66,6 +66,7 @@
     line-height: 24px;
     letter-spacing: -8%;
     margin: 0;
+    white-space: nowrap; /* Prevent text wrapping */
   }
 }
 
