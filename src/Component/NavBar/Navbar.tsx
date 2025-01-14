@@ -42,7 +42,7 @@ export const Navbar = () => {
   // Обробник виходу з системи
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/')
+    navigate('/Home')
   };
 
   const [showNotifications, setShowNotifications] = useState(false);
