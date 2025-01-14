@@ -340,7 +340,7 @@ export const AuthPageFormik = () => {
                         id="email"
                         // placeholder="bobsmith@gmail.com"
                         className={cn(styles.field, {
-                          [styles.isDanger]: touched.email && errors.email || error,
+                          [styles.isDanger]: touched.email && errors.email,
                         })}
                       />
 
@@ -356,7 +356,7 @@ export const AuthPageFormik = () => {
                         id="password"
                         // placeholder="*******"
                         className={cn(styles.field, {
-                          [styles.isDanger]: touched.password && errors.password || error,
+                          [styles.isDanger]: touched.password && errors.password,
                         })}
                       />
 
@@ -368,9 +368,12 @@ export const AuthPageFormik = () => {
                     </div>
 
                     <div className={styles.errorMessageBlock}>
-                      {error && <div className={styles.errorMessage}>{error}</div>}
-                      {typeof errors.password === 'string' ? `${errors.password} ` : ''}
-                      {typeof errors.repeatPassword === 'string' ? errors.repeatPassword : ''}
+                      {(touched.password) && (
+                        <div className={styles.errorMessage}>
+                          {typeof errors.password === 'string' ? errors.password : ''}
+                          {typeof errors.repeatPassword === 'string' ? errors.repeatPassword : ''}
+                        </div>
+                      )}
                     </div>
 
 
