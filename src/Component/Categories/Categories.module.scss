@@ -78,7 +78,9 @@
 }
 
 .lastImage {
+  background-color: #3B3B3C;
   border-top-right-radius: 100px;
+  position: relative; /* Ensure the pseudo-element is positioned relative to this element */
 }
 
 .categoryName {
@@ -111,7 +113,9 @@
     border-bottom-left-radius: 100px;
   }
 
-
+  // &.lastName {
+  //   border-bottom-right-radius: 100px;
+  // }
 
   .categoryNameTitle {
     font-weight: 600;
@@ -138,3 +142,4 @@
   height: 100%;
   background-color: transparent;
 }
+

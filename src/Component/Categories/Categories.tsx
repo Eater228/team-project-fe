@@ -13,6 +13,7 @@ const categories = [
   { id: 6, name: 'Toys', image: '/img/PhotoCategories/toys.png' },
   { id: 7, name: 'Sports', image: '/img/PhotoCategories/sports.png' },
   { id: 8, name: 'Beauty', image: '/img/PhotoCategories/beauty.png' },
+  { id: 8, name: 'See more...', image: '/img/PhotoCategories/SeeMore.svg' },
   { id: 9, name: '', image: '' }, // Add an empty card
 ];
 
