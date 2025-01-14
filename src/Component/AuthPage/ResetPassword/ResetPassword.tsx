@@ -55,6 +55,7 @@ export const ResetPassword = () => {
     <>
       <GridContainer>
         <div className={styles.container}>
+          <div className={styles.background}></div>
           <div className={styles.resetForm}>
             <button className={styles.backToHome} onClick={() => navigate('/Home')}>
               <img src="/img/icons/Close.svg" alt="Close" />

@@ -77,6 +77,7 @@ export const AuthPageFormik = () => {
     <>
       <GridContainer>
         <div className={styles.container}>
+          <div className={styles.background}></div>
           <div className={cn({
             [styles.authFormRegister]: !isSignInMode,
             [styles.authFormLogin]: isSignInMode,
@@ -327,7 +328,7 @@ export const AuthPageFormik = () => {
                         id="email"
                         // placeholder="bobsmith@gmail.com"
                         className={cn(styles.field, {
-                          [styles.isDanger]: touched.email && errors.email,
+                          [styles.isDanger]: touched.email && errors.email || error,
                         })}
                       />
 
@@ -343,7 +344,7 @@ export const AuthPageFormik = () => {
                         id="password"
                         // placeholder="*******"
                         className={cn(styles.field, {
-                          [styles.isDanger]: touched.password && errors.password,
+                          [styles.isDanger]: touched.password && errors.password || error,
                         })}
                       />
 
