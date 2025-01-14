@@ -7,7 +7,7 @@ import { TopPage } from './Component/TopPage/TopPage'
 import { NewPage } from './Component/NewPage/NewPage'
 import { AuthPage } from './Component/AuthPage/AuthPage'
 import { ResetPage } from './Component/ResetPage/ResetPage'
-import { AuthPageFormik } from './Component/AuthPage/AurhPageFormik'
+import { AuthPageFormik } from './Component/AuthPage/AuthPageFormik'
 import { ForgotPassword } from './Component/AuthPage/ForgotPassword/ForgotPassword'
 import { ResetPassword } from './Component/AuthPage/ResetPassword/ResetPassword'
 
