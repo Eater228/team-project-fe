@@ -31,15 +31,22 @@ export const AuthPageFormik = () => {
   const formikRef = useRef<FormikProps<any>>(null); // створення рефу для Formik
 
   const EMAIL_PATTERN = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
+  const PASSWORD_PATTERN = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
 
   function validateEmail(value: string) {
     if (!value) return 'Email is required';
     if (!EMAIL_PATTERN.test(value)) return 'Email is not valid';
   }
 
-  function validatePassword(value: string) {
+  function validatePassword(value: string): string | undefined {
     if (!value) return 'Password is required';
     if (value.length < 6) return 'At least 6 characters';
+
+    if (!PASSWORD_PATTERN.test(value)) {
+      return 'Password must contain at least one uppercase letter, one number, and only English letters.';
+    }
+
+    return undefined; // Валідний пароль
   }
 
   function validateRepeat(value: string, password: string) {
@@ -250,6 +257,11 @@ export const AuthPageFormik = () => {
                       </span>
                     </div>
 
+                    <span className={styles.errorMessageBlock}>
+                      {typeof errors.password === 'string' ? `${errors.password} ` : ''}
+                      {typeof errors.repeatPassword === 'string' ? errors.repeatPassword : ''}
+                    </span>
+
                     <div className={styles.fullWidthLine}></div>
 
                     <div className={styles.authWihtContainer}>
@@ -357,6 +369,8 @@ export const AuthPageFormik = () => {
 
                     <div className={styles.errorMessageBlock}>
                       {error && <div className={styles.errorMessage}>{error}</div>}
+                      {typeof errors.password === 'string' ? `${errors.password} ` : ''}
+                      {typeof errors.repeatPassword === 'string' ? errors.repeatPassword : ''}
                     </div>
 
 
