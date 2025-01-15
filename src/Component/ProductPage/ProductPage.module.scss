@@ -1,0 +1,119 @@
+.productPage {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  padding: 0;
+}
+
+.blockSearch {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 44px;
+  margin-bottom: 16px;
+}
+
+.filterButton {
+  padding: 8px 16px;
+  background-color: var(--primary);
+  color: var(--white);
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+
+  img {
+    width: 32px;
+    height: 32px; 
+  }
+}
+
+.viewBlock {
+  height: 100vh;
+  width: 100%;
+  background-color: #1C1C1D;
+}
+
+.filterHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  background-color: var(--surface-2);
+  border-bottom: 1px solid #ccc;
+
+  h2 {
+    margin: 0;
+    font-size: 24px;
+    color: var(--white);
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
+
+.filterContent {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.filterCategory {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--white);
+  }
+
+  select {
+    padding: 8px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    background-color: var(--surface-1);
+    color: var(--white);
+  }
+}
+
+.closeButton {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: var(--white);
+}
+
+.menu {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.filterParams {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.select {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+.productList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  width: 100%;
+}

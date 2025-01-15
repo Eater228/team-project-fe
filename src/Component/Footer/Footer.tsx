@@ -1,4 +1,3 @@
-// import { NavLink } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { topScroll } from '../../Function/ScrolTop/topScrol';
 import { GridContainer } from '../GridContainer/GridContainer';
@@ -9,42 +8,45 @@ export const Footer = () => {
     <div className={styles.container}>
       <GridContainer>
         <div className={styles.content}>
-          <div className={styles.logo}>
+          <div className={styles.top}>
             <NavLink to="/">
               <img
-                src="img/icons/Logo.png"
-                alt=""
-                className="footer-logo_img"
+                src="/img/icons/Vector.svg"
+                alt="Logo"
+                className={styles.logo}
               />
             </NavLink>
+            <div className={styles.icons}>
+              <a
+                href="https://instagram.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src="/img/icons/Instagram.svg" alt="GitHub" />
+              </a>
+              <a
+                href="https://www.facebook.com"
+                target="_blank"
+                rel="noreferrer"
+              >
+              <img src="/img/icons/Facebook.svg" alt="Rights" />
+              </a>
+              <a
+                href="https://t.me/Eater1503"
+                target="_blank"
+                rel="noreferrer"
+              >
+                <img src="/img/icons/Telegram.svg" alt="Telegram" />
+              </a>
+            </div>
           </div>
-          <div className={styles.link}>
-            <a
-              href="https://github.com/Eater228"
-              target="_blank"
-              rel="noreferrer"
-            >
-              GITHUB
-            </a>{' '}
-            {/*NavLink */}
-            <a href="https://t.me/Eater1503" target="_blank" rel="noreferrer">
-              CONTACTS
-            </a>
-            <a
-              href="https://github.com/Eater228"
-              target="_blank"
-              rel="noreferrer"
-            >
-              RIGHTS
-            </a>
-          </div>
-          <div className={styles.backToTop} onClick={topScroll}>
-            <h2 className={styles.btnTitle}>Back to top </h2>
-            <button className={styles.btn} >
-              <span>
-                <img src="img/icons/Arrow_Up.svg" alt="" />
-              </span>
-            </button>
+          <div className={styles.bottom}>
+            <div className={styles.name}>
+              <h2>@TopBid.ua - 2024</h2>
+            </div>
+            <div className={styles.name}>
+              <h2>Privacy Statement</h2>
+            </div>
           </div>
         </div>
       </GridContainer>

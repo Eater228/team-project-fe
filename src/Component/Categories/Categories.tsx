@@ -57,40 +57,43 @@ export const Categories: React.FC = () => {
   };
 
   return (
-    <div className={styles.carouselContainer}>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Categories</h2>
+    <div className={styles.Block}>
+      <div className={styles.carouselContainer}>
+        <div className={styles.header}>
+          <h2 className={styles.title}>Categories</h2>
+        </div>
+        <Slider
+          {...settings}
+          ref={sliderRef}
+        >
+          {categories.map((category, index) => (
+            <div key={category.id} className={styles.categoryItem}>
+              {category.image ? (
+                <>
+                  <img
+                    src={category.image}
+                    alt={category.name}
+                    className={`${styles.categoryImage} 
+                      ${index === 0 ? styles.firstImage : ''} 
+                      ${index === categories.length - 2 
+                        ? styles.lastImage : 
+                        ''}`
+                    }
+                  />
+                  <div className={`${styles.categoryName} 
+                    ${index === 0 ? styles.firstName : ''} 
+                    ${index === categories.length - 2 ? styles.lastName : ''}`}>
+                    <h3 className={styles.categoryNameTitle}>{category.name}</h3>
+                  </div>
+                </>
+              ) : (
+                <div className={styles.transparentCard}></div>
+              )}
+            </div>
+          ))}
+        </Slider>
       </div>
-      <Slider
-        {...settings}
-        ref={sliderRef}
-      >
-        {categories.map((category, index) => (
-          <div key={category.id} className={styles.categoryItem}>
-            {category.image ? (
-              <>
-                <img
-                  src={category.image}
-                  alt={category.name}
-                  className={`${styles.categoryImage} 
-                    ${index === 0 ? styles.firstImage : ''} 
-                    ${index === categories.length - 2 
-                      ? styles.lastImage : 
-                      ''}`
-                  }
-                />
-                <div className={`${styles.categoryName} 
-                  ${index === 0 ? styles.firstName : ''} 
-                  ${index === categories.length - 2 ? styles.lastName : ''}`}>
-                  <h3 className={styles.categoryNameTitle}>{category.name}</h3>
-                </div>
-              </>
-            ) : (
-              <div className={styles.transparentCard}></div>
-            )}
-          </div>
-        ))}
-      </Slider>
+      
     </div>
   );
 };

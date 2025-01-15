@@ -1,9 +1,13 @@
+.Block {
+  overflow: hidden;
+}
+
 .carouselContainer {
   box-sizing: border-box;
   position: relative;
-  margin: 0 20px;
+  margin: 0 30px;
   width: 120%; /* Ensure the container takes the full width */
-  height: 100%; /* Set the height of the carousel container */
+  height: 100; /* Set the height of the carousel container */
 }
 
 .header {
@@ -11,6 +15,7 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  padding-left: 10px;
 }
 
 .title {

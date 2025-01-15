@@ -9,9 +9,15 @@
 }
 
 .MainPage {
-  flex:1;
+  flex: 1;
   display: flex;
   flex-direction: column;
+  position: relative;
+}
+
+.blockSearch {
+  position: relative;
+  top: -32px; /* Move the blockSearch element 32px relative to its current position */
 }
 
 @media (max-width: 639px) and (min-width: 320px) {
