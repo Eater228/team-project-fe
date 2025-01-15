@@ -19,7 +19,8 @@ export const ProductPage: React.FC = () => {
 
   const [count, setCount] = useState(12);
   const [visibleProducts, setVisibleProducts] = useState(products);
-  const [sortType, setSortType] = useState<string>('id');
+  const [sortType, setSortType] = useState<string>('newest');
+  const [statusState, setStatusState] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [priceFilters, setPriceFilters] = useState({ openingPrice: 0, buyFullPrice: 0, step: 0 });
@@ -67,16 +68,39 @@ export const ProductPage: React.FC = () => {
       filteredProducts = filteredProducts.filter(product => product.bet >= priceFilters.step);
     }
 
+    if(statusState !== '') {
+      switch (statusState) {
+        case 'active':
+          filteredProducts = filteredProducts.filter(
+            product => 
+              product.status === 'active'
+          )
+          break;
+          case 'sold':
+          filteredProducts = filteredProducts.filter(
+            product => 
+              product.status === 'sold'
+          )
+          break;
+      
+        default:
+          break;
+      }
+    }
+console.log(filteredProducts);
+    setCurrentPage(1);
     setVisibleProducts(filteredProducts);
-  }, [products, sortType, priceFilters]);
+  }, [products, sortType, priceFilters, statusState]);
 
   useEffect(() => {
     topScroll();
   }, [currentPage]);
 
-  const handleFiltersApply = (filters: { sort: string; price: { openingPrice: number, buyFullPrice: number, step: number }; states: string[] }) => {
+  const handleFiltersApply = (filters: { sort: string; price: { openingPrice: number, buyFullPrice: number, step: number }; states: string }) => {
     setSortType(filters.sort);
     setPriceFilters(filters.price);
+    setStatusState(filters.states);
+    console.log(filters.states)
   };
 
   const toggleFilter = () => {

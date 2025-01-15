@@ -15,7 +15,7 @@ interface Filters {
     buyFullPrice: number;
     step: number;
   };
-  states: string[];
+  states: string;
 }
 
 export const Filter: React.FC<FilterProps> = ({
@@ -25,7 +25,7 @@ export const Filter: React.FC<FilterProps> = ({
   handleOverlayClick,
 }) => {
   const [sort, setSort] = useState<string>('id');
-  const [states, setStates] = useState<string[]>([]);
+  const [states, setStates] = useState<string>('');
   const [price, setPrice] = useState<Filters['price']>({
     openingPrice: 0,
     buyFullPrice: 0,
@@ -37,10 +37,7 @@ export const Filter: React.FC<FilterProps> = ({
   };
 
   const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    setStates((prevStates) =>
-      checked ? [...prevStates, value] : prevStates.filter((state) => state !== value)
-    );
+    setStates(event.target.value);
   };
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,10 +54,10 @@ export const Filter: React.FC<FilterProps> = ({
   };
 
   const resetFilters = () => {
-    setSort('id');
-    setStates([]);
+    setSort('newest');
+    setStates('');
     setPrice({ openingPrice: 0, buyFullPrice: 0, step: 0 });
-    handleFiltersApply({ sort: 'id', price: { openingPrice: 0, buyFullPrice: 0, step: 0 }, states: [] });
+    handleFiltersApply({ sort: 'newest', price: { openingPrice: 0, buyFullPrice: 0, step: 0 }, states: '' });
   };
 
   if (!isFilterOpen) return null;
@@ -166,10 +163,11 @@ export const Filter: React.FC<FilterProps> = ({
             {/* State Filter */}
             <div className={styles.filterCategory}>
               <h3>State</h3>
-              <div className={styles.checkboxGroup}>
+              <div className={styles.radioGroup}>
                 <label>
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="state"
                     value="active"
                     checked={states.includes('active')}
                     onChange={handleStateChange}
@@ -178,7 +176,8 @@ export const Filter: React.FC<FilterProps> = ({
                 </label>
                 <label>
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="state"
                     value="sold"
                     checked={states.includes('sold')}
                     onChange={handleStateChange}

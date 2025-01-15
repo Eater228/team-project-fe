@@ -57,7 +57,6 @@
 }
 
 .filterCategory {
-  margin-top: 40px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -92,6 +91,10 @@
     display: flex;
     justify-content: space-between;
   }
+}
+
+.filterCategory:first-of-type {
+  margin-top: 40px;
 }
 
 .filterCategoryPrice {
@@ -170,8 +173,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  // justify-content: space-between;
-  // padding: 16px;
   margin-top: 54px;
 }
 
@@ -193,7 +194,6 @@
   background-color: inherit;
   border: 1px solid #F1F1F8;
   color: var(--white);
-  // border: none;
   border-radius: 100px;
   cursor: pointer;
   font-size: 16px;
@@ -204,6 +204,6 @@
   background-color: #48484b4b;
 }
 
-.applyButton:hover{
+.applyButton:hover {
   background-color: #4466f0;
 }
