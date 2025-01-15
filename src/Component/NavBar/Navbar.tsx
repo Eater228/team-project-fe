@@ -37,7 +37,7 @@ export const Navbar = () => {
   const getAuthLink = () => (isLoggedIn ? '/profile' : '/auth');
 
   // Визначення тексту для кнопки авторизації або профілю
-  const getAuthText = () => (isLoggedIn ? currentUser?.username || 'Profile' : 'Sing up');
+  const getAuthText = () => (isLoggedIn ? currentUser?.username || 'Profile' : 'Sign up');
 
   // Обробник виходу з системи
   const handleLogout = () => {

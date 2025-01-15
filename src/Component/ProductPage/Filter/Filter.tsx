@@ -67,8 +67,8 @@ export const Filter: React.FC<FilterProps> = ({
                   <input
                     type="radio"
                     name="sort"
-                    value="id"
-                    checked={sort === 'id'}
+                    value="cheapest"
+                    checked={sort === 'cheapest'}
                     onChange={handleSortChange}
                   />
                   Form the cheapest to the most expensive
@@ -77,8 +77,8 @@ export const Filter: React.FC<FilterProps> = ({
                   <input
                     type="radio"
                     name="sort"
-                    value="price"
-                    checked={sort === 'price'}
+                    value="expensive"
+                    checked={sort === 'expensive'}
                     onChange={handleSortChange}
                   />
                   From the most expensive to the cheapest
@@ -87,8 +87,8 @@ export const Filter: React.FC<FilterProps> = ({
                   <input
                     type="radio"
                     name="sort"
-                    value="year"
-                    checked={sort === 'year'}
+                    value="newest"
+                    checked={sort === 'newest'}
                     onChange={handleSortChange}
                   />
                   From the newest to the oldest
@@ -97,8 +97,8 @@ export const Filter: React.FC<FilterProps> = ({
                   <input
                     type="radio"
                     name="sort"
-                    value="year"
-                    checked={sort === 'year'}
+                    value="oldest"
+                    checked={sort === 'oldest'}
                     onChange={handleSortChange}
                   />
                   From oldest to newest
@@ -110,6 +110,12 @@ export const Filter: React.FC<FilterProps> = ({
               <div className={styles.boxGroup}>
                 <label>
                   Opening price
+                </label>
+                <input type="number" />
+              </div>
+              <div className={styles.boxGroup}>
+                <label>
+                  Buy full price
                 </label>
                 <input type="number" />
               </div>
