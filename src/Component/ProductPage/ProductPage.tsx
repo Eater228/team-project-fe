@@ -22,10 +22,11 @@ export const ProductPage: React.FC = () => {
   const [sortType, setSortType] = useState<string>('id');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
+  const [priceFilters, setPriceFilters] = useState({ openingPrice: 0, buyFullPrice: 0, step: 0 });
 
   const currentTableData = useMemo(() => {
-    const firstPageIndex = (currentPage - 1) * count;
-    const lastPageIndex = firstPageIndex + count;
+    const firstPageIndex = (currentPage - 1) * 12;
+    const lastPageIndex = firstPageIndex + 12;
 
     return visibleProducts.slice(firstPageIndex, lastPageIndex);
   }, [count, currentPage, visibleProducts]);
@@ -35,32 +36,47 @@ export const ProductPage: React.FC = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const sortedProducts = [...products].sort((a, b) => {
-      switch (sortType) {
-        case 'cheapest':
-          return a.currentPrice - b.currentPrice;
-        case 'expensive':
-          return b.currentPrice - a.currentPrice;
-        case 'newest':
-          return new Date(b.startingTime).getFullYear() - new Date(a.startingTime).getFullYear();
-        case 'oldest':
-          return new Date(b.startingTime).getFullYear() - new Date(a.startingTime).getFullYear();
-        default:
-          return a.id - b.id;
-      }
-    });
+    let filteredProducts = [...products];
 
-    setVisibleProducts(sortedProducts);
-  }, [products, sortType]);
+    if (sortType) {
+      filteredProducts = filteredProducts.sort((a, b) => {
+        switch (sortType) {
+          case 'cheapest':
+            return a.currentPrice - b.currentPrice;
+          case 'expensive':
+            return b.currentPrice - a.currentPrice;
+          case 'newest':
+            return new Date(b.startingTime).getFullYear() - new Date(a.startingTime).getFullYear();
+          case 'oldest':
+            return new Date(a.startingTime).getFullYear() - new Date(b.startingTime).getFullYear();
+          default:
+            return a.id - b.id;
+        }
+      });
+    }
+
+    if (priceFilters.openingPrice > 0) {
+      filteredProducts = filteredProducts.filter(product => product.startPrice >= priceFilters.openingPrice);
+    }
+
+    if (priceFilters.buyFullPrice > 0) {
+      filteredProducts = filteredProducts.filter(product => product.fullPrice <= priceFilters.buyFullPrice);
+    }
+
+    if (priceFilters.step > 0) {
+      filteredProducts = filteredProducts.filter(product => product.bet >= priceFilters.step);
+    }
+
+    setVisibleProducts(filteredProducts);
+  }, [products, sortType, priceFilters]);
 
   useEffect(() => {
     topScroll();
   }, [currentPage]);
 
-  const handleFiltersApply = (filters: { sort: string; itemsPerPage: string; states: string[] }) => {
+  const handleFiltersApply = (filters: { sort: string; price: { openingPrice: number, buyFullPrice: number, step: number }; states: string[] }) => {
     setSortType(filters.sort);
-    setCount(filters.itemsPerPage === 'all' ? products.length : +filters.itemsPerPage);
-    // Apply state filters if needed
+    setPriceFilters(filters.price);
   };
 
   const toggleFilter = () => {
@@ -71,9 +87,9 @@ export const ProductPage: React.FC = () => {
     <div className={styles.productPage}>
       <div className={styles.blockSearch}>
         <Search />
-        <img
-          src="/img/icons/Filters.svg"
-          alt="Filter"
+        <img 
+          src="/img/icons/Filters.svg" 
+          alt="Filter" 
           onClick={toggleFilter}
           className={styles.filterButton}
         />
@@ -88,13 +104,13 @@ export const ProductPage: React.FC = () => {
       <div className={styles.productList}>
         {loading && <Loader />}
         {error && <p>{error}</p>}
-        {products.length !== 0 && (
+        {visibleProducts.length !== 0 && (
           <>
             <CardList products={currentTableData} name={"For you"} itemsPerPage={products.length} />
             <Pagination
               className="pagination-bar"
               currentPage={currentPage}
-              totalCount={products.length}
+              totalCount={visibleProducts.length}
               pageSize={count}
               onPageChange={page => setCurrentPage(page)}
             />
