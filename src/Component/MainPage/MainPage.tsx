@@ -7,9 +7,9 @@ import { fetchProducts } from "../../Reducer/ProductsSlice"; // Імпорт д�
 import { CardsCarusel } from "../../Component/CardCarusel/CardsCarusel";
 import styles from './MainPage.module.scss';
 
-import image1 from '../../../public/img/PhotoSlider/Hummer.png'
-import image2 from '../../../public/img/PhotoSlider/Helly-Hansen-Emblem.png'
-import image3 from '../../../public/img/PhotoSlider/Ralph-Lauren-Emblem.png'
+import image1 from '/img/PhotoSlider/Hummer.png'
+import image2 from '/img/PhotoSlider/Helly-Hansen-Emblem.png'
+import image3 from '/img/PhotoSlider/Ralph-Lauren-Emblem.png'
 import { CardList } from "../../Component/CardList";
 import { Search } from "../../Component/Search/Search";
 import { Categories } from "../../Component/Categories/Categories";
@@ -42,7 +42,9 @@ export const MainPage = () => {
   return (
     <div className={styles.MainPage}>
         <PicturesSlider images={[image1]} />
-        <Search />
+        <div className={styles.blockSearch}>
+          <Search />
+        </div>
         <Categories />
         
         {/* {newestProducts.length !== 0 && (

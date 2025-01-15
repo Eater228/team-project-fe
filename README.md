@@ -1,7 +1,10 @@
 # React + TypeScript + Vite
 
-U need star from TestData
-Start json srver: json-server --watch db.json --port 5000
+U need star from Server and TestData
+npm run dev
+cd src
+cd TestData
+Start json srver: json-server --watch db.json --port 3001
 
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styles from './PicturesSlider.module.scss';
 import classNames from 'classnames';
 
+
 interface PicturesSliderProps {
   images: string[];
 }
