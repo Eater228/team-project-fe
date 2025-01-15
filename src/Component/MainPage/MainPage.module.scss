@@ -16,7 +16,11 @@
 }
 
 .blockSearch {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   position: relative;
+  width: 100%;
   top: -32px; /* Move the blockSearch element 32px relative to its current position */
 }
 
