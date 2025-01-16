@@ -82,6 +82,7 @@ export const ForgotPassword = () => {
                       </span>
                     )} */}
                   </div>
+                    {error && <div className={styles.errorMessage}>{error}</div>}
                   <div className={styles.buttonContainer}>
                     <button
                       type="submit"
@@ -93,7 +94,6 @@ export const ForgotPassword = () => {
                       <span className={styles.buttonText}>Reset password</span>
                     </button>
                   </div>
-                  {error && <div className={styles.errorMessage}>{error}</div>}
                   <div className={styles.backToLoginContainer}>
                     <button type='button' className={styles.backToLogin} onClick={() => navigate('/auth')}>
                       Back to Log In

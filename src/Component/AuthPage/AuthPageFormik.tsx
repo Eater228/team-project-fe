@@ -146,7 +146,7 @@ export const AuthPageFormik = () => {
                     .finally(() => formikHelpers.setSubmitting(false))
                 }}
               >
-                {({ touched, errors, isSubmitting, values}) => (
+                {({ touched, errors, isSubmitting, values }) => (
                   <Form className={styles.form}>
                     <div className={styles.nameContainer}>
                       <div className={styles.nameControl}>
@@ -164,7 +164,9 @@ export const AuthPageFormik = () => {
                             [styles.isDanger]: touched.firstName && errors.firstName,
                           })}
                         />
-
+                        <span className={styles.errorMessageBlock}>
+                          {(touched.firstName && errors.firstName) && `${errors.firstName}`}
+                        </span>
                       </div>
                       <div className={styles.nameControl}>
                         <span className={styles.iconRight}>
@@ -181,7 +183,9 @@ export const AuthPageFormik = () => {
                             [styles.isDanger]: touched.lastName && errors.lastName,
                           })}
                         />
-
+                        <span className={styles.errorMessageBlock}>
+                          {(touched.lastName && errors.lastName) && `${errors.lastName}`}
+                        </span>
                       </div>
                     </div>
                     <div className={styles.control}>
@@ -199,6 +203,9 @@ export const AuthPageFormik = () => {
                           [styles.isDanger]: touched.email && errors.email,
                         })}
                       />
+                      <span className={styles.errorMessageBlock}>
+                        {(touched.email && errors.email) && `${errors.email}`}
+                      </span>
                     </div>
                     <div className={styles.control}>
                       <span className={styles.iconRight}>
@@ -220,8 +227,10 @@ export const AuthPageFormik = () => {
                           ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" />
                           : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                       </span>
-
                     </div>
+                    <span className={styles.errorMessageBlock}>
+                      {(touched.password && errors.password) && `${errors.password}`}
+                    </span>
                     <div className={styles.control}>
                       <span className={styles.iconRight}>
                         Repeat password
@@ -243,27 +252,20 @@ export const AuthPageFormik = () => {
                           : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                       </span>
                     </div>
-
                     <span className={styles.errorMessageBlock}>
-                      {/* Якщо є більше 2 помилок, відображаємо загальне повідомлення */}
-                      {Object.keys(errors).length > 2 && Object.keys(touched).length > 0 && 'Потрібно заповнити всі поля.'}
-
-                      {/* Повідомлення для двох помилок: пароль і повтор пароля */}
-                      {Object.keys(errors).length === 2 && touched.password && touched.repeatPassword && (
-                        <>
-                          {errors.password && `${errors.password}`}
-                          {errors.repeatPassword && ` ${errors.repeatPassword}`}
-                        </>
-                      )}
-
-                      {/* Повідомлення для однієї помилки */}
-                      {Object.keys(errors).length === 1 && (
-                        <>
-                          {touched.password && errors.password && `${errors.password}`}
-                          {touched.repeatPassword && errors.repeatPassword && `${errors.repeatPassword}`}
-                        </>
-                      )}
+                      {(touched.repeatPassword && errors.repeatPassword) && `${errors.repeatPassword}`}
                     </span>
+                    {/* <span className={styles.errorMessageBlock}>
+                      {console.log(errors)}
+                      {touched.password && errors.password
+                        ? `${errors.password}`
+                        : touched.repeatPassword && errors.repeatPassword
+                          ? `${errors.repeatPassword}`
+                          : Object.keys(errors).length > 1 
+                            ? 'Need fill all field'
+                            : ''
+                      }
+                    </span> */}
 
                     <div className={styles.fullWidthLine}></div>
 

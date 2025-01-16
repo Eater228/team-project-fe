@@ -70,7 +70,7 @@ export const ResetPassword = () => {
             </button>
             <div className={styles.titleBlock}>
               <h2 className={styles.title}>
-                 Set new password
+                Set new password
               </h2>
               <p>And then try login again</p>
             </div>
@@ -128,8 +128,8 @@ export const ResetPassword = () => {
                       }}
                     />
                     <span className={styles.iconLeft} onClick={toggleShowPassword}>
-                      {showPassword 
-                        ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" /> 
+                      {showPassword
+                        ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" />
                         : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                     </span>
                   </div>
@@ -152,29 +152,27 @@ export const ResetPassword = () => {
                       }}
                     />
                     <span className={styles.iconLeft} onClick={toggleShowRepeatPassword}>
-                      {showRepeatPassword 
-                        ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" /> 
+                      {showRepeatPassword
+                        ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" />
                         : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                     </span>
                     <span className={styles.errorMessageBlock}>
-                      {/* Якщо є більше 2 помилок, відображаємо загальне повідомлення */}
-                      {Object.keys(errors).length > 2 && Object.keys(touched).length > 0 && 'Потрібно заповнити всі поля.'}
+                      {/* Якщо нічого не заповнено і є хоча б одна помилка */}
+                      {touched.password && errors.password
+                        ? `${errors.password}`
+                        : touched.repeatPassword && errors.repeatPassword
+                          ? `${errors.repeatPassword}`
+                          : ''}
 
-                      {/* Повідомлення для двох помилок: пароль і повтор пароля */}
-                      {Object.keys(errors).length === 2 && touched.password && touched.repeatPassword && (
-                        <>
-                          {errors.password && `${errors.password}`}
-                          {errors.repeatPassword && ` ${errors.repeatPassword}`}
-                        </>
-                      )}
+                      {/* Якщо є помилки в паролі */}
 
-                      {/* Повідомлення для однієї помилки */}
-                      {Object.keys(errors).length === 1 && (
-                        <>
-                          {touched.password && errors.password && `${errors.password}`}
-                          {touched.repeatPassword && errors.repeatPassword && `${errors.repeatPassword}`}
-                        </>
-                      )}
+                      {/* Якщо є помилки в повторі пароля */}
+                      { }
+
+                      {/* Якщо одночасно є помилки в паролі і повторі пароля
+                      {touched.password && touched.repeatPassword && errors.password && errors.repeatPassword && (
+                        `${errors.password}. ${errors.repeatPassword}.`
+                      )} */}
                     </span>
                   </div>
                   <div className={styles.buttonContainer}>

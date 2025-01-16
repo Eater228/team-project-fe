@@ -208,7 +208,8 @@
 
 .errorMessageBlock {
   color: red;
-  margin-top: 8px;
+  // margin-top: 2px;
+  padding: 0 24px;
   display: flex;
   justify-content: flex-start;
 }
