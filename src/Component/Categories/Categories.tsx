@@ -1,25 +1,17 @@
 import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Slider from 'react-slick';
 import "slick-carousel/slick/slick.scss";
 import "slick-carousel/slick/slick-theme.scss";
 import styles from './Categories.module.scss';
+import { categories } from './CategoriesState/categories';
 
-const categories = [
-  { id: 1, name: 'Electronics', image: '/img/PhotoCategories/electronics.png' },
-  { id: 2, name: 'Furniture', image: '/img/PhotoCategories/furniture.png' },
-  { id: 3, name: 'Clothes', image: '/img/PhotoCategories/clothes.png' },
-  { id: 4, name: 'Cars', image: '/img/PhotoCategories/cars.png' },
-  { id: 5, name: 'Books', image: '/img/PhotoCategories/books.png' },
-  { id: 6, name: 'Toys', image: '/img/PhotoCategories/toys.png' },
-  { id: 7, name: 'Sports', image: '/img/PhotoCategories/sports.png' },
-  { id: 8, name: 'Beauty', image: '/img/PhotoCategories/beauty.png' },
-  { id: 8, name: 'See more...', image: '/img/PhotoCategories/SeeMore.svg' },
-  { id: 9, name: '', image: '' }, // Add an empty card
-];
+const categoriesArray = categories;
 
 export const Categories: React.FC = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [dragging, setDragging] = useState(false);
+  const navigate = useNavigate();
 
   const settings = {
     dots: false,
@@ -56,6 +48,11 @@ export const Categories: React.FC = () => {
     setDragging(false);
   };
 
+  const handleCategoryClick = (categoryName: string) => {
+    // console.log(categoryName);
+    navigate(`/product?nameCategory=${categoryName}`);
+  };
+
   return (
     <div className={styles.Block}>
       <div className={styles.carouselContainer}>
@@ -66,8 +63,12 @@ export const Categories: React.FC = () => {
           {...settings}
           ref={sliderRef}
         >
-          {categories.map((category, index) => (
-            <div key={category.id} className={styles.categoryItem}>
+          {categoriesArray.map((category, index) => (
+            <div 
+              key={category.id} 
+              className={styles.categoryItem}
+              onDoubleClick={() => handleCategoryClick(category.name)}
+            >
               {category.image ? (
                 <>
                   <img

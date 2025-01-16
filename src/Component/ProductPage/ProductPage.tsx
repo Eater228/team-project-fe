@@ -10,12 +10,16 @@ import { topScroll } from '../../Function/ScrolTop/topScrol';
 import { Filter } from './Filter/Filter';
 import styles from './ProductPage.module.scss';
 import { Loader } from '../../Component/Loader';
+import { useLocation } from 'react-router-dom';
+import { CategoriesBaner } from '../../Component/Categories/CategoriesBaner/CategoriesBaner';
+import { categories } from '../../Component/Categories/CategoriesState/categories';
 
 export const ProductPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products.items);
   const loading = useSelector((state: RootState) => state.products.loading);
   const error = useSelector((state: RootState) => state.products.error);
+  const location = useLocation();
 
   const [count, setCount] = useState(12);
   const [visibleProducts, setVisibleProducts] = useState(products);
@@ -23,7 +27,10 @@ export const ProductPage: React.FC = () => {
   const [statusState, setStatusState] = useState<string>('');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
-  const [priceFilters, setPriceFilters] = useState({ openingPrice: 0, buyFullPrice: 0, step: 0 });
+  const [priceFilters, setPriceFilters] = useState({ openingPrice: '', buyFullPrice: '', step: '' });
+
+  const queryParams = new URLSearchParams(location.search);
+  const nameCategory = queryParams.get('nameCategory');
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * 12;
@@ -56,16 +63,16 @@ export const ProductPage: React.FC = () => {
       });
     }
 
-    if (priceFilters.openingPrice > 0) {
-      filteredProducts = filteredProducts.filter(product => product.startPrice >= priceFilters.openingPrice);
+    if (+priceFilters.openingPrice > 0) {
+      filteredProducts = filteredProducts.filter(product => product.startPrice >= +priceFilters.openingPrice);
     }
 
-    if (priceFilters.buyFullPrice > 0) {
-      filteredProducts = filteredProducts.filter(product => product.fullPrice <= priceFilters.buyFullPrice);
+    if (+priceFilters.buyFullPrice > 0) {
+      filteredProducts = filteredProducts.filter(product => product.fullPrice <= +priceFilters.buyFullPrice);
     }
 
-    if (priceFilters.step > 0) {
-      filteredProducts = filteredProducts.filter(product => product.bet >= priceFilters.step);
+    if (+priceFilters.step > 0) {
+      filteredProducts = filteredProducts.filter(product => product.bet >= +priceFilters.step);
     }
 
     if(statusState !== '') {
@@ -87,7 +94,7 @@ export const ProductPage: React.FC = () => {
           break;
       }
     }
-console.log(filteredProducts);
+// console.log(filteredProducts);
     setCurrentPage(1);
     setVisibleProducts(filteredProducts);
   }, [products, sortType, priceFilters, statusState]);
@@ -96,16 +103,19 @@ console.log(filteredProducts);
     topScroll();
   }, [currentPage]);
 
-  const handleFiltersApply = (filters: { sort: string; price: { openingPrice: number, buyFullPrice: number, step: number }; states: string }) => {
+  const handleFiltersApply = (filters: { sort: string; price: { openingPrice: string, buyFullPrice: string, step: string }; states: string }) => {
     setSortType(filters.sort);
     setPriceFilters(filters.price);
     setStatusState(filters.states);
-    console.log(filters.states)
+    // console.log(filters.states)
   };
 
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
+
+  const categoryObj = categories.find((category) => category.name === nameCategory)
+  console.log(categoryObj)
 
   return (
     <div className={styles.productPage}>
@@ -116,15 +126,15 @@ console.log(filteredProducts);
           alt="Filter" 
           onClick={toggleFilter}
           className={styles.filterButton}
-        />
+          />
         <Filter
           isFilterOpen={isFilterOpen}
           toggleFilter={toggleFilter}
           handleFiltersApply={handleFiltersApply}
           handleOverlayClick={() => setIsFilterOpen(false)}
-        />
+          />
       </div>
-      <Categories />
+          {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory} categoryImage={categoryObj.image}/>) : (<Categories />)}
       <div className={styles.productList}>
         {loading && <Loader />}
         {error && <p>{error}</p>}

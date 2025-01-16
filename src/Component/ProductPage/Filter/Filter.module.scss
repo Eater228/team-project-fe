@@ -112,13 +112,66 @@
   .boxGroup {
     display: flex;
     justify-content: space-between;
+    align-items: center;
+  }
+
+  .inputWrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+  }
+
+  .dollarSign {
+    position: absolute;
+    left: 10px;
+    color: var(--white);
+  }
+
+  input[type="number"] {
+    width: 63px;
+    height: 22px;
+    padding: 3px 30px 3px 20px; /* Adjust padding to make space for the dollar sign */
+    text-align: center;
+    gap: 8px;
+    border-radius: 4px;
+    background: #59595A;
+    border: none;
+    box-shadow: none;
+    appearance: none;
+  
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  input[type="text"] {
+    width: 63px;
+    height: 22px;
+    padding: 3px 30px 3px 20px; /* Adjust padding to make space for the dollar sign */
+    text-align: center;
+    gap: 8px;
+    border-radius: 4px;
+    background: #59595A;
+    border: none;
+    box-shadow: none;
+    appearance: none;
+  
+    &:focus-visible {
+      outline: none;
+    }
+  }
+
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
   }
 }
 
 .separator {
   width: 100%;
   height: 1px;
-  background-color: #3B3B3C;
+  background-color: #3b3b3c;
   margin: 16px 0;
 }
 
@@ -179,7 +232,7 @@
 .applyButton {
   height: 48px;
   padding: 8px 16px;
-  background-color: #204DFF;
+  background-color: #204dff;
   color: var(--white);
   border: none;
   border-radius: 100px;
@@ -192,7 +245,7 @@
   height: 48px;
   padding: 8px 16px;
   background-color: inherit;
-  border: 1px solid #F1F1F8;
+  border: 1px solid #f1f1f8;
   color: var(--white);
   border-radius: 100px;
   cursor: pointer;

@@ -11,9 +11,9 @@ interface FilterProps {
 interface Filters {
   sort: string;
   price: {
-    openingPrice: number;
-    buyFullPrice: number;
-    step: number;
+    openingPrice: string;
+    buyFullPrice: string;
+    step: string;
   };
   states: string;
 }
@@ -27,9 +27,9 @@ export const Filter: React.FC<FilterProps> = ({
   const [sort, setSort] = useState<string>('id');
   const [states, setStates] = useState<string>('');
   const [price, setPrice] = useState<Filters['price']>({
-    openingPrice: 0,
-    buyFullPrice: 0,
-    step: 0
+    openingPrice: '',
+    buyFullPrice: '',
+    step: ''
   });
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -44,7 +44,7 @@ export const Filter: React.FC<FilterProps> = ({
     const { name, value } = event.target;
     setPrice((prevPrice) => ({
       ...prevPrice,
-      [name]: +value,
+      [name]: +value.replace(/[^0-9]/g, ''),
     }));
   }
 
@@ -56,8 +56,9 @@ export const Filter: React.FC<FilterProps> = ({
   const resetFilters = () => {
     setSort('newest');
     setStates('');
-    setPrice({ openingPrice: 0, buyFullPrice: 0, step: 0 });
-    handleFiltersApply({ sort: 'newest', price: { openingPrice: 0, buyFullPrice: 0, step: 0 }, states: '' });
+    setPrice({ openingPrice: '', buyFullPrice: '', step: '' });
+    handleFiltersApply({ sort: 'newest', price: { openingPrice: '', buyFullPrice: '', step: '' }, states: '' });
+    toggleFilter();
   };
 
   if (!isFilterOpen) return null;
@@ -129,32 +130,58 @@ export const Filter: React.FC<FilterProps> = ({
                 <label>
                   Opening price
                 </label>
-                <input
-                  type="number"
-                  name='openingPrice'
-                  onChange={handlePriceChange}
-                />
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    name='openingPrice'
+                    value={`$${price.openingPrice}`}
+                    onInput={(e) => {
+                      const input = e.target as HTMLInputElement;
+                      if (input.value.replace(/[^0-9]/g, '').length > 6) {
+                        input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                      }
+                    }}
+                    onChange={handlePriceChange}
+                  />
+                </div>
               </div>
               <div className={styles.boxGroup}>
                 <label>
                   Buy full price
                 </label>
-                <input
-                  type="number"
-                  name='buyFullPrice'
-                  onChange={handlePriceChange}
-                />
+                <div className={styles.inputWrapper}>
+                  <input
+                    type="text"
+                    name='buyFullPrice'
+                    value={`$${price.buyFullPrice}`}
+                    onInput={(e) => {
+                      const input = e.target as HTMLInputElement;
+                      if (input.value.replace(/[^0-9]/g, '').length > 6) {
+                        input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                      }
+                    }}
+                    onChange={handlePriceChange}
+                  />
+                </div>
               </div>
               <div className={styles.boxGroup}>
                 <label>
                   Step
                 </label>
-                <input 
-                type="number" 
-                name='step'
-                step={5} 
-                onChange={handlePriceChange} 
-                />
+                <div className={styles.inputWrapper}>
+                  <input 
+                    type="text" 
+                    name='step'
+                    value={`$${price.step}`}
+                    onInput={(e) => {
+                      const input = e.target as HTMLInputElement;
+                      if (input.value.replace(/[^0-9]/g, '').length > 6) {
+                        input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                      }
+                    }}
+                    onChange={handlePriceChange} 
+                  />
+                </div>
               </div>
             </div>
 
