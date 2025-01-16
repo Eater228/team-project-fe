@@ -8,7 +8,7 @@
       "fullPrice": 799,
       "startPrice": 699,
       "currentPrice": 750,
-      "bet": 30,
+      "bet": 5,
       "bids": [
         { "userId": 101, "amount": 700, "time": "2025-01-02T10:00:00.000Z" },
         { "userId": 102, "amount": 750, "time": "2025-01-02T11:00:00.000Z" }
@@ -19,8 +19,8 @@
       "startingTime": "2025-01-01T09:00:00.000Z",
       "endTime": "2025-11-08T09:00:00.000Z",
       "description": "A brand new smartphone with amazing features.",
-      "createdAt": "2024-12-31T10:00:00.000Z",
-      "updatedAt": "2025-01-01T10:00:00.000Z"
+      "createdAt": "2025-01-4T10:00:00.000Z",
+      "updatedAt": "2025-01-05T10:00:00.000Z"
     },
     {
       "id": 2,
@@ -313,7 +313,7 @@
         { "userId": 122, "amount": 180, "time": "2025-01-02T11:00:00.000Z" }
       ],
       "seller": { "id": 11, "name": "Ian Lee" },
-      "status": "active",
+      "status": "sold",
       "location": "Phoenix, USA",
       "startingTime": "2025-01-01T09:00:00.000Z",
       "endTime": "2025-01-10T09:00:00.000Z",

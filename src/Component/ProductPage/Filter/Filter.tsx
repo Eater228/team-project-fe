@@ -10,8 +10,12 @@ interface FilterProps {
 
 interface Filters {
   sort: string;
-  itemsPerPage: string;
-  states: string[];
+  price: {
+    openingPrice: number;
+    buyFullPrice: number;
+    step: number;
+  };
+  states: string;
 }
 
 export const Filter: React.FC<FilterProps> = ({
@@ -21,28 +25,39 @@ export const Filter: React.FC<FilterProps> = ({
   handleOverlayClick,
 }) => {
   const [sort, setSort] = useState<string>('id');
-  const [itemsPerPage, setItemsPerPage] = useState<string>('4');
-  const [states, setStates] = useState<string[]>([]);
+  const [states, setStates] = useState<string>('');
+  const [price, setPrice] = useState<Filters['price']>({
+    openingPrice: 0,
+    buyFullPrice: 0,
+    step: 0
+  });
 
   const handleSortChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(event.target.value);
     setSort(event.target.value);
   };
 
-  const handleItemsPerPageChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setItemsPerPage(event.target.value);
+  const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setStates(event.target.value);
   };
 
-  const handleStateChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const { value, checked } = event.target;
-    setStates((prevStates) =>
-      checked ? [...prevStates, value] : prevStates.filter((state) => state !== value)
-    );
-  };
+  const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setPrice((prevPrice) => ({
+      ...prevPrice,
+      [name]: +value,
+    }));
+  }
 
   const applyFilters = () => {
-    handleFiltersApply({ sort, itemsPerPage, states });
+    handleFiltersApply({ sort, price, states });
     toggleFilter();
+  };
+
+  const resetFilters = () => {
+    setSort('newest');
+    setStates('');
+    setPrice({ openingPrice: 0, buyFullPrice: 0, step: 0 });
+    handleFiltersApply({ sort: 'newest', price: { openingPrice: 0, buyFullPrice: 0, step: 0 }, states: '' });
   };
 
   if (!isFilterOpen) return null;
@@ -105,35 +120,54 @@ export const Filter: React.FC<FilterProps> = ({
                 </label>
               </div>
             </div>
+
+            <div className={styles.separator} />
+
             {/* Choice onep price and step bet */}
-            <div className={styles.filterCategory}>
+            <div className={styles.filterCategoryPrice} >
               <div className={styles.boxGroup}>
                 <label>
                   Opening price
                 </label>
-                <input type="number" />
+                <input
+                  type="number"
+                  name='openingPrice'
+                  onChange={handlePriceChange}
+                />
               </div>
               <div className={styles.boxGroup}>
                 <label>
                   Buy full price
                 </label>
-                <input type="number" />
+                <input
+                  type="number"
+                  name='buyFullPrice'
+                  onChange={handlePriceChange}
+                />
               </div>
               <div className={styles.boxGroup}>
                 <label>
                   Step
                 </label>
-                <input type="number" />
+                <input 
+                type="number" 
+                name='step'
+                step={5} 
+                onChange={handlePriceChange} 
+                />
               </div>
             </div>
+
+            <div className={styles.separator}></div>
 
             {/* State Filter */}
             <div className={styles.filterCategory}>
               <h3>State</h3>
-              <div className={styles.checkboxGroup}>
+              <div className={styles.radioGroup}>
                 <label>
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="state"
                     value="active"
                     checked={states.includes('active')}
                     onChange={handleStateChange}
@@ -142,7 +176,8 @@ export const Filter: React.FC<FilterProps> = ({
                 </label>
                 <label>
                   <input
-                    type="checkbox"
+                    type="radio"
+                    name="state"
                     value="sold"
                     checked={states.includes('sold')}
                     onChange={handleStateChange}
@@ -153,10 +188,13 @@ export const Filter: React.FC<FilterProps> = ({
             </div>
           </div>
 
-          {/* Apply Filters Button */}
+          {/* Apply Filters and Reset Filters Buttons */}
           <div className={styles.buttonContainer}>
             <button className={styles.applyButton} onClick={applyFilters}>
-              Apply Filters
+              Apply filters
+            </button>
+            <button className={styles.resetButton} onClick={resetFilters}>
+              Reset all Filters
             </button>
           </div>
         </div>

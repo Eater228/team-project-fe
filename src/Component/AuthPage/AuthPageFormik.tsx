@@ -80,6 +80,10 @@ export const AuthPageFormik = () => {
     setShowRepeatPassword(prev => !prev);
   };
 
+  const handleFocus = () => {
+    setError('');
+  };
+
   return (
     <>
       <GridContainer>
@@ -176,6 +180,7 @@ export const AuthPageFormik = () => {
                           name="firstName"
                           type="text"
                           id="firstName"
+                          onFocus={handleFocus}
                           // placeholder="First name"
                           className={cn(styles.field, {
                             [styles.isDanger]: touched.firstName && errors.firstName,
@@ -192,6 +197,7 @@ export const AuthPageFormik = () => {
                           name="lastName"
                           type="text"
                           id="lastName"
+                          onFocus={handleFocus}
                           // placeholder="Last name"
                           className={cn(styles.field, {
                             [styles.isDanger]: touched.lastName && errors.lastName,
@@ -209,6 +215,7 @@ export const AuthPageFormik = () => {
                         name="email"
                         type="email"
                         id="email"
+                        onFocus={handleFocus}
                         // placeholder="bobsmith@gmail.com"
                         className={cn(styles.field, {
                           [styles.isDanger]: touched.email && errors.email,
@@ -224,6 +231,7 @@ export const AuthPageFormik = () => {
                         name="password"
                         type={showPassword ? "text" : "password"}
                         id="password"
+                        onFocus={handleFocus}
                         // placeholder="*******"
                         className={cn(styles.field, {
                           [styles.isDanger]: touched.password && errors.password,
@@ -245,6 +253,7 @@ export const AuthPageFormik = () => {
                         name="repeatPassword"
                         type={showRepeatPassword ? "text" : "password"}
                         id="repeatPassword"
+                        onFocus={handleFocus}
                         // placeholder="*******"
                         className={cn(styles.field, {
                           [styles.isDanger]: touched.repeatPassword && errors.repeatPassword,
@@ -338,6 +347,7 @@ export const AuthPageFormik = () => {
                         name="email"
                         type="email"
                         id="email"
+                        onFocus={handleFocus}
                         // placeholder="bobsmith@gmail.com"
                         className={cn(styles.field, {
                           [styles.isDanger]: touched.email && errors.email,
@@ -354,6 +364,7 @@ export const AuthPageFormik = () => {
                         name="password"
                         type={showPassword ? "text" : "password"}
                         id="password"
+                        onFocus={handleFocus}
                         // placeholder="*******"
                         className={cn(styles.field, {
                           [styles.isDanger]: touched.password && errors.password,
@@ -373,6 +384,9 @@ export const AuthPageFormik = () => {
                           {typeof errors.password === 'string' ? errors.password : ''}
                           {typeof errors.repeatPassword === 'string' ? errors.repeatPassword : ''}
                         </div>
+                      )}
+                      {(error) && (
+                        <div className={styles.errorMessage}>{error}</div>
                       )}
                     </div>
 

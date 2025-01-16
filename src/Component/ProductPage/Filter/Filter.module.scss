@@ -14,16 +14,15 @@
   height: 100%;
   background-color: var(--surface-2);
   display: flex;
-  flex-direction: column;
-  gap: 16px;
   border-radius: 8px;
-  position: relative;
 }
 
 .viewBlock {
+  position: relative;
   height: 100vh;
   width: 100%;
-  background-color: #1C1C1D;
+  background-color: #1c1c1d;
+  padding: 41px 20px;
 }
 
 .filterHeader {
@@ -32,9 +31,7 @@
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  padding: 16px;
   background-color: var(--surface-2);
-  border-bottom: 1px solid #ccc;
 
   h2 {
     margin: 0;
@@ -55,7 +52,6 @@
   display: flex;
   flex-direction: column;
   gap: 16px;
-  padding: 16px;
   background-color: var(--surface-2);
   border-radius: 8px;
 }
@@ -63,6 +59,7 @@
 .filterCategory {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 8px;
 
   h3 {
@@ -90,22 +87,54 @@
     }
   }
 
-  
   .boxGroup {
     display: flex;
     justify-content: space-between;
   }
 }
 
+.filterCategory:first-of-type {
+  margin-top: 40px;
+}
+
+.filterCategoryPrice {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+
+  h3 {
+    margin: 0;
+    font-size: 18px;
+    color: var(--white);
+  }
+
+  .boxGroup {
+    display: flex;
+    justify-content: space-between;
+  }
+}
+
+.separator {
+  width: 100%;
+  height: 1px;
+  background-color: #3B3B3C;
+  margin: 16px 0;
+}
+
 .closeButton {
+  box-sizing: border-box;
   position: absolute;
-  top: 0;
-  right: 0;
+  top: -25px;
+  right: -25px;
+  height: 32px;
+  width: 32px;
   background: none;
   border: none;
   font-size: 24px;
   cursor: pointer;
   color: var(--white);
+  padding: 0;
 }
 
 .filterContainer {
@@ -142,19 +171,39 @@
 
 .buttonContainer {
   display: flex;
-  justify-content: center;
-  padding: 16px;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 54px;
 }
 
 .applyButton {
+  height: 48px;
   padding: 8px 16px;
-  background-color: var(--primary);
+  background-color: #204DFF;
   color: var(--white);
   border: none;
-  border-radius: 4px;
+  border-radius: 100px;
   cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.resetButton {
+  height: 48px;
+  padding: 8px 16px;
+  background-color: inherit;
+  border: 1px solid #F1F1F8;
+  color: var(--white);
+  border-radius: 100px;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.resetButton:hover {
+  background-color: #48484b4b;
 }
 
 .applyButton:hover {
-  background-color: var(--primary-dark);
+  background-color: #4466f0;
 }
