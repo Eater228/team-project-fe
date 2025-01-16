@@ -350,8 +350,8 @@ export const AuthPageFormik = () => {
                         })}
                       />
                       <span className={styles.errorMessageBlock}>
-                      {(touched.email && errors.email) && `${errors.email}`}
-                    </span>
+                        {(touched.email && errors.email) && `${errors.email}`}
+                      </span>
                     </div>
                     <div className={styles.control}>
                       <span className={styles.iconRight}>

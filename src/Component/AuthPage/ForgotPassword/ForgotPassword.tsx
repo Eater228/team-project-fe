@@ -76,13 +76,16 @@ export const ForgotPassword = () => {
                         setError('');
                       }}
                     />
+                    <span className={styles.errorMessageBlock}>
+                      {(touched.email && errors.email) && `${errors.email}`}
+                    </span>
                     {/* {touched.email && errors.email && (
                       <span className={cn("is-right has-text-danger", styles.iconLeft)}>
                         <i className="fas fa-exclamation-triangle"></i>
                       </span>
                     )} */}
                   </div>
-                    {error && <div className={styles.errorMessage}>{error}</div>}
+                  {error && <div className={styles.errorMessage}>{error}</div>}
                   <div className={styles.buttonContainer}>
                     <button
                       type="submit"
