@@ -349,7 +349,9 @@ export const AuthPageFormik = () => {
                           [styles.isDanger]: touched.email && errors.email,
                         })}
                       />
-
+                      <span className={styles.errorMessageBlock}>
+                      {(touched.email && errors.email) && `${errors.email}`}
+                    </span>
                     </div>
                     <div className={styles.control}>
                       <span className={styles.iconRight}>
@@ -373,20 +375,9 @@ export const AuthPageFormik = () => {
                           : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                       </span>
                     </div>
-
-                    <div className={styles.errorMessageBlock}>
-                      {(touched.password) && (
-                        <div className={styles.errorMessage}>
-                          {typeof errors.password === 'string' ? errors.password : ''}
-                          {typeof errors.repeatPassword === 'string' ? errors.repeatPassword : ''}
-                        </div>
-                      )}
-                      {(error) && (
-                        <div className={styles.errorMessage}>{error}</div>
-                      )}
-                    </div>
-
-
+                    <span className={styles.errorMessageBlock}>
+                      {(touched.password && errors.password) && `${errors.password}`}
+                    </span>
                     <div className={styles.forgotPassword}>
                       <NavLink to="/forgotPassword">Forgot Password?</NavLink>
                     </div>
