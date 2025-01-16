@@ -146,30 +146,8 @@ export const AuthPageFormik = () => {
                     .finally(() => formikHelpers.setSubmitting(false))
                 }}
               >
-                {({ touched, errors, isSubmitting, values }) => (
+                {({ touched, errors, isSubmitting, values}) => (
                   <Form className={styles.form}>
-                    {/* <div className={styles.control}>
-                    <span className={styles.iconRight}>
-                      <i className="fa fa-user"></i>
-                    </span>
-                    <div className={styles.nameContainer}></div>
-                  <Field
-                    validate={validUserName}
-                    name='userName'
-                    type='text'
-                    id='userName'
-                    placeholder='Username'
-                    className={cn(styles.field, {
-                      [styles.isDanger] : touched.userName && errors.userName,
-                    })} 
-                  />
-
-                  {touched.userName && errors.userName && (
-                    <span className={cn("is-right has-text-danger", styles.iconLeft)}>
-                      <i className="fas fa-exclamation-triangle"></i>
-                    </span>
-                  )}
-                </div> */}
                     <div className={styles.nameContainer}>
                       <div className={styles.nameControl}>
                         <span className={styles.iconRight}>
@@ -267,8 +245,24 @@ export const AuthPageFormik = () => {
                     </div>
 
                     <span className={styles.errorMessageBlock}>
-                      {typeof errors.password === 'string' ? `${errors.password} ` : ''}
-                      {typeof errors.repeatPassword === 'string' ? errors.repeatPassword : ''}
+                      {/* Якщо є більше 2 помилок, відображаємо загальне повідомлення */}
+                      {Object.keys(errors).length > 2 && Object.keys(touched).length > 0 && 'Потрібно заповнити всі поля.'}
+
+                      {/* Повідомлення для двох помилок: пароль і повтор пароля */}
+                      {Object.keys(errors).length === 2 && touched.password && touched.repeatPassword && (
+                        <>
+                          {errors.password && `${errors.password}`}
+                          {errors.repeatPassword && ` ${errors.repeatPassword}`}
+                        </>
+                      )}
+
+                      {/* Повідомлення для однієї помилки */}
+                      {Object.keys(errors).length === 1 && (
+                        <>
+                          {touched.password && errors.password && `${errors.password}`}
+                          {touched.repeatPassword && errors.repeatPassword && `${errors.repeatPassword}`}
+                        </>
+                      )}
                     </span>
 
                     <div className={styles.fullWidthLine}></div>

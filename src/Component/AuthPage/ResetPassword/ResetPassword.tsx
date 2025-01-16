@@ -33,12 +33,20 @@ export const ResetPassword = () => {
   // console.log('email:', email);
   // console.log('queryParams:', queryParams);
 
-  function validatePassword(value: string) {
+  const PASSWORD_PATTERN = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+
+  function validatePassword(value: string): string | undefined {
     if (!value) return 'Password is required';
     if (value.length < 6) return 'At least 6 characters';
+
+    if (!PASSWORD_PATTERN.test(value)) {
+      return 'Password must contain at least one uppercase letter, one number, and only English letters.';
+    }
+
+    return undefined; // Валідний пароль
   }
 
-  function validateRepeatPassword(value: string, password: string) {
+  function validateRepeat(value: string, password: string) {
     if (!value) return 'Repeat password is required';
     if (value !== password) return 'Passwords do not match';
   }
@@ -124,18 +132,13 @@ export const ResetPassword = () => {
                         ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" /> 
                         : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                     </span>
-                    {touched.password && errors.password && (
-                      <span className={cn("is-right has-text-danger", styles.iconLeft)}>
-                        <i className="fas fa-exclamation-triangle"></i>
-                      </span>
-                    )}
                   </div>
                   <div className={styles.control}>
                     <span className={styles.iconRight}>
                       Repeat your new password
                     </span>
                     <Field
-                      validate={(value: string) => validateRepeatPassword(value, values.password)}
+                      validate={(value: string) => validateRepeat(value, values.password)}
                       name="repeatPassword"
                       type={showRepeatPassword ? "text" : "password"}
                       id="repeatPassword"
@@ -153,11 +156,26 @@ export const ResetPassword = () => {
                         ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" /> 
                         : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                     </span>
-                    {touched.repeatPassword && errors.repeatPassword && (
-                      <span className={cn("is-right has-text-danger", styles.iconLeft)}>
-                        <i className="fas fa-exclamation-triangle"></i>
-                      </span>
-                    )}
+                    <span className={styles.errorMessageBlock}>
+                      {/* Якщо є більше 2 помилок, відображаємо загальне повідомлення */}
+                      {Object.keys(errors).length > 2 && Object.keys(touched).length > 0 && 'Потрібно заповнити всі поля.'}
+
+                      {/* Повідомлення для двох помилок: пароль і повтор пароля */}
+                      {Object.keys(errors).length === 2 && touched.password && touched.repeatPassword && (
+                        <>
+                          {errors.password && `${errors.password}`}
+                          {errors.repeatPassword && ` ${errors.repeatPassword}`}
+                        </>
+                      )}
+
+                      {/* Повідомлення для однієї помилки */}
+                      {Object.keys(errors).length === 1 && (
+                        <>
+                          {touched.password && errors.password && `${errors.password}`}
+                          {touched.repeatPassword && errors.repeatPassword && `${errors.repeatPassword}`}
+                        </>
+                      )}
+                    </span>
                   </div>
                   <div className={styles.buttonContainer}>
                     <button

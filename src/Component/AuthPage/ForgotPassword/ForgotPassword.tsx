@@ -32,7 +32,7 @@ export const ForgotPassword = () => {
               <h2 className={styles.title}>
                 {message ? `We sent you a link on \n${message}` : 'Forgot password?'}
               </h2>
-              <p>{message ? 'Check it up👆' : 'No worries, we`ll send you a reset email!'}</p>
+              <p>{message ? 'Check it up👆' : `No worries, we'll send you a reset email!`}</p>
             </div>
             <Formik
               innerRef={formikRef}

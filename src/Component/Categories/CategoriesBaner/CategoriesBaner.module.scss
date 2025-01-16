@@ -1,0 +1,33 @@
+.banner {
+  // position: relative;
+  flex-direction: column;
+  box-sizing: border-box;
+  width: 660px;
+  height: 431px;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  // overflow: hidden;
+  border-radius: 16px;
+  margin: 21px 48px;
+  border-top-right-radius: 100px;
+}
+
+.bannerImage {
+  border-top-right-radius: 100px;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  margin-top: 24px;
+}
+
+.bannerTitle {
+  // position: absolute;
+  color: white;
+  font-size: 32px;
+  font-weight: 600;
+  line-height: 35.2px;
+  letter-spacing: -5%;
+  margin: 0;
+  // text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}

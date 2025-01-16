@@ -20,9 +20,9 @@ export const Root = () => (
           <Route path='/reset' element={<ResetPage />} />
           <Route path='/refreshPasssword' element={<ResetPassword/>} />
       <Route path='/' element={<App />}>
-        <Route path='Home' element={<MainPage />} />
-        <Route path='profile' element={<Profile />} />
-        <Route path='product' element={<ProductPage />} />
+        <Route path='/Home' element={<MainPage />} />
+        <Route path='/profile' element={<Profile />} />
+        <Route path='/product' element={<ProductPage />} />
       </Route>
     </Routes>
   </Router>
