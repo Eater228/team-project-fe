@@ -377,6 +377,7 @@ export const AuthPageFormik = () => {
                     </div>
                     <span className={styles.errorMessageBlock}>
                       {(touched.password && errors.password) && `${errors.password}`}
+                      {error && `${error}`}
                     </span>
                     <div className={styles.forgotPassword}>
                       <NavLink to="/forgotPassword">Forgot Password?</NavLink>
