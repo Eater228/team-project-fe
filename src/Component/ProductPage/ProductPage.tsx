@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo } from 'react';
+import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../Store/Store';
 import { fetchProducts } from '../../Reducer/ProductsSlice';
@@ -10,7 +10,7 @@ import { topScroll } from '../../Function/ScrolTop/topScrol';
 import { Filter } from './Filter/Filter';
 import styles from './ProductPage.module.scss';
 import { Loader } from '../../Component/Loader';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { CategoriesBaner } from '../../Component/Categories/CategoriesBaner/CategoriesBaner';
 import { categories } from '../../Component/Categories/CategoriesState/categories';
 
@@ -20,6 +20,7 @@ export const ProductPage: React.FC = () => {
   const loading = useSelector((state: RootState) => state.products.loading);
   const error = useSelector((state: RootState) => state.products.error);
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [count, setCount] = useState(12);
   const [visibleProducts, setVisibleProducts] = useState(products);
@@ -28,9 +29,13 @@ export const ProductPage: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [priceFilters, setPriceFilters] = useState({ openingPrice: '', buyFullPrice: '', step: '' });
+  const [searchQuery, setSearchQuery] = useState('');
 
   const queryParams = new URLSearchParams(location.search);
   const nameCategory = queryParams.get('nameCategory');
+  const searchParams = queryParams.get('search');
+  const sectionRef = useRef<HTMLDivElement>(null); // створення рефу для секції "For you"
+
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * 12;
@@ -42,6 +47,12 @@ export const ProductPage: React.FC = () => {
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
+
+  useEffect(() => {
+    if (searchParams) {
+      setSearchQuery(searchParams);
+    }
+  }, [searchParams]);
 
   useEffect(() => {
     let filteredProducts = [...products];
@@ -75,34 +86,41 @@ export const ProductPage: React.FC = () => {
       filteredProducts = filteredProducts.filter(product => product.bet >= +priceFilters.step);
     }
 
-    if(statusState !== '') {
+    if (statusState !== '') {
       switch (statusState) {
         case 'active':
-          filteredProducts = filteredProducts.filter(
-            product => 
-              product.status === 'active'
-          )
+          filteredProducts = filteredProducts.filter(product => product.status === 'active');
           break;
-          case 'sold':
-          filteredProducts = filteredProducts.filter(
-            product => 
-              product.status === 'sold'
-          )
+        case 'sold':
+          filteredProducts = filteredProducts.filter(product => product.status === 'sold');
           break;
-      
         default:
           break;
       }
     }
+
+    if (searchQuery) {
+      navigate(`/product?search=${searchQuery}`);
+      filteredProducts = filteredProducts.filter(product =>
+        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+
     setCurrentPage(1);
     setVisibleProducts(filteredProducts);
-  }, [products, sortType, priceFilters, statusState]);
+  }, [products, sortType, priceFilters, statusState, searchQuery]);
+
+  useEffect(() => {
+    if (searchQuery && sectionRef.current) {
+      sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }, [searchQuery]);
 
   useEffect(() => {
     topScroll();
   }, [currentPage]);
 
-  const handleFiltersApply = (filters: { sort: string; price: { openingPrice: string, buyFullPrice: string, step: string }; states: string }) => {
+  const handleFiltersApply = (filters: { sort: string; price: { openingPrice: string; buyFullPrice: string; step: string }; states: string }) => {
     setSortType(filters.sort);
     setPriceFilters(filters.price);
     setStatusState(filters.states);
@@ -112,27 +130,27 @@ export const ProductPage: React.FC = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
-  const categoryObj = categories.find((category) => category.name === nameCategory)
+  const categoryObj = categories.find((category) => category.name === nameCategory);
 
   return (
     <div className={styles.productPage}>
       <div className={styles.blockSearch}>
-        <Search />
+        <Search onSearch={setSearchQuery} />
         <img 
           src="/img/icons/Filters.svg" 
           alt="Filter" 
           onClick={toggleFilter}
           className={styles.filterButton}
-          />
+        />
         <Filter
           isFilterOpen={isFilterOpen}
           toggleFilter={toggleFilter}
           handleFiltersApply={handleFiltersApply}
           handleOverlayClick={() => setIsFilterOpen(false)}
-          />
+        />
       </div>
-          {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory} categoryImage={categoryObj.image}/>) : (<Categories />)}
-      <div className={styles.productList}>
+      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory} categoryImage={categoryObj.image}/>) : (<Categories />)}
+      <div className={styles.productList} ref={sectionRef}>
         {loading && <Loader />}
         {error && <p>{error}</p>}
         {visibleProducts.length !== 0 && (
