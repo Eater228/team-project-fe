@@ -94,7 +94,6 @@ export const ProductPage: React.FC = () => {
           break;
       }
     }
-// console.log(filteredProducts);
     setCurrentPage(1);
     setVisibleProducts(filteredProducts);
   }, [products, sortType, priceFilters, statusState]);
@@ -107,7 +106,6 @@ export const ProductPage: React.FC = () => {
     setSortType(filters.sort);
     setPriceFilters(filters.price);
     setStatusState(filters.states);
-    // console.log(filters.states)
   };
 
   const toggleFilter = () => {
@@ -115,7 +113,6 @@ export const ProductPage: React.FC = () => {
   };
 
   const categoryObj = categories.find((category) => category.name === nameCategory)
-  console.log(categoryObj)
 
   return (
     <div className={styles.productPage}>

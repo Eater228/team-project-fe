@@ -291,12 +291,12 @@ export const AuthPageFormik = () => {
                           [styles.isLoading]: isSubmitting,
                         })}
                         disabled={isSubmitting
-                          || !!errors.email
-                          || !!errors.password
-                          || !!errors.userName
-                          || !!errors.firstName
-                          || !!errors.lastName
-                          || !!errors.repeatPassword
+                          || values.email === ''
+                          || values.password === ''
+                          || values.userName === ''
+                          || values.firstName === ''
+                          || values.lastName === ''
+                          || values.repeatPassword === ''
                         }
                       >
                         <span className={styles.buttonText}>Register</span>
@@ -332,7 +332,7 @@ export const AuthPageFormik = () => {
 
                 }}
               >
-                {({ touched, errors, isSubmitting }) => (
+                {({ touched, errors, isSubmitting, values }) => (
                   <Form className={styles.form}>
                     <div className={styles.control}>
                       <span className={styles.iconRight}>
@@ -405,7 +405,10 @@ export const AuthPageFormik = () => {
                         className={cn(styles.isSuccess, {
                           [styles.isLoading]: isSubmitting,
                         })}
-                        disabled={isSubmitting || !!errors.email || !!errors.password}
+                        disabled={isSubmitting
+                          || values.email === ''
+                          || values.password === ''
+                        }
                       >
                         <span className={styles.buttonText}>Log in</span>
                       </button>
