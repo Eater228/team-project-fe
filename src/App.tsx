@@ -11,7 +11,7 @@ function App() {
     <Provider store={store}>
       <div className="App">
         <Header />
-        <div className="Content">
+        <div className="Content" style={{ paddingTop: '80px' }}>
           {/* <GridContainer> */}
             <div className="Outlet">
               <Outlet />
