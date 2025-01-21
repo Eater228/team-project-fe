@@ -6,6 +6,7 @@ import { AppDispatch, RootState } from "../../Store/Store"; // Шлях до в�
 import { fetchProducts } from "../../Reducer/ProductsSlice"; // Імпорт дій Redux
 import { CardsCarusel } from "../../Component/CardCarusel/CardsCarusel";
 import styles from './MainPage.module.scss';
+import { useNavigate } from 'react-router-dom';
 
 import image1 from '/img/PhotoSlider/Hummer.png'
 import image2 from '/img/PhotoSlider/Helly-Hansen-Emblem.png'
@@ -14,11 +15,10 @@ import { CardList } from "../../Component/CardList";
 import { Search } from "../../Component/Search/Search";
 import { Categories } from "../../Component/Categories/Categories";
 
-
-
 export const MainPage = () => {
   const dispatch = useDispatch<AppDispatch>();
   const { items: products, loading, error } = useSelector((state: RootState) => state.products);
+  const navigate = useNavigate();
 
   useEffect(() => {
     dispatch(fetchProducts());
@@ -35,41 +35,28 @@ export const MainPage = () => {
   const sortedProducts = [...products].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
   const newestProducts = sortedProducts.slice(0, 10);
 
-
-
-  // console.log(products);
+  const handleSearch = (query: string) => {
+    if (query.trim() !== '') {
+      navigate(`/product?search=${query}`);
+    }
+  };
 
   return (
     <div className={styles.MainPage}>
-        <PicturesSlider images={[image1]} />
-        <div className={styles.blockSearch}>
-          <Search />
-        </div>
-        <Categories />
-        
-        {/* {newestProducts.length !== 0 && (
-          <CardsCarusel props={newestProducts} name={'Newest Products'} />
-        )
-        } */}
-        {products.length !== 0 && (
-          <CardList products={newestProducts} name={"New"} itemsPerPage={4}/>
-        )}
-        {products.length !== 0 && (
-          <CardList products={newestProducts} name={"Top"} itemsPerPage={4}/>
-        )}
-        {products.length !== 0 && (
-          <CardList products={sortedProducts} name={"For you"} itemsPerPage={12}/>
-        )}
-      {/* main page
-      <h1 className={styles.title}>Product Catalog</h1> */}
-      {/* {newestProducts.length !== 0 && (
-        <CardsCarusel props={newestProducts} name={'Newest Products'} />
-      )
-      }
+      <PicturesSlider images={[image1]} />
+      <div className={styles.blockSearch}>
+        <Search onSearch={handleSearch} />
+      </div>
+      <Categories />
       {products.length !== 0 && (
-        <CradList products={products} name={"Product"}/>
-      )} */}
-      {/* <Categories products={products} /> */}
+        <CardList products={newestProducts} name={"New"} itemsPerPage={4}/>
+      )}
+      {products.length !== 0 && (
+        <CardList products={newestProducts} name={"Top"} itemsPerPage={4}/>
+      )}
+      {products.length !== 0 && (
+        <CardList products={sortedProducts} name={"For you"} itemsPerPage={12}/>
+      )}
     </div>
   );
 };
