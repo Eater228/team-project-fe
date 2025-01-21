@@ -25,7 +25,7 @@ export const ForgotPassword = () => {
         <div className={styles.container}>
           <div className={styles.background}></div>
           <div className={styles.forgotForm}>
-            <button className={styles.backToHome} onClick={() => navigate('/Home')}>
+            <button className={styles.backToHome} onClick={() => navigate(-2)}>
               <img src="/img/icons/Close.svg" alt="Close" />
             </button>
             <div className={styles.titleBlock}>

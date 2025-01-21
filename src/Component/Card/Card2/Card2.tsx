@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Product } from "type/Product";
 import styles from './Card2.module.scss';
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "Store/Store";
@@ -13,8 +13,10 @@ interface Props {
 
 export const Card2: React.FC<Props> = ({ product }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const products = useSelector((state: RootState) => state.products.items);
   const favorite = useSelector((state: RootState) => state.favorite.items);
+  const isLoggedIn = useSelector((state: RootState) => state.userData.isLoggedIn);
 
   const [timeLeft, setTimeLeft] = useState<string>("");
 
@@ -48,6 +50,11 @@ export const Card2: React.FC<Props> = ({ product }) => {
   }, [product.endTime]);
 
   const HandlerAddFavorite = () => {
+    if (!isLoggedIn) {
+      navigate('/auth');
+      return;
+    }
+
     const inFavoriteIndex = favorite.findIndex(fav => fav.id === product.id);
 
     if (inFavoriteIndex !== -1) {
