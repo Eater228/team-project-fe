@@ -2,7 +2,7 @@ import React, { useEffect, useState, useMemo, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { AppDispatch, RootState } from '../../Store/Store';
 import { fetchProducts } from '../../Reducer/ProductsSlice';
-import { Categories } from '../Categories/Categories';
+import { Categories } from '../Categories/Categories2/Categories';
 import { Search } from '../../Component/Search/Search';
 import { CardList } from '../../Component/CardList';
 import { Pagination } from '../../Component/Pagination';
