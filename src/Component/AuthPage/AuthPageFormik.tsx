@@ -94,7 +94,7 @@ export const AuthPageFormik = () => {
             [styles.authFormRegister]: !isSignInMode,
             [styles.authFormLogin]: isSignInMode,
           })}>
-            <button className={styles.backToHome} onClick={() => navigate('/Home')}>
+            <button className={styles.backToHome} onClick={() => navigate(-1)}>
               <img src="/img/icons/Close.svg" alt="" />
             </button>
             <div className={styles.switchContainer}>
