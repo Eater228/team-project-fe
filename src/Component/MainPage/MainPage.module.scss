@@ -24,6 +24,10 @@
   top: -32px; /* Move the blockSearch element 32px relative to its current position */
 }
 
+.bottomGap {
+  margin-bottom: 80px;
+}
+
 @media (max-width: 639px) and (min-width: 320px) {
   .title {
     font-size: 32px; // Розмір шрифту 48px

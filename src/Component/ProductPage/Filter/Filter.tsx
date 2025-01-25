@@ -25,7 +25,7 @@ export const Filter: React.FC<FilterProps> = ({
   handleOverlayClick,
 }) => {
   const [sort, setSort] = useState<string>('id');
-  const [states, setStates] = useState<string>('');
+  const [states, setStates] = useState<string>('all');
   const [price, setPrice] = useState<Filters['price']>({
     openingPrice: '',
     buyFullPrice: '',
@@ -55,9 +55,9 @@ export const Filter: React.FC<FilterProps> = ({
 
   const resetFilters = () => {
     setSort('newest');
-    setStates('');
+    setStates('all');
     setPrice({ openingPrice: '', buyFullPrice: '', step: '' });
-    handleFiltersApply({ sort: 'newest', price: { openingPrice: '', buyFullPrice: '', step: '' }, states: '' });
+    handleFiltersApply({ sort: 'newest', price: { openingPrice: '', buyFullPrice: '', step: '' }, states: 'all' });
     toggleFilter();
   };
 
@@ -131,14 +131,15 @@ export const Filter: React.FC<FilterProps> = ({
                   Opening price
                 </label>
                 <div className={styles.inputWrapper}>
+                  <span className={styles.dollarSign}>$</span>
                   <input
                     type="text"
                     name='openingPrice'
-                    value={`$${price.openingPrice}`}
+                    value={`${price.openingPrice}`}
                     onInput={(e) => {
                       const input = e.target as HTMLInputElement;
                       if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                        input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                        input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
                       }
                     }}
                     onChange={handlePriceChange}
@@ -150,14 +151,15 @@ export const Filter: React.FC<FilterProps> = ({
                   Buy full price
                 </label>
                 <div className={styles.inputWrapper}>
+                  <span className={styles.dollarSign}>$</span>
                   <input
                     type="text"
                     name='buyFullPrice'
-                    value={`$${price.buyFullPrice}`}
+                    value={`${price.buyFullPrice}`}
                     onInput={(e) => {
                       const input = e.target as HTMLInputElement;
                       if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                        input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                        input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
                       }
                     }}
                     onChange={handlePriceChange}
@@ -169,17 +171,18 @@ export const Filter: React.FC<FilterProps> = ({
                   Step
                 </label>
                 <div className={styles.inputWrapper}>
-                  <input 
-                    type="text" 
+                  <span className={styles.dollarSign}>$</span>
+                  <input
+                    type="text"
                     name='step'
-                    value={`$${price.step}`}
+                    value={`${price.step}`}
                     onInput={(e) => {
                       const input = e.target as HTMLInputElement;
                       if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                        input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                        input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
                       }
                     }}
-                    onChange={handlePriceChange} 
+                    onChange={handlePriceChange}
                   />
                 </div>
               </div>
@@ -195,21 +198,31 @@ export const Filter: React.FC<FilterProps> = ({
                   <input
                     type="radio"
                     name="state"
-                    value="active"
-                    checked={states.includes('active')}
+                    value="all"
+                    checked={states === 'all'}
                     onChange={handleStateChange}
                   />
-                  Active
+                  All
                 </label>
                 <label>
                   <input
                     type="radio"
                     name="state"
-                    value="sold"
-                    checked={states.includes('sold')}
+                    value="new"
+                    checked={states === 'new'}
                     onChange={handleStateChange}
                   />
-                  Sold
+                  New
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="state"
+                    value="used"
+                    checked={states === 'used'}
+                    onChange={handleStateChange}
+                  />
+                  Used
                 </label>
               </div>
             </div>

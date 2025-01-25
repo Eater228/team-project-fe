@@ -25,7 +25,7 @@ export const ProductPage: React.FC = () => {
   const [count, setCount] = useState(12);
   const [visibleProducts, setVisibleProducts] = useState(products);
   const [sortType, setSortType] = useState<string>('newest');
-  const [statusState, setStatusState] = useState<string>('');
+  const [statusState, setStatusState] = useState<string>('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [priceFilters, setPriceFilters] = useState({ openingPrice: '', buyFullPrice: '', step: '' });
@@ -35,7 +35,6 @@ export const ProductPage: React.FC = () => {
   const nameCategory = queryParams.get('nameCategory');
   const searchParams = queryParams.get('search');
   const sectionRef = useRef<HTMLDivElement>(null); // створення рефу для секції "For you"
-
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * 12;
@@ -53,6 +52,18 @@ export const ProductPage: React.FC = () => {
       setSearchQuery(searchParams);
     }
   }, [searchParams]);
+
+  useEffect(() => {
+    const sort = queryParams.get('sort') || 'newest';
+    const openingPrice = queryParams.get('openingPrice') || '';
+    const buyFullPrice = queryParams.get('buyFullPrice') || '';
+    const step = queryParams.get('step') || '';
+    const status = queryParams.get('status') || 'all';
+
+    setSortType(sort);
+    setPriceFilters({ openingPrice, buyFullPrice, step });
+    setStatusState(status);
+  }, [location.search]);
 
   useEffect(() => {
     let filteredProducts = [...products];
@@ -86,21 +97,11 @@ export const ProductPage: React.FC = () => {
       filteredProducts = filteredProducts.filter(product => product.bet >= +priceFilters.step);
     }
 
-    if (statusState !== '') {
-      switch (statusState) {
-        case 'active':
-          filteredProducts = filteredProducts.filter(product => product.status === 'active');
-          break;
-        case 'sold':
-          filteredProducts = filteredProducts.filter(product => product.status === 'sold');
-          break;
-        default:
-          break;
-      }
+    if (statusState !== 'all') {
+      filteredProducts = filteredProducts.filter(product => product.state === statusState);
     }
 
     if (searchQuery) {
-      navigate(`/product?search=${searchQuery}`);
       filteredProducts = filteredProducts.filter(product =>
         product.name.toLowerCase().includes(searchQuery.toLowerCase())
       );
@@ -124,6 +125,23 @@ export const ProductPage: React.FC = () => {
     setSortType(filters.sort);
     setPriceFilters(filters.price);
     setStatusState(filters.states);
+
+    const params = new URLSearchParams();
+    if (filters.sort) params.set('sort', filters.sort);
+    if (filters.price.openingPrice) params.set('openingPrice', filters.price.openingPrice);
+    if (filters.price.buyFullPrice) params.set('buyFullPrice', filters.price.buyFullPrice);
+    if (filters.price.step) params.set('step', filters.price.step);
+    if (filters.states) params.set('status', filters.states);
+    if (searchQuery) params.set('search', searchQuery);
+
+    navigate({ search: params.toString() });
+  };
+
+  const handleSearch = (query: string) => {
+    setSearchQuery(query);
+    const params = new URLSearchParams(location.search);
+    params.set('search', query);
+    navigate({ search: params.toString() });
   };
 
   const toggleFilter = () => {
@@ -135,7 +153,7 @@ export const ProductPage: React.FC = () => {
   return (
     <div className={styles.productPage}>
       <div className={styles.blockSearch}>
-        <Search onSearch={setSearchQuery} />
+        <Search onSearch={handleSearch} />
         <img 
           src="/img/icons/Filters.svg" 
           alt="Filter" 
@@ -166,6 +184,7 @@ export const ProductPage: React.FC = () => {
           </>
         )}
       </div>
+      <div className={styles.bottomGap}></div>
     </div>
   );
 };

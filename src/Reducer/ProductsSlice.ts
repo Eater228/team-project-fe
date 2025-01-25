@@ -38,6 +38,19 @@ const productsSlice = createSlice({
         product.currentPrice = newPrice;
       }
     },
+    addComment: (
+      state,
+      action: PayloadAction<{ productId: number; comment: { userId: number; text: string; time: string } }>
+    ) => {
+      const { productId, comment } = action.payload;
+      const product = state.items.find(product => product.id === productId);
+      if (product) {
+        product.comments = product.comments
+          ? [...product.comments, comment]
+          : [comment];
+      }
+    },
+
   },
   extraReducers: (builder) => {
     builder
@@ -56,6 +69,6 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setProducts, updateProductPrice } = productsSlice.actions;
+export const { setProducts, updateProductPrice, addComment } = productsSlice.actions;
 
 export default productsSlice.reducer;

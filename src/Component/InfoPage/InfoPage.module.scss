@@ -1,0 +1,191 @@
+.infoPage {
+  box-sizing: border-box;
+  height: 100vh;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  // align-items: center;
+  padding: 48px;
+  background-color: #1C1C1D;
+}
+
+.imageBlock {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  // margin-bottom: 32px;
+  margin-right: 20px;
+  width: 50%; /* Ensure the image block takes half the screen */
+  height: 50vh; /* Ensure the image block has a defined height */
+}
+
+.image {
+  max-width: 662px; /* Ensure the image block takes half the screen */
+  max-height: 668px; /* Ensure the image block has a defined height */
+  width: 100%;
+  height: 100%; /* Ensure the image takes the full height of the image block */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+.imageControls {
+  box-sizing: border-box;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%); /* Center the controls vertically */
+  display: flex;
+  justify-content: space-between;
+  width: calc(100% - 32px);
+  // margin: 0 16px;
+
+  button {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50px;
+    padding: 0;
+    background-color: rgba(112, 107, 107, 0.685);
+    // border: 1px solid gray;
+    border: none;
+    cursor: pointer;
+    color: #ff0000;
+  }
+  img {
+    height: 54px;
+    width: 54px;
+  }
+}
+
+.imageButtonBlock {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  width: 100%;
+  margin-top: 32px;
+
+  .buttonBuy {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // margin-top: 10px;
+    border: 1px solid gray;
+    width: 100%;
+    height: 64px;
+    max-width: 209px;
+    border-radius: 50px;
+  }
+  
+  .makeBet {
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    // border: 1px solid gray;
+    background-color: #204DFF;
+    width: 100%;
+    max-width: 434;
+    border-radius: 50px;
+  }
+}
+
+.descriptionBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  width: 50%; /* Ensure the description block takes half the screen */
+  max-width: 600px;
+
+  h2 {
+
+  }
+}
+
+.name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+
+  h2 {
+    margin: 0;
+  }
+}
+
+.descript {
+  font-size: 16px;
+  margin-bottom: 20px;
+}
+
+.priceBlock {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  // align-items: center;
+  // padding: 20px;
+  margin-bottom: 20px;
+  width: 100%;
+
+  .openingPrice,
+  .fullPrice,
+  .step,
+  .timer {
+    display: flex;
+    justify-content: space-between;
+    font-size: 16px;
+    // margin-bottom: 5px;
+
+    p {
+      margin: 0;
+    }
+  }
+}
+
+.contactBlock {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  height: 74px;
+  background-color: #59595A;
+  border-radius: 16px;
+  font-size: 16px;
+  margin-bottom: 20px;
+
+  .contactIcons {
+    margin-left: 32px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+
+    img {
+      width: 42px;
+      height: 42px;
+    }
+  }
+
+  .messengers {
+    display: flex;
+    gap: 20px;
+    margin-right: 32px;
+    
+    img {
+      height: 42px;
+      width: 42px;
+    }
+  }
+}
+
+.comments {
+  width: 100%;
+}

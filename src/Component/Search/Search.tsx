@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './Search.module.scss';
 
 interface SearchProps {
@@ -7,6 +7,12 @@ interface SearchProps {
 
 export const Search: React.FC<SearchProps> = ({ onSearch }) => {
   const [query, setQuery] = useState<string>('');
+
+  useEffect(() => {
+    const url = new URL(window.location.href);
+    url.searchParams.set('query', query);
+    window.history.pushState({}, '', url.toString());
+  }, [query]);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);

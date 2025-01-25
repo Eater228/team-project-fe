@@ -10,6 +10,7 @@ import { ResetPage } from './Component/ResetPage/ResetPage'
 import { AuthPageFormik } from './Component/AuthPage/AuthPageFormik'
 import { ForgotPassword } from './Component/AuthPage/ForgotPassword/ForgotPassword'
 import { ResetPassword } from './Component/AuthPage/ResetPassword/ResetPassword'
+import { InfoPage } from './Component/InfoPage/InfoPage'
 
 export const Root = () => (
   <Router>
@@ -23,6 +24,7 @@ export const Root = () => (
         <Route path='/Home' element={<MainPage />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/product' element={<ProductPage />} />
+        <Route path='/info/:itemId' element={<InfoPage />} />
       </Route>
     </Routes>
   </Router>
