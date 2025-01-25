@@ -5,6 +5,7 @@ import { Header } from './Component/Header/Header'
 import { Provider } from 'react-redux'
 import store from './Store/Store'
 import { Footer } from './Component/Footer'
+import { BackToTop } from './Component/BackToTop/BackToTop';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
           {/* </GridContainer> */}
         </div>
         <Footer />
+        <BackToTop />
       </div>
     </Provider>
   )

@@ -57,6 +57,7 @@ export const MainPage = () => {
       {products.length !== 0 && (
         <CardList products={sortedProducts} name={"For you"} itemsPerPage={12}/>
       )}
+      <div className={styles.bottomGap}></div>
     </div>
   );
 };

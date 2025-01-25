@@ -1,22 +1,20 @@
 export type Product = {
   id: number;
   category: string;
-  images: string[]; 
-  name: string;
-  itemId: number;
-  fullPrice: number;
-  startPrice: number;
-  currentPrice: number;
+  images: string[]; // Масив URL зображень товару
+  name: string; // Назва товару
+  fullPrice: number; // Повна ціна товару
+  startPrice: number; // Стартова ціна на аукціоні
+  currentPrice: number; // Поточна ціна товару (останній бід)
   bet: number; // Мінімальна ціна, яку продавець прийме
-  bids: { userId: number; amount: number; time: Date }[]; // Історія ставок
+  bids: { userId: number; amount: number; time: string }[]; // Історія ставок
   seller: { id: number; name: string }; // Інформація про продавця
   status: "active" | "sold" | "expired"; // Статус товару
-  // views: number; // Лічильник переглядів
-  // tags: string[]; // Теги для пошуку
+  state: "new" | "used"; // Стан товару
   location: string; // Місцезнаходження товару
-  startingTime: Date; // Час початку аукціону
-  endTime: Date;
-  description: string;
-  createdAt: Date;
-  updatedAt: Date;
+  startingTime: string; // Час початку аукціону у форматі ISO 8601
+  endTime: string; // Час завершення аукціону у форматі ISO 8601
+  description: string; // Опис товару
+  createdAt: string; // Дата створення у форматі ISO 8601
+  updatedAt: string; // Дата оновлення у форматі ISO 8601
 };

@@ -1,0 +1,28 @@
+.backToTop {
+  position: fixed;
+  bottom: 40px;
+  right: 40px;
+  z-index: 1000;
+}
+
+.button {
+  background-color: #94949746;
+  border: none;
+  border-radius: 50%;
+  padding: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: background-color 0.3s;
+
+  &:hover {
+    background-color:  #204dff;
+  }
+
+  img {
+    width: 24px;
+    height: 24px;
+  }
+}
