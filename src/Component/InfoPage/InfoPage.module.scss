@@ -189,3 +189,65 @@
 .comments {
   width: 100%;
 }
+
+.bids {
+  width: 100%;
+  margin-top: 20px;
+
+  h3 {
+    margin-bottom: 10px;
+  }
+
+  .bid {
+    position: relative;
+    display: flex;
+    align-items: center;
+    margin-bottom: 10px;
+    padding: 10px;
+    height: 100%;
+    max-height: 84px;
+  }
+
+  .bidUserImage {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    margin-right: 10px;
+  }
+
+  .bidDetails {
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    background-color: #3B3B3C;
+    padding: 16px;
+    border-radius: 8px;
+    width: 100%;
+    height: 100%;
+  }
+
+  .bidUserName {
+    font-size: 16px;
+    font-weight: bold;
+  }
+
+  .bidAmount {
+    font-size: 14px;
+    // color: #ECD57B;
+  }
+
+  .bidTime {
+    position: absolute;
+    bottom: 15px;
+    right: 20px;
+    font-size: 12px;
+    color: #888;
+  }
+
+  .noBids {
+    font-size: 16px;
+    color: #888;
+  }
+}
