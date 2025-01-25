@@ -13,7 +13,7 @@
         { "userId": 101, "amount": 700, "time": "2025-01-02T10:00:00.000Z" },
         { "userId": 102, "amount": 750, "time": "2025-01-02T11:00:00.000Z" }
       ],
-      "seller": { "id": 1, "name": "John Doe" },
+      "seller": { "id": 101, "name": "John Doe" },
       "status": "active",
       "state": "new",
       "location": "New York, USA",
@@ -36,7 +36,7 @@
         { "userId": 103, "amount": 220, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 104, "amount": 250, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 2, "name": "Jane Smith" },
+      "seller": { "id": 102, "name": "Jane Smith" },
       "status": "active",
       "state": "used",
       "location": "Los Angeles, USA",
@@ -59,7 +59,7 @@
         { "userId": 103, "amount": 220, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 104, "amount": 250, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 2, "name": "Jane Smith" },
+      "seller": { "id": 102, "name": "Jane Smith" },
       "status": "active",
       "state": "used",
       "location": "Los Angeles, USA",
@@ -82,7 +82,7 @@
         { "userId": 103, "amount": 220, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 104, "amount": 250, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 2, "name": "Jane Smith" },
+      "seller": { "id": 102, "name": "Jane Smith" },
       "status": "active",
       "state": "used",
       "location": "Los Angeles, USA",
@@ -105,7 +105,7 @@
         { "userId": 103, "amount": 220, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 104, "amount": 250, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 2, "name": "Jane Smith" },
+      "seller": { "id": 102, "name": "Jane Smith" },
       "status": "active",
       "state": "new",
       "location": "Los Angeles, USA",
@@ -128,7 +128,7 @@
         { "userId": 105, "amount": 1050, "time": "2025-01-02T10:00:00.000Z" },
         { "userId": 106, "amount": 1100, "time": "2025-01-02T11:00:00.000Z" }
       ],
-      "seller": { "id": 3, "name": "Alice Johnson" },
+      "seller": { "id": 103, "name": "Alice Johnson" },
       "status": "active",
       "state": "new",
       "location": "San Francisco, USA",
@@ -151,7 +151,7 @@
         { "userId": 107, "amount": 120, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 108, "amount": 150, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 4, "name": "Bob Brown" },
+      "seller": { "id": 104, "name": "Bob Brown" },
       "status": "active",
       "state": "new",
       "location": "Chicago, USA",
@@ -174,7 +174,7 @@
         { "userId": 109, "amount": 520, "time": "2025-01-02T10:00:00.000Z" },
         { "userId": 110, "amount": 550, "time": "2025-01-02T11:00:00.000Z" }
       ],
-      "seller": { "id": 5, "name": "Charlie Davis" },
+      "seller": { "id": 105, "name": "Charlie Davis" },
       "status": "active",
       "state": "new",
       "location": "Miami, USA",
@@ -197,7 +197,7 @@
         { "userId": 111, "amount": 820, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 112, "amount": 850, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 6, "name": "Diana Evans" },
+      "seller": { "id": 106, "name": "Diana Evans" },
       "status": "active",
       "state": "used",
       "location": "Houston, USA",
@@ -220,7 +220,7 @@
         { "userId": 113, "amount": 170, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 114, "amount": 200, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 7, "name": "Eve Foster" },
+      "seller": { "id": 107, "name": "Eve Foster" },
       "status": "active",
       "state": "new",
       "location": "Seattle, USA",
@@ -243,7 +243,7 @@
         { "userId": 115, "amount": 420, "time": "2025-01-02T10:00:00.000Z" },
         { "userId": 116, "amount": 450, "time": "2025-01-02T11:00:00.000Z" }
       ],
-      "seller": { "id": 8, "name": "Frank Green" },
+      "seller": { "id": 108, "name": "Frank Green" },
       "status": "active",
       "state": "new",
       "location": "Boston, USA",
@@ -266,7 +266,7 @@
         { "userId": 117, "amount": 620, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 118, "amount": 650, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 9, "name": "Grace Hall" },
+      "seller": { "id": 109, "name": "Grace Hall" },
       "status": "active",
       "state": "used",
       "location": "Dallas, USA",
@@ -289,7 +289,7 @@
         { "userId": 119, "amount": 110, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 120, "amount": 120, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 10, "name": "Hannah King" },
+      "seller": { "id": 110, "name": "Hannah King" },
       "status": "active",
       "state": "new",
       "location": "Denver, USA",
@@ -312,7 +312,7 @@
         { "userId": 121, "amount": 160, "time": "2025-01-02T10:00:00.000Z" },
         { "userId": 122, "amount": 180, "time": "2025-01-02T11:00:00.000Z" }
       ],
-      "seller": { "id": 11, "name": "Ian Lee" },
+      "seller": { "id": 111, "name": "Ian Lee" },
       "status": "sold",
       "state": "new",
       "location": "Phoenix, USA",
@@ -335,7 +335,7 @@
         { "userId": 123, "amount": 820, "time": "2025-01-01T14:00:00.000Z" },
         { "userId": 124, "amount": 850, "time": "2025-01-01T16:00:00.000Z" }
       ],
-      "seller": { "id": 12, "name": "Jack Miller" },
+      "seller": { "id": 112, "name": "Jack Miller" },
       "status": "active",
       "state": "used",
       "location": "San Diego, USA",
@@ -344,6 +344,200 @@
       "description": "A luxurious king size bed for your bedroom.",
       "createdAt": "2024-12-25T12:00:00.000Z",
       "updatedAt": "2025-01-01T12:00:00.000Z"
+    }
+  ],
+  "users": [
+    {
+      "id": 101,
+      "firstName": "John",
+      "lastName": "Doe",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567890",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 102,
+      "firstName": "Jane",
+      "lastName": "Smith",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567891",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 103,
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567892",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 104,
+      "firstName": "Bob",
+      "lastName": "Brown",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567893",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 105,
+      "firstName": "Charlie",
+      "lastName": "Davis",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567894",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 106,
+      "firstName": "Diana",
+      "lastName": "Evans",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567895",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 107,
+      "firstName": "Frank",
+      "lastName": "Green",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567896",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 108,
+      "firstName": "Grace",
+      "lastName": "Hall",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567897",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 109,
+      "firstName": "Hannah",
+      "lastName": "King",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567898",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 110,
+      "firstName": "Ian",
+      "lastName": "Lee",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567899",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 111,
+      "firstName": "Jack",
+      "lastName": "Miller",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567800",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 112,
+      "firstName": "Eve",
+      "lastName": "Foster",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567801",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 113,
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567802",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 114,
+      "firstName": "Bob",
+      "lastName": "Brown",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567803",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 115,
+      "firstName": "Charlie",
+      "lastName": "Davis",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567804",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 116,
+      "firstName": "Diana",
+      "lastName": "Evans",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567805",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 117,
+      "firstName": "Frank",
+      "lastName": "Green",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567806",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 118,
+      "firstName": "Grace",
+      "lastName": "Hall",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567807",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 119,
+      "firstName": "Hannah",
+      "lastName": "King",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567808",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 120,
+      "firstName": "Ian",
+      "lastName": "Lee",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567809",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 121,
+      "firstName": "Jack",
+      "lastName": "Miller",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567810",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 122,
+      "firstName": "Eve",
+      "lastName": "Foster",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567811",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 123,
+      "firstName": "Alice",
+      "lastName": "Johnson",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567812",
+      "telegram": "https://t.me/Eater1503"
+    },
+    {
+      "id": 124,
+      "firstName": "Bob",
+      "lastName": "Brown",
+      "avatar": "https://png.pngtree.com/element_our/png/20181206/users-vector-icon-png_260862.jpg",
+      "phone": "+1234567813",
+      "telegram": "https://t.me/Eater1503"
     }
   ]
 }
