@@ -9,7 +9,7 @@ export const Footer = () => {
       <GridContainer>
         <div className={styles.content}>
           <div className={styles.top}>
-            <NavLink to="/">
+            <NavLink to="/Home">
               <img
                 src="/img/icons/Vector.svg"
                 alt="Logo"
