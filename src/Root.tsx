@@ -11,6 +11,7 @@ import { AuthPageFormik } from './Component/AuthPage/AuthPageFormik'
 import { ForgotPassword } from './Component/AuthPage/ForgotPassword/ForgotPassword'
 import { ResetPassword } from './Component/AuthPage/ResetPassword/ResetPassword'
 import { InfoPage } from './Component/InfoPage/InfoPage'
+import { FavoritePage } from './Component/FavoritePage/FavoritePage'
 
 export const Root = () => (
   <Router>
@@ -24,6 +25,7 @@ export const Root = () => (
         <Route path='/Home' element={<MainPage />} />
         <Route path='/profile' element={<Profile />} />
         <Route path='/product' element={<ProductPage />} />
+        <Route path='/save' element={<FavoritePage />} />
         <Route path='/info/:itemId' element={<InfoPage />} />
       </Route>
     </Routes>

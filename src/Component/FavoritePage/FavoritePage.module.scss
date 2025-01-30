@@ -1,0 +1,15 @@
+.favoritePage {
+  padding: 20px;
+  min-height: 100vh; // Ensure the component stretches to the full height of the viewport
+  background-color: #1C1C1D;
+  color: #fff;
+
+  h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+  }
+
+  p {
+    font-size: 18px;
+  }
+}

@@ -114,6 +114,7 @@ export const InfoPage: React.FC = () => {
     }
   };
 
+
   if (!product) {
     return <div>Loading...</div>;
   }
