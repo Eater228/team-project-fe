@@ -9,7 +9,9 @@ interface CategoriesBanerProps {
 export const CategoriesBaner: React.FC<CategoriesBanerProps> = ({ categoryName, categoryImage }) => {
   return (
     <div className={styles.banner}>
-      <h2 className={styles.bannerTitle}>{categoryName}</h2>
+      <div className={styles.banerTitleBlock}>
+        <h2 className={styles.bannerTitle}>{categoryName}</h2>
+      </div>
       <img src={categoryImage} alt={categoryName} className={styles.bannerImage} />
     </div>
   );

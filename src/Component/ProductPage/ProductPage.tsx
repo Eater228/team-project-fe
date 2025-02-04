@@ -152,6 +152,7 @@ export const ProductPage: React.FC = () => {
 
   return (
     <div className={styles.productPage}>
+      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory} categoryImage={categoryObj.image}/>) : (<></>)}
       <div className={styles.blockSearch}>
         <Search onSearch={handleSearch} />
         <img 
@@ -167,7 +168,7 @@ export const ProductPage: React.FC = () => {
           handleOverlayClick={() => setIsFilterOpen(false)}
         />
       </div>
-      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory} categoryImage={categoryObj.image}/>) : (<Categories />)}
+      {(nameCategory && categoryObj) ? (<></>) : (<Categories />)}
       <div className={styles.productList} ref={sectionRef}>
         {loading && <Loader />}
         {error && <p>{error}</p>}
