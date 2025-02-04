@@ -87,7 +87,7 @@ export const Filter: React.FC<FilterProps> = ({
                     checked={sort === 'cheapest'}
                     onChange={handleSortChange}
                   />
-                  Form the cheapest to the most expensive
+                  Price: High to Low
                 </label>
                 <label>
                   <input
@@ -97,7 +97,7 @@ export const Filter: React.FC<FilterProps> = ({
                     checked={sort === 'expensive'}
                     onChange={handleSortChange}
                   />
-                  From the most expensive to the cheapest
+                  Price: Low to High
                 </label>
                 <label>
                   <input
@@ -107,7 +107,7 @@ export const Filter: React.FC<FilterProps> = ({
                     checked={sort === 'newest'}
                     onChange={handleSortChange}
                   />
-                  From the newest to the oldest
+                  Newest First
                 </label>
                 <label>
                   <input
@@ -117,7 +117,7 @@ export const Filter: React.FC<FilterProps> = ({
                     checked={sort === 'oldest'}
                     onChange={handleSortChange}
                   />
-                  From oldest to newest
+                  Oldest First
                 </label>
               </div>
             </div>
@@ -148,7 +148,7 @@ export const Filter: React.FC<FilterProps> = ({
               </div>
               <div className={styles.boxGroup}>
                 <label>
-                  Buy full price
+                  Closing price (opitonal)
                 </label>
                 <div className={styles.inputWrapper}>
                   <span className={styles.dollarSign}>$</span>
