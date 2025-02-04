@@ -1,8 +1,10 @@
 export type User = {
   id: number;
-  firstName: string;
-  lastName: string;
-  avatar: string;
-  telegram: string;
-  phone: string;
+  email: string,
+  first_name: string;
+  last_name: string;
+  profile_pic: string;
+  balance: string;
+  // telegram: string;
+  // phone: string;
 };
