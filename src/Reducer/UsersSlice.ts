@@ -1,13 +1,14 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authService } from "../Service/authService";
+import { User } from "../type/User";
 
-// Тип для одного користувача
-interface User {
-  username: string;
-  email: string;
-  accessToken?: string;
-  password?: string;
-}
+// // Тип для одного користувача
+// interface User {
+//   username: string;
+//   email: string;
+//   accessToken?: string;
+//   password?: string;
+// }
 
 // Тип стану
 interface UsersState {
@@ -44,20 +45,31 @@ const usersSlice = createSlice({
     },
 
     // Авторизація користувача
+    // login: (
+    //   state,
+    //   action: PayloadAction<{ email: string; accessToken: string }>
+    // ) => {
+    //   const { email, accessToken } = action.payload;
+    //   const foundUser = state.users.find((user) => user.email === email);
+    // console.log(foundUser)
+    //   if (foundUser) {
+    //     state.currentUser = { ...foundUser, accessToken }; // Зберегти поточного користувача з токеном
+    //     state.isLoggedIn = true; // Встановити статус авторизації
+    //   } else {
+    //     console.error("User not found");
+    //   }
+    // },
+
     login: (
       state,
-      action: PayloadAction<{ email: string; accessToken: string }>
+      action
     ) => {
-      const { email, accessToken } = action.payload;
-      const foundUser = state.users.find((user) => user.email === email);
-console.log(state)
-      if (foundUser) {
-        state.currentUser = { ...foundUser, accessToken }; // Зберегти поточного користувача з токеном
-        state.isLoggedIn = true; // Встановити статус авторизації
-      } else {
-        console.error("User not found");
-      }
+      state.currentUser = action.payload; // Інші поля додаються тут
+      state.isLoggedIn = true;
+      console.log(state.currentUser)
     },
+    
+    
 
     // Оновлення пароля користувача
     updatePassword: (
