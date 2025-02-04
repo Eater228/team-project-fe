@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   height: 100%;
-  min-height: 834px;
+  // max-height: 834px;
   // position: relative;
 }
 
@@ -31,7 +31,7 @@
   box-sizing: border-box;
   position: relative;
   background-color: #1c1c1d;
-  min-height: 834px;
+  // min-height: 834px;
   width: 662px;
   border-radius: 32px;
   display: flex;
@@ -57,8 +57,9 @@
   box-sizing: border-box;
   padding: 10px;
   width: 100%;
+  height: 100%;
   max-width: 434px;
-  height: 81px;
+  max-height: 81px;
   background-color: rgba(122, 122, 122, 0.267);
   border-radius: 24px;
   position: relative;
@@ -73,6 +74,7 @@
     position: relative;
     width: 407px;
     height: 59px;
+    max-height: 59px;
     display: flex;
     align-items: center;
   }

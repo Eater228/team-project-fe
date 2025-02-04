@@ -2,10 +2,11 @@ import { authClient as client } from "../http/auth";
 import store from '../Store/Store';
 import { register, login, logout } from '../Reducer/UsersSlice';
 
+
 type RegisterCredentials = {
   userName: string;
-  firstName: string;
-  lastName: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   repeatPassword: string;
@@ -17,7 +18,7 @@ type LoginCredentials = {
 };
 
 export const authService = {
-  register: ({ userName = '', firstName, lastName, email, password, repeatPassword }: RegisterCredentials): Promise<any> => {
+  register: ({ userName = '', first_name, last_name, email, password, repeatPassword }: RegisterCredentials): Promise<any> => {
     if (password !== repeatPassword) {
       return Promise.reject(new Error("Passwords do not match"));
     }
@@ -28,6 +29,12 @@ export const authService = {
     if (isExistingUser) {
       return Promise.reject(new Error("User with this email already exists"));
     }
+
+    console.log({email, first_name, last_name, password})
+
+    const data = client.post('account/register/', { email, first_name, last_name, password })
+
+    console.log(data)
 
     const newUser = { username: userName, email, password };
     store.dispatch(register(newUser));

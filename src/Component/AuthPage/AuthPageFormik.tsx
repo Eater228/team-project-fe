@@ -3,9 +3,10 @@ import { useEffect, useRef, useState } from 'react';
 import styles from './AuthPage.module.scss';
 import { GridContainer } from '../GridContainer/GridContainer';
 import { Field, Form, Formik, FormikProps } from 'formik';
-import { authService } from '../../Service/authServiceForTest';
+import { authService } from '../../Service/authService';
 import cn from 'classnames';
 import '@fortawesome/fontawesome-free/css/all.min.css';
+import { useDispatch } from 'react-redux';
 // import 'bulma/css/bulma.css';
 // import { GoogleLogin, CredentialResponse, useGoogleLogin, googleLogout } from '@react-oauth/google';
 // import { jwtDecode } from 'jwt-decode';
@@ -27,6 +28,7 @@ export const AuthPageFormik = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const formikRef = useRef<FormikProps<any>>(null); // створення рефу для Formik
 
@@ -55,9 +57,9 @@ export const AuthPageFormik = () => {
   }
 
   function validateName(value: string) {
-    if(!value) return 'Username is required'
-    if(value.length < 2) return 'At least 2 charters'
-    if(value.length > 20) return 'Max sumbol 20'
+    if (!value) return 'Username is required'
+    if (value.length < 2) return 'At least 2 charters'
+    if (value.length > 20) return 'Max sumbol 20'
   }
 
   // function validateEmpty(value: string) {
@@ -135,16 +137,27 @@ export const AuthPageFormik = () => {
                 onSubmit={({ userName, firstName, lastName, email, password, repeatPassword }, formikHelpers) => {
                   formikHelpers.setSubmitting(true);
                   authService
-                    .register({ userName, firstName, lastName, email, password, repeatPassword })
-                    .then((data) => {
-                      console.log(data)
-                      setIsSignInMode(true)
+                    .register(
+                      { userName, first_name: firstName, last_name: lastName, email, password, repeatPassword },
+                      dispatch
+                    )
+                    .then(() => {
+                      console.log('User registered successfully');
+                      setIsSignInMode(true); // Переключення в режим входу після реєстрації
                     })
                     .catch((error) => {
-                      setError(error.message);
-                      console.log(error)
+                      const serverErrors = error
+                      // Створюємо масив для збереження всіх повідомлень помилок
+                      const allErrorMessages: string[] = [];
+                      // Проходимо через всі помилки та додаємо їх в масив
+                      Object.entries(serverErrors).forEach(([field, messages]) => {
+                        allErrorMessages.push(...(messages as string[])); // Додаємо всі повідомлення для кожного поля
+                      });
+                      setError(allErrorMessages.join(', ')); // Об'єднуємо всі повідомлення в один рядок
+                      // Логування помилки для дебагу
+                      // console.error('Registration error:', error);
                     })
-                    .finally(() => formikHelpers.setSubmitting(false))
+                    .finally(() => formikHelpers.setSubmitting(false));
                 }}
               >
                 {({ touched, errors, isSubmitting, values }) => (
@@ -267,7 +280,7 @@ export const AuthPageFormik = () => {
                             : ''
                       }
                     </span> */}
-
+                    {errors && <div className={styles.errorMessage}>{error}</div>}
                     <div className={styles.fullWidthLine}></div>
 
                     <div className={styles.authWihtContainer}>
@@ -303,7 +316,6 @@ export const AuthPageFormik = () => {
                         <span className={styles.buttonText}>Register</span>
                       </button>
                     </div>
-                    {error && <div className={styles.errorMessage}>{error}</div>}
                   </Form>
                 )}
 
@@ -313,24 +325,22 @@ export const AuthPageFormik = () => {
                 innerRef={formikRef}
                 initialValues={{
                   email: '',
-                  password: ''
+                  password: '',
                 }}
                 validateOnMount={true}
                 onSubmit={({ email, password }, formikHelpers) => {
                   formikHelpers.setSubmitting(true);
                   authService
-                    .login({ email, password })
+                    .login({ email, password }, dispatch)
                     .then(() => {
-                      // const state = location.state;
-                      // console.log(location)
-                      navigate('/Home');
+                      console.log('User logged in successfully');
+                      navigate('/Home'); // Переадресація після авторизації
                     })
                     .catch((error) => {
-                      setError(error.message);
-                      console.log('Error:', error);
+                      setError(error);
+                      console.error('Login error:', error);
                     })
-                    .finally(() => setTimeout(() => formikHelpers.setSubmitting(false), 1000))
-
+                    .finally(() => formikHelpers.setSubmitting(false));
                 }}
               >
                 {({ touched, errors, isSubmitting, values }) => (
