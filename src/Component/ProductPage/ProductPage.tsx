@@ -13,6 +13,7 @@ import { Loader } from '../../Component/Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CategoriesBaner } from '../../Component/Categories/CategoriesBaner/CategoriesBaner';
 import { categories } from '../../Component/Categories/CategoriesState/categories';
+import classNames from 'classnames';
 
 export const ProductPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -153,7 +154,7 @@ export const ProductPage: React.FC = () => {
   return (
     <div className={styles.productPage}>
       {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory} categoryImage={categoryObj.image}/>) : (<></>)}
-      <div className={styles.blockSearch}>
+      <div className={classNames(styles.blockSearch, { [styles.withBanner]: nameCategory && categoryObj })}>
         <Search onSearch={handleSearch} />
         <img 
           src="/img/icons/Filters.svg" 

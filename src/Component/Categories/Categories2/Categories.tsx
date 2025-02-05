@@ -12,7 +12,7 @@ export const Categories: React.FC = () => {
   };
 
   const handleSeeAllCategory = () => {
-    navigate('/allCatagory')
+    navigate('/allCategories')
   }
 
   return (

@@ -12,6 +12,7 @@ import { ForgotPassword } from './Component/AuthPage/ForgotPassword/ForgotPasswo
 import { ResetPassword } from './Component/AuthPage/ResetPassword/ResetPassword'
 import { InfoPage } from './Component/InfoPage/InfoPage'
 import { FavoritePage } from './Component/FavoritePage/FavoritePage'
+import { AllCategoriesPage } from './Component/Categories/AllCategories/AllCategoriesPage'
 
 export const Root = () => (
   <Router>
@@ -27,6 +28,7 @@ export const Root = () => (
         <Route path='/product' element={<ProductPage />} />
         <Route path='/save' element={<FavoritePage />} />
         <Route path='/info/:itemId' element={<InfoPage />} />
+        <Route path='/allCategories' element={<AllCategoriesPage />} />
       </Route>
     </Routes>
   </Router>

@@ -33,21 +33,31 @@ export const AuthPageFormik = () => {
   const formikRef = useRef<FormikProps<any>>(null); // створення рефу для Formik
 
   const EMAIL_PATTERN = /^[\w.+-]+@([\w-]+\.){1,3}[\w-]{2,}$/;
-  const PASSWORD_PATTERN = /^(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{6,}$/;
+  const PASSWORD_PATTERN = /^[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
 
   function validateEmail(value: string) {
     if (!value) return 'Email is required';
     if (!EMAIL_PATTERN.test(value)) return 'Email is not valid';
   }
 
+
   function validatePassword(value: string): string | undefined {
     if (!value) return 'Password is required';
-    if (value.length < 6) return 'At least 6 characters';
-
+  
+    if (value.length < 6) return 'Password must be at least 6 characters long';
+  
     if (!PASSWORD_PATTERN.test(value)) {
-      return 'Password must contain at least one uppercase letter, one number, and only English letters.';
+      return 'Password must contain only English letters';
     }
-
+  
+    if (!/[A-Z]/.test(value)) {
+      return 'Password must contain at least one uppercase letter';
+    }
+  
+    if (!/[\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) {
+      return 'Password must contain number';
+    }
+  
     return undefined; // Валідний пароль
   }
 

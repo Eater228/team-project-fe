@@ -1,12 +1,30 @@
-export const categories = [
-  { id: 1, name: 'Electronics', image: '/img/PhotoCategories/electronics.png' },
-  { id: 2, name: 'Furniture', image: '/img/PhotoCategories/furniture.png' },
-  { id: 3, name: 'Clothes', image: '/img/PhotoCategories/clothes.png' },
-  { id: 4, name: 'Cars', image: '/img/PhotoCategories/cars.png' },
-  { id: 5, name: 'Books', image: '/img/PhotoCategories/books.png' },
-  { id: 6, name: 'Toys', image: '/img/PhotoCategories/toys.png' },
-  { id: 7, name: 'Sports', image: '/img/PhotoCategories/sports.png' },
-  { id: 8, name: 'Beauty', image: '/img/PhotoCategories/beauty.png' },
-  { id: 8, name: 'See more...', image: '/img/PhotoCategories/SeeMore.svg' },
-  { id: 9, name: '', image: '' }, // Add an empty card
+const serverCategories = [
+  { id: 1, name: 'Art_Antiques', image: '/img/PhotoCategories/art.png' },
+  { id: 2, name: 'Books', image: '/img/PhotoCategories/books.png' },
+  { id: 3, name: 'Clothing_Footwear', image: '/img/PhotoCategories/Cloth.png' },
+  { id: 4, name: 'Records', image: '/img/PhotoCategories/Records.png' },
+  { id: 5, name: 'Transport', image: '/img/PhotoCategories/Transport.png' },
+  { id: 6, name: 'Furniture', image: '/img/PhotoCategories/Furniture1.png' },
+  { id: 7, name: 'Gadgets', image: '/img/PhotoCategories/gadgets.png' },
+  { id: 8, name: 'Toys', image: '/img/PhotoCategories/toys1.png' },
+  { id: 9, name: 'Collections', image: '/img/PhotoCategories/Collections.png' },
+  { id: 10, name: 'Sports_Equipment', image: '/img/PhotoCategories/Sport.png' },
+  { id: 11, name: 'Home_Appliances', image: '/img/PhotoCategories/home.png' },
+  { id: 12, name: 'See more...', image: '/img/PhotoCategories/other.png' },
+  // { id: 9, name: '', image: '' }, // Add an empty card
 ];
+
+
+export const categories = serverCategories.map((category) => {
+  // Розділити назву по "_"
+  const splitName = category.name.split('_');
+  
+  // Об'єднати назву через " & "
+  const formattedName = splitName.join(' & ');
+
+  // Повернути об'єкт із оновленою назвою
+  return {
+    ...category,
+    name: formattedName
+  };
+});
