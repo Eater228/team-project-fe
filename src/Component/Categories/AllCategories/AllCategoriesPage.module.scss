@@ -1,0 +1,69 @@
+.container {
+  height: 100%;
+  // padding: 20px;
+  margin: 0 48px 70px;
+  // background-color: #1C1C1D;
+  color: #fff;
+}
+
+.titleBlock {
+  text-align: left;
+  margin: 32px 0 24px 0;
+
+  h2 {
+    font-family: 'Lexend Exa', sans-serif;
+    font-size: 32px;
+    font-weight: 600;
+    line-height: 35.2px;
+    letter-spacing: -0.05em;
+    text-align: left;
+    text-underline-position: from-font;
+    text-decoration-skip-ink: none;
+  }
+}
+
+.gridCategoriesBlock {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
+}
+
+.categoryItem {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 268px;
+  text-align: center;
+  border-radius: 16px;
+}
+
+.categoryImage {
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+  margin-bottom: 10px;
+}
+
+.categoryName {
+  box-sizing: border-box;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  text-align: left;
+  width: 100%;
+  padding: 32px 0 45px 32px;
+  font-size: 18px;
+  font-weight: 500;
+  background: linear-gradient(
+    180deg,
+    rgba(28, 28, 29, 0) 0%,
+    rgba(28, 28, 29, 0.5) 28.25%,
+    rgba(28, 28, 29, 0.82) 67.02%,
+    #1c1c1d 89.36%
+  ); /* Add a gradient background */
+  backdrop-filter: blur(2.1px); /* Add a blur effect */
+  // border-bottom-left-radius: 16px;
+  // border-bottom-right-radius: 16px;
+}

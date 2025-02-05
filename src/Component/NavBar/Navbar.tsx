@@ -37,7 +37,7 @@ export const Navbar = () => {
   const getAuthLink = () => (isLoggedIn ? '/profile' : '/auth');
 
   // Визначення тексту для кнопки авторизації або профілю
-  const getAuthText = () => (isLoggedIn ? currentUser?.username || 'Profile' : 'Sign up');
+  const getAuthText = () => (isLoggedIn ? currentUser?.first_name || 'Profile' : 'Sign up');
 
   // Обробник виходу з системи
   const handleLogout = () => {
@@ -94,6 +94,17 @@ export const Navbar = () => {
                 </NavLink>
               </li>
               <li className={styles.item}>
+                <NavLink to={'/CreateAuction'}>
+                  <div className={styles.plusCircle}>
+                    <img src="/img/icons/Plus.svg" alt="" />
+                  </div>
+                </NavLink>
+                <div className={styles.balance}>
+                  <p>Balance</p>
+                  <div className={styles.balanceAmount}>${currentUser?.balance || 0}</div>
+                </div>
+              </li>
+              <li className={styles.item}>
                 <button className={styles.notificationButton} onClick={toggleNotifications}>
                   <img src="/img/icons/Bell.svg" alt="Notifications" />
                 </button>
@@ -105,7 +116,7 @@ export const Navbar = () => {
               </li>
               <li className={styles.item}>
                 <NavLink to="/profile">
-                  <img src={currentUser?.photo || "/img/icons/default-user.svg"} alt="User" className={styles.userPhoto} />
+                  <img src={currentUser?.profile_pic || "/img/icons/default-user.svg"} alt="User" className={styles.userPhoto} />
                 </NavLink>
               </li>
               <li className={styles.itemEnd}>
