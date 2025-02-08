@@ -3,10 +3,16 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/Store';
 import { CardList } from '../CardList';
 import { BackToTop } from '../BackToTop/BackToTop';
+import { useNavigate } from 'react-router-dom';
 import styles from './FavoritePage.module.scss';
 
 export const FavoritePage: React.FC = () => {
   const favoriteItems = useSelector((state: RootState) => state.favorite.items);
+  const navigate = useNavigate();
+
+  const handleBackToHome = () => {
+    navigate('/Home');
+  };
 
   return (
     <div className={styles.favoritePage}>
@@ -14,7 +20,13 @@ export const FavoritePage: React.FC = () => {
       {favoriteItems.length > 0 ? (
         <CardList products={favoriteItems} name="Favorites" itemsPerPage={12} />
       ) : (
-        <p>No favorite items found.</p>
+        <div className={styles.noItemsMessage}>
+          <p>We didn’t find anything.</p>
+          <p>Save auctions you like and they will appear here.</p>
+          <button className={styles.backToHomeButton} onClick={handleBackToHome}>
+            Back to Home
+          </button>
+        </div>
       )}
       <BackToTop />
     </div>
