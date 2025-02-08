@@ -13,3 +13,29 @@
     font-size: 18px;
   }
 }
+
+.noItemsMessage {
+  text-align: center;
+  font-size: 18px;
+  margin-top: 20px;
+
+  p {
+    margin: 10px 0;
+  }
+
+  .backToHomeButton {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-size: 16px;
+    font-weight: bold;
+    color: #fff;
+    background-color: #204dff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+
+    &:hover {
+      background-color: #5073ff;
+    }
+  }
+}

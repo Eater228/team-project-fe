@@ -5,51 +5,31 @@ import { NavLink, useNavigate } from 'react-router-dom';
 import { logout } from '../../Reducer/UsersSlice';
 import { AppDispatch, RootState } from 'Store/Store';
 import { useState } from 'react';
+import { ProfileModal } from '../ProfileModal/ProfileModal';
+
+console.log(ProfileModal)
 
 export const Navbar = () => {
-  // Отримання стану авторизації з Redux Store
   const { isLoggedIn, currentUser } = useSelector((state: RootState) => state.userData);
-
-  // Ініціалізація dispatch
   const dispatch = useDispatch<AppDispatch>();
-
-  // Ініціалізація navigate 
   const navigate = useNavigate();
 
-  // Клас для посилань навігації
-  const getLinkClass = ({ isActive }: { isActive: boolean }) => {
-    const className = classNames(styles.itemLink, {
-      [styles.active]: isActive,
-    });
+  const [showNotifications, setShowNotifications] = useState(false);
+  const [showProfileModal, setShowProfileModal] = useState(false);
 
-    // console.log('isActive', isActive); // isActive false
+  const toggleNotifications = () => setShowNotifications((prev) => !prev);
+  const toggleProfileModal = () => setShowProfileModal((prev) => !prev);
 
-    return className;
-  }
-
-  // Клас для посилань у кінці навігації
-  const getLinkClassForEnds = ({ isActive }: { isActive: boolean }) =>
-    classNames(styles.itemLinkEnd, {
-      [styles.isActive]: isActive,
-    });
-
-  // Визначення посилання для авторизації або профілю
-  const getAuthLink = () => (isLoggedIn ? '/profile' : '/auth');
-
-  // Визначення тексту для кнопки авторизації або профілю
-  const getAuthText = () => (isLoggedIn ? currentUser?.first_name || 'Profile' : 'Sign up');
-
-  // Обробник виходу з системи
   const handleLogout = () => {
     dispatch(logout());
-    navigate('/Home')
+    navigate('/Home');
   };
 
-  const [showNotifications, setShowNotifications] = useState(false);
+  const getLinkClass = ({ isActive }: { isActive: boolean }) =>
+    classNames(styles.itemLink, { [styles.active]: isActive });
 
-  const toggleNotifications = () => {
-    setShowNotifications(prev => !prev);
-  };
+  const getAuthLink = () => (isLoggedIn ? '/profile' : '/auth');
+  const getAuthText = () => (isLoggedIn ? currentUser?.first_name || 'Profile' : 'Sign up');
 
   return (
     <nav className={styles.nav}>
@@ -57,46 +37,33 @@ export const Navbar = () => {
         {/* Ліва частина навігації */}
         <div className={styles.start}>
           <li className={styles.item}>
-            <NavLink className={getLinkClass} to="/Home">
-              Home
-            </NavLink>
+            <NavLink className={getLinkClass} to="/Home">Home</NavLink>
           </li>
           <li className={styles.item}>
-            <NavLink className={getLinkClass} to="/product">
-              Products
-            </NavLink>
+            <NavLink className={getLinkClass} to="/product">Products</NavLink>
           </li>
           {isLoggedIn && (
             <li className={styles.item}>
-              <NavLink className={getLinkClass} to="/save">
-                Save
-              </NavLink>
+              <NavLink className={getLinkClass} to="/save">Save</NavLink>
             </li>
           )}
         </div>
 
         {/* Права частина навігації */}
         <div className={styles.end}>
-          {!isLoggedIn && (
+          {!isLoggedIn ? (
             <li className={styles.item}>
-              <NavLink className={getLinkClassForEnds} to={getAuthLink()}>
-                {getAuthText()}
-                {/* Create auction */}
-              </NavLink>
+              <NavLink className={getLinkClass} to={getAuthLink()}>{getAuthText()}</NavLink>
             </li>
-          )}
-          {isLoggedIn && (
+          ) : (
             <>
               <li className={styles.item}>
-                <NavLink className={getLinkClassForEnds} to={'/create'}>
-                  {/* {getAuthText()} */}
-                  Create auction
-                </NavLink>
+                <NavLink className={getLinkClass} to="/create">Create auction</NavLink>
               </li>
               <li className={styles.item}>
-                <NavLink to={'/CreateAuction'}>
+                <NavLink to="/CreateAuction">
                   <div className={styles.plusCircle}>
-                    <img src="/img/icons/Plus.svg" alt="" />
+                    <img src="/img/icons/Plus.svg" alt="Add Auction" />
                   </div>
                 </NavLink>
                 <div className={styles.balance}>
@@ -115,9 +82,14 @@ export const Navbar = () => {
                 )}
               </li>
               <li className={styles.item}>
-                <NavLink to="/profile">
-                  <img src={currentUser?.profile_pic || "/img/icons/default-user.svg"} alt="User" className={styles.userPhoto} />
-                </NavLink>
+                <div onClick={toggleProfileModal} className={styles.profileIcon}>
+                  <img
+                    src={currentUser?.profile_pic || "/img/icons/default-user.svg"}
+                    alt="User"
+                    className={styles.userPhoto}
+                  />
+                  {showProfileModal && <ProfileModal onClose={toggleProfileModal} />}
+                </div>
               </li>
               <li className={styles.itemEnd}>
                 <button
@@ -131,6 +103,9 @@ export const Navbar = () => {
           )}
         </div>
       </ul>
+
+      {/* Модальне вікно профілю */}
+      
     </nav>
   );
 };
