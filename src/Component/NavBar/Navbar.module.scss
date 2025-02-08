@@ -53,6 +53,26 @@
   }
 }
 
+.createButton {
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 1px solid #59595a;
+  background-color: #204dff;
+  display: flex;
+  align-items: center;
+  color: #f1f1f8;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 18px;
+  text-decoration: none;
+  height: 100%;
+  letter-spacing: -8%;
+
+  &:hover {
+    background-color: #5073ff;
+  }
+}
+
 .active {
   background-color: #ecd57b;
   color: #1c1c1d;
@@ -86,14 +106,14 @@
   border: none;
   cursor: pointer;
   position: relative;
-  width: 48px;
-  height: 48px;
+  width: 35px;
+  height: 35px;
   padding: 0;
 }
 
 .notificationButton img {
-  width: 48px;
-  height: 48px;
+  width: 35px;
+  height: 35px;
 }
 
 .notificationDropdown {
@@ -154,7 +174,7 @@
   font-size: 16px;
   font-weight: 500;
   color: #f1f1f8;
-  padding: 8px 16px;
+  padding: 8px 0;
   border-radius: 50px;
   // border: 1px solid #59595a;
   // background-color: #1c1c1d;
@@ -169,8 +189,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 48px;
-  height: 48px;
+  width: 32px;
+  height: 32px;
   border: 1px solid white;
   border-radius: 50%;
   // background-color: #204dff;

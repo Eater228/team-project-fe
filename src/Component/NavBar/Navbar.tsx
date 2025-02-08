@@ -58,7 +58,7 @@ export const Navbar = () => {
           ) : (
             <>
               <li className={styles.item}>
-                <NavLink className={getLinkClass} to="/create">Create auction</NavLink>
+                <NavLink className={styles.createButton} to="/create">Create auction</NavLink>
               </li>
               <li className={styles.item}>
                 <NavLink to="/CreateAuction">
@@ -82,22 +82,13 @@ export const Navbar = () => {
                 )}
               </li>
               <li className={styles.item}>
-                <div onClick={toggleProfileModal} className={styles.profileIcon}>
+                <div onClick={toggleProfileModal}>
                   <img
                     src={currentUser?.profile_pic || "/img/icons/default-user.svg"}
                     alt="User"
                     className={styles.userPhoto}
                   />
-                  {showProfileModal && <ProfileModal onClose={toggleProfileModal} />}
                 </div>
-              </li>
-              <li className={styles.itemEnd}>
-                <button
-                  className={classNames(styles.itemEnd, styles.linkButton)}
-                  onClick={handleLogout}
-                >
-                  Log Out
-                </button>
               </li>
             </>
           )}
@@ -105,7 +96,7 @@ export const Navbar = () => {
       </ul>
 
       {/* Модальне вікно профілю */}
-      
+      {showProfileModal && <ProfileModal onClose={toggleProfileModal} />}
     </nav>
   );
 };

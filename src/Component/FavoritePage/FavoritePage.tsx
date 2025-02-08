@@ -16,12 +16,11 @@ export const FavoritePage: React.FC = () => {
 
   return (
     <div className={styles.favoritePage}>
-      <h2>Favorite Items</h2>
       {favoriteItems.length > 0 ? (
         <CardList products={favoriteItems} name="Favorites" itemsPerPage={12} />
       ) : (
         <div className={styles.noItemsMessage}>
-          <p>We didn’t find anything.</p>
+          <h2>We didn’t find anything.</h2>
           <p>Save auctions you like and they will appear here.</p>
           <button className={styles.backToHomeButton} onClick={handleBackToHome}>
             Back to Home
