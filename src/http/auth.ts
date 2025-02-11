@@ -8,13 +8,14 @@ export const authClient = axios.create({
 authClient.interceptors.request.use((request) => {
   const accessToken = localStorage.getItem('accessToken');
 
-  // Set Authorization header only for logout request
-  if (request.url && request.url.endsWith('/logout') && accessToken) {
+  // Додаємо заголовок Authorization для всіх запитів, якщо токен існує
+  if (accessToken) {
     request.headers.Authorization = `Bearer ${accessToken}`;
   }
 
   return request;
 });
+
 
 // to awoid getting `res.data` everywhere
 authClient.interceptors.response.use(

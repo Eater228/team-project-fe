@@ -20,8 +20,8 @@ interface UsersState {
 // Початковий стан
 const initialState: UsersState = {
   users: [],
-  currentUser: null,
-  isLoggedIn: false,
+  currentUser: JSON.parse(localStorage.getItem("currentUser") || "null"),
+  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
 };
 
 
@@ -66,6 +66,9 @@ const usersSlice = createSlice({
     ) => {
       state.currentUser = action.payload; // Інші поля додаються тут
       state.isLoggedIn = true;
+
+      localStorage.setItem("currentUser", JSON.stringify(action.payload));
+      localStorage.setItem("isLoggedIn", "true");
       console.log(state.currentUser)
     },
     
@@ -88,6 +91,9 @@ const usersSlice = createSlice({
     logout: (state) => {
       state.currentUser = null; // Видалити поточного користувача
       state.isLoggedIn = false; // Скинути статус авторизації
+
+      localStorage.removeItem("currentUser");
+      localStorage.removeItem("isLoggedIn");
     },
   },
 });
