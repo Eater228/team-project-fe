@@ -1,0 +1,141 @@
+.auctionList {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.auctionItem {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 20px;
+  background-color: #1c1c1d;
+  color: #fff;
+}
+
+.images {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+
+  .image {
+    width: 180px;
+    height: 180px;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+.details {
+  display: flex;
+  align-items: start;
+  flex-direction: column;
+  gap: 10px;
+
+  .titleBlock {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    
+    .title {
+      font-size: 24px;
+      font-weight: bold;
+      margin: 0;
+    }
+
+    .date {
+      font-size: 14px;
+      color: #ccc;
+    }
+  }
+
+  .description {
+    font-size: 16px;
+  }
+
+  .info {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 100%;
+
+    .infoRow {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+
+      .label {
+        font-size: 16px;
+      }
+
+      .value {
+        font-size: 16px;
+        text-align: right;
+      }
+    }
+  }
+
+  .contactInfo {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+
+    .contactItem {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+
+      img {
+        width: 24px;
+        height: 24px;
+      }
+
+      span {
+        font-size: 16px;
+      }
+    }
+
+    .contactIcons {
+      display: flex;
+      gap: 10px;
+
+      .contactItem {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+
+        img {
+          width: 24px;
+          height: 24px;
+        }
+
+        span {
+          font-size: 16px;
+        }
+      }
+    }
+  }
+
+  .buttons {
+    display: flex;
+    gap: 10px;
+    margin-top: 20px;
+
+    .button {
+      padding: 10px 20px;
+      background-color: #204dff;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+
+      &:hover {
+        background-color: #5073ff;
+      }
+    }
+  }
+}

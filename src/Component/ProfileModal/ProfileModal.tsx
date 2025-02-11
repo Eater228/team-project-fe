@@ -41,7 +41,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
               Profile
               <img src="/img/icons/Arrow_Right.svg" alt="Arrow Right" />
             </button>
-            <button onClick={() => { navigate('/my-auctions'); onClose(); }}>
+            <button onClick={() => { navigate('/myAuctions'); onClose(); }}>
               My Auctions
               <img src="/img/icons/Arrow_Right.svg" alt="Arrow Right" />
             </button>

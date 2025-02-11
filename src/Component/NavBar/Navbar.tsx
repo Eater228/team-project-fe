@@ -7,8 +7,6 @@ import { AppDispatch, RootState } from 'Store/Store';
 import { useState } from 'react';
 import { ProfileModal } from '../ProfileModal/ProfileModal';
 
-console.log(ProfileModal)
-
 export const Navbar = () => {
   const { isLoggedIn, currentUser } = useSelector((state: RootState) => state.userData);
   const dispatch = useDispatch<AppDispatch>();

@@ -13,6 +13,7 @@ import { ResetPassword } from './Component/AuthPage/ResetPassword/ResetPassword'
 import { InfoPage } from './Component/InfoPage/InfoPage'
 import { FavoritePage } from './Component/FavoritePage/FavoritePage'
 import { AllCategoriesPage } from './Component/Categories/AllCategories/AllCategoriesPage'
+import { MyAuctionsPage } from './Component/myAuctions/myAuctionsPage'
 
 export const Root = () => (
   <Router>
@@ -29,6 +30,7 @@ export const Root = () => (
         <Route path='/save' element={<FavoritePage />} />
         <Route path='/info/:itemId' element={<InfoPage />} />
         <Route path='/allCategories' element={<AllCategoriesPage />} />
+        <Route path='/myAuctions' element={<MyAuctionsPage />} />
       </Route>
     </Routes>
   </Router>
