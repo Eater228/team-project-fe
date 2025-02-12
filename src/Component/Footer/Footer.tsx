@@ -1,9 +1,14 @@
-import { NavLink } from 'react-router-dom';
-import { topScroll } from '../../Function/ScrolTop/topScrol';
+import { NavLink, useNavigate } from 'react-router-dom';
 import { GridContainer } from '../GridContainer/GridContainer';
 import styles from './Footer.module.scss';
 
 export const Footer = () => {
+  const navigate = useNavigate();
+
+  const handlePrivacyClick = () => {
+    navigate('/privacyStatement');
+  };
+
   return (
     <div className={styles.container}>
       <GridContainer>
@@ -44,7 +49,7 @@ export const Footer = () => {
             <div className={styles.name}>
               <h2>@TopBid.ua - 2024</h2>
             </div>
-            <div className={styles.name}>
+            <div className={styles.nameStatment} onClick={handlePrivacyClick}>
               <h2>Privacy Statement</h2>
             </div>
           </div>

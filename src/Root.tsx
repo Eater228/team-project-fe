@@ -14,6 +14,7 @@ import { InfoPage } from './Component/InfoPage/InfoPage'
 import { FavoritePage } from './Component/FavoritePage/FavoritePage'
 import { AllCategoriesPage } from './Component/Categories/AllCategories/AllCategoriesPage'
 import { MyAuctionsPage } from './Component/myAuctions/myAuctionsPage'
+import { PrivacyStatement } from './Component/PrivacyStatement/PrivacyStatement'
 
 export const Root = () => (
   <Router>
@@ -31,6 +32,7 @@ export const Root = () => (
         <Route path='/info/:itemId' element={<InfoPage />} />
         <Route path='/allCategories' element={<AllCategoriesPage />} />
         <Route path='/myAuctions' element={<MyAuctionsPage />} />
+        <Route path='/privacyStatement' element={<PrivacyStatement />} />
       </Route>
     </Routes>
   </Router>
