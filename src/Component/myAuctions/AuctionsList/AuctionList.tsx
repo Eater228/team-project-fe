@@ -26,7 +26,7 @@ export const AuctionList: React.FC<AuctionListProps> = ({ auctions }) => {
       {auctions.map(auction => (
         <div className={styles.auctionItem} key={auction.id}>
           <div className={styles.images}>
-            {auction.images.slice(0, 5).map((image, index) => (
+            {(auction.images.length > 0 ? auction.images.slice(0, 5) : ["/img/icons/NonPhoto.jpg"]).map((image, index) => (
               <img src={image} alt={`Auction ${index + 1}`} key={index} className={styles.image} />
             ))}
           </div>

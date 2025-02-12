@@ -3,7 +3,7 @@
     {
       "id": 1,
       "category": "electronics",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "img2.jpg"],
+      "images": [],
       "name": "Smartphone X1",
       "fullPrice": 799,
       "startPrice": 699,
@@ -20,13 +20,13 @@
       "startingTime": "2025-01-01T09:00:00.000Z",
       "endTime": "2025-11-08T09:00:00.000Z",
       "description": "A brand new smartphone with amazing features.",
-      "createdAt": "2025-01-4T10:00:00.000Z",
+      "createdAt": "2025-01-04T10:00:00.000Z",
       "updatedAt": "2025-01-05T10:00:00.000Z"
     },
     {
       "id": 2,
       "category": "furniture",
-      "images": ["https://s3-alpha-sig.figma.com/img/f654/4a27/2cdf207bcf213878ec843a9e83eaab4b?Expires=1737331200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jhZK4Yh~YW8UFVeRUNxl-HUa-AC5-JQwAjcvnaBP08u4nDa1m-RKxJ~jlm8wvcoQI3cbVGti8pRzr8f9ImlxpgR4Ds8FB3fM0ymQRk12JUN8MC9DMxsIoDU1CndTXRCZIKRk4b141-19plecvG6-4S0MswFkowbaaa5ne6rVuuxw2cqWuHiftLVR6JJBzu1raYZSdMTZEKY-2eCg~Itv9W1nKsvC-oIcSh3GLV6DxoEYq5VJxSE2~n0Tx4bpj5~QEgJqpYtzEvoSZSpv1hp6~RySwdaEHjpXG38OURixUDn9djyKnU3sIyTenfN4j7zyCTNbsfllIhGe0ANjtmxpYg__", "chair2.jpg"],
+      "images": ["https://s3-alpha-sig.figma.com/img/f654/4a27/2cdf207bcf213878ec843a9e83eaab4b?Expires=1737331200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jhZK4Yh~YW8UFVeRUNxl-HUa-AC5-JQwAjcvnaBP08u4nDa1m-RKxJ~jlm8wvcoQI3cbVGti8pRzr8f9ImlxpgR4Ds8FB3fM0ymQRk12JUN8MC9DMxsIoDU1CndTXRCZIKRk4b141-19plecvG6-4S0MswFkowbaaa5ne6rVuuxw2cqWuHiftLVR6JJBzu1raYZSdMTZEKY-2eCg~Itv9W1nKsvC-oIcSh3GLV6DxoEYq5VJxSE2~n0Tx4bpj5~QEgJqpYtzEvoSZSpv1hp6~RySwdaEHjpXG38OURixUDn9djyKnU3sIyTenfN4j7zyCTNbsfllIhGe0ANjtmxpYg__", "/img/icons/NonPhoto.jpg"],
       "name": "Ergonomic Chair",
       "fullPrice": 299,
       "startPrice": 200,
@@ -49,7 +49,7 @@
     {
       "id": 3,
       "category": "furniture",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "chair2.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Ergonomic Chair",
       "fullPrice": 299,
       "startPrice": 200,
@@ -72,7 +72,7 @@
     {
       "id": 4,
       "category": "furniture",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "chair2.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Ergonomic Chair",
       "fullPrice": 299,
       "startPrice": 200,
@@ -95,7 +95,7 @@
     {
       "id": 5,
       "category": "clothes",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "chair2.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Jacket",
       "fullPrice": 499,
       "startPrice": 100,
@@ -118,7 +118,7 @@
     {
       "id": 6,
       "category": "electronics",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "laptop.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Laptop Pro",
       "fullPrice": 1299,
       "startPrice": 999,
@@ -141,7 +141,7 @@
     {
       "id": 7,
       "category": "clothes",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "shirt.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Designer Shirt",
       "fullPrice": 199,
       "startPrice": 100,
@@ -164,7 +164,7 @@
     {
       "id": 8,
       "category": "electronics",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "tablet.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Tablet Z",
       "fullPrice": 599,
       "startPrice": 499,
@@ -187,7 +187,7 @@
     {
       "id": 9,
       "category": "furniture",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "sofa.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Luxury Sofa",
       "fullPrice": 999,
       "startPrice": 800,
@@ -210,7 +210,7 @@
     {
       "id": 10,
       "category": "clothes",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "dress.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Evening Dress",
       "fullPrice": 299,
       "startPrice": 150,
@@ -233,7 +233,7 @@
     {
       "id": 11,
       "category": "electronics",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "camera.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Digital Camera",
       "fullPrice": 499,
       "startPrice": 400,
@@ -256,7 +256,7 @@
     {
       "id": 12,
       "category": "furniture",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "table.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Dining Table",
       "fullPrice": 799,
       "startPrice": 600,
@@ -279,7 +279,7 @@
     {
       "id": 13,
       "category": "clothes",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "shoes.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Running Shoes",
       "fullPrice": 149,
       "startPrice": 100,
@@ -302,7 +302,7 @@
     {
       "id": 14,
       "category": "electronics",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "headphones.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "Wireless Headphones",
       "fullPrice": 199,
       "startPrice": 150,
@@ -325,7 +325,7 @@
     {
       "id": 15,
       "category": "furniture",
-      "images": ["https://www.svgrepo.com/show/422038/product.svg", "bed.jpg"],
+      "images": ["/img/icons/NonPhoto.jpg", "/img/icons/NonPhoto.jpg"],
       "name": "King Size Bed",
       "fullPrice": 999,
       "startPrice": 800,
