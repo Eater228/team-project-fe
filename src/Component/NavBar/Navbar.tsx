@@ -42,7 +42,7 @@ export const Navbar = () => {
           </li>
           {isLoggedIn && (
             <li className={styles.item}>
-              <NavLink className={getLinkClass} to="/save">Save</NavLink>
+              <NavLink className={getLinkClass} to="/save">Saved</NavLink>
             </li>
           )}
         </div>
