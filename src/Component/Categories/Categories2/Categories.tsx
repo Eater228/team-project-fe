@@ -53,7 +53,7 @@ export const Categories: React.FC = () => {
           ))}
           <div className={styles.categoryItem} onClick={() => handleSeeAllCategory()}>
             <div className={styles.seeMoreCard}>
-              <img src="/img/PhotoCategories/SeeMore.png" alt="" />
+              <img src="/img/PhotoCategories/SeeMoreNew.png" alt="" />
             </div>
             <div className={`${styles.categoryName}`}>
               <h3 className={styles.categoryNameTitle}>See More</h3>
