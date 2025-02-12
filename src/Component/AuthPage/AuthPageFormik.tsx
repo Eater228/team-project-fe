@@ -43,21 +43,21 @@ export const AuthPageFormik = () => {
 
   function validatePassword(value: string): string | undefined {
     if (!value) return 'Password is required';
-  
+
     if (value.length < 6) return 'Password must be at least 6 characters long';
-  
+
     if (!PASSWORD_PATTERN.test(value)) {
       return 'Password must contain only English letters';
     }
-  
+
     if (!/[A-Z]/.test(value)) {
       return 'Password must contain at least one uppercase letter';
     }
-  
+
     if (!/[\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]/.test(value)) {
       return 'Password must contain number';
     }
-  
+
     return undefined; // Валідний пароль
   }
 
@@ -251,10 +251,10 @@ export const AuthPageFormik = () => {
                           ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" />
                           : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                       </span>
+                      <span className={styles.errorMessageBlock}>
+                        {(touched.password && errors.password) && `${errors.password}`}
+                      </span>
                     </div>
-                    <span className={styles.errorMessageBlock}>
-                      {(touched.password && errors.password) && `${errors.password}`}
-                    </span>
                     <div className={styles.control}>
                       <span className={styles.iconRight}>
                         Repeat password
@@ -275,10 +275,10 @@ export const AuthPageFormik = () => {
                           ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" />
                           : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                       </span>
+                      <span className={styles.errorMessageBlock}>
+                        {(touched.repeatPassword && errors.repeatPassword) && `${errors.repeatPassword}`}
+                      </span>
                     </div>
-                    <span className={styles.errorMessageBlock}>
-                      {(touched.repeatPassword && errors.repeatPassword) && `${errors.repeatPassword}`}
-                    </span>
                     {/* <span className={styles.errorMessageBlock}>
                       {console.log(errors)}
                       {touched.password && errors.password
@@ -395,11 +395,11 @@ export const AuthPageFormik = () => {
                           ? <img src="/img/icons/Eye-Show.svg" alt="eye-slash" />
                           : <img src="/img/icons/Eye-Hide.svg" alt="eye" />}
                       </span>
+                      <span className={styles.errorMessageBlock}>
+                        {(touched.password && errors.password) && `${errors.password}`}
+                        {error && `${error}`}
+                      </span>
                     </div>
-                    <span className={styles.errorMessageBlock}>
-                      {(touched.password && errors.password) && `${errors.password}`}
-                      {error && `${error}`}
-                    </span>
                     <div className={styles.forgotPassword}>
                       <NavLink to="/forgotPassword">Forgot Password?</NavLink>
                     </div>
