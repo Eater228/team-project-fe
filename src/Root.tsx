@@ -15,7 +15,7 @@ import { FavoritePage } from './Component/FavoritePage/FavoritePage'
 import { AllCategoriesPage } from './Component/Categories/AllCategories/AllCategoriesPage'
 import { MyAuctionsPage } from './Component/myAuctions/myAuctionsPage'
 import { PrivacyStatement } from './Component/PrivacyStatement/PrivacyStatement'
-import { CreatePage } from './Component/CreatePage/CreatePage'
+import { CreatePage } from './`Component/CreatePage/CreatePage'
 
 export const Root = () => (
   <Router>

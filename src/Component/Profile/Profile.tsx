@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/Store';
 import { userService } from '../../Service/userService';
 import styles from './Profile.module.scss';
+import { BalanceModal } from '../../Component/BalanceModal/BalanceModal';
 
 export const Profile: React.FC = () => {
   const currentUser = useSelector((state: RootState) => state.userData.currentUser);
@@ -21,6 +22,10 @@ export const Profile: React.FC = () => {
     instagram: '',
     viber: '',
   });
+  const [showBalanceModal, setShowBalanceModal] = useState(false);
+  const [balanceAmount, setBalanceAmount] = useState('');
+
+  const toggleBalanceModal = () => setShowBalanceModal((prev) => !prev);
 
   const handleChangePassword = async () => {
     if (!currentUser?.email || !currentUser?.first_name || !currentUser?.last_name) {
@@ -36,8 +41,8 @@ export const Profile: React.FC = () => {
       password: newPassword,
     };
 
-    console.log("Up date profile",updateProfile);
-    
+    console.log("Up date profile", updateProfile);
+
     if (isEditingPassword) {
       try {
         await userService.updateProfile(updateProfile);
@@ -53,7 +58,7 @@ export const Profile: React.FC = () => {
       setIsEditingPassword(true);
     }
   };
-  
+
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -75,6 +80,24 @@ export const Profile: React.FC = () => {
     setNewContact(prev => ({ ...prev, [contactType]: e.target.value }));
   };
 
+  const handleBalanceClick = () => {
+    setShowBalanceModal(true);
+  };
+
+  const handleCloseBalanceModal = () => {
+    setShowBalanceModal(false);
+  };
+
+  const handleBalanceAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setBalanceAmount(e.target.value.replace(/[^0-9]/g, ''));
+  };
+
+  const handleAddBalance = () => {
+    // Logic to add balance
+    console.log(`Adding balance: ${balanceAmount}`);
+    setShowBalanceModal(false);
+  };
+
   return (
     <div className={styles.profilePage}>
       <div className={styles.sidebar}>
@@ -83,7 +106,12 @@ export const Profile: React.FC = () => {
       <div className={styles.mainContent}>
         <div className={styles.balanceSection}>
           <h3>On your balance</h3>
-          <p>${currentUser?.balance || 0}</p>
+          <div className={styles.balanceContainer}>
+            <p>${currentUser?.balance || 0}</p>
+            <div className={styles.addBalanceButton} onClick={handleBalanceClick}>
+              <img src="/img/icons/Plus.svg" alt="Add Auction" />
+            </div>
+          </div>
         </div>
         <div className={styles.profileInfo}>
           <img src={currentUser?.profile_pic || "/img/icons/default-user.svg"} alt="User" className={styles.profilePic} />
@@ -147,6 +175,8 @@ export const Profile: React.FC = () => {
           ))}
         </div>
       </div>
+      {/* Модальне вікно балансу */}
+      {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} />}
     </div>
   );
 };
