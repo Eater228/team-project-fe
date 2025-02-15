@@ -6,6 +6,7 @@ import { logout } from '../../Reducer/UsersSlice';
 import { AppDispatch, RootState } from 'Store/Store';
 import { useState } from 'react';
 import { ProfileModal } from '../ProfileModal/ProfileModal';
+import { BalanceModal } from '../BalanceModal/BalanceModal';
 
 export const Navbar = () => {
   const { isLoggedIn, currentUser } = useSelector((state: RootState) => state.userData);
@@ -14,9 +15,11 @@ export const Navbar = () => {
 
   const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
+  const [showBalanceModal, setShowBalanceModal] = useState(false);
 
   const toggleNotifications = () => setShowNotifications((prev) => !prev);
   const toggleProfileModal = () => setShowProfileModal((prev) => !prev);
+  const toggleBalanceModal = () => setShowBalanceModal((prev) => !prev);
 
   const handleLogout = () => {
     dispatch(logout());
@@ -59,11 +62,9 @@ export const Navbar = () => {
                 <NavLink className={styles.createButton} to="/create">Create auction</NavLink>
               </li>
               <li className={styles.item}>
-                <NavLink to="/CreateAuction">
-                  <div className={styles.plusCircle}>
-                    <img src="/img/icons/Plus.svg" alt="Add Auction" />
-                  </div>
-                </NavLink>
+                <div className={styles.plusCircle} onClick={toggleBalanceModal}>
+                  <img src="/img/icons/Plus.svg" alt="Add Auction" />
+                </div>
                 <div className={styles.balance}>
                   <p>Balance</p>
                   <div className={styles.balanceAmount}>${currentUser?.balance || 0}</div>
@@ -95,6 +96,8 @@ export const Navbar = () => {
 
       {/* Модальне вікно профілю */}
       {showProfileModal && <ProfileModal onClose={toggleProfileModal} />}
+      {/* Модальне вікно балансу */}
+      {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} />}
     </nav>
   );
 };
