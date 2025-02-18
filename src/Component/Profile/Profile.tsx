@@ -24,6 +24,10 @@ export const Profile: React.FC = () => {
   });
   const [showBalanceModal, setShowBalanceModal] = useState(false);
   const [balanceAmount, setBalanceAmount] = useState('');
+  const [isEditingLastName, setIsEditingName] = useState(false);
+  const [isEditingFirstName, setIsEditingFirstName] = useState(false);
+  const [newFirstName, setNewFirstName] = useState(currentUser?.first_name || '');
+  const [newLastName, setNewLastName] = useState(currentUser?.last_name || '');
 
   const toggleBalanceModal = () => setShowBalanceModal((prev) => !prev);
 
@@ -59,6 +63,35 @@ export const Profile: React.FC = () => {
     }
   };
 
+  const handleEditName = () => {
+    if (isEditingLastName) {
+      // Logic to save the new name
+      console.log(`New First Name: ${newFirstName}, New Last Name: ${newLastName}`);
+      // Reset state
+      setIsEditingName(false);
+    } else {
+      setIsEditingName(true);
+    }
+  };
+
+  const handleEditFirstName = () => {
+    if (isEditingFirstName) {
+      // Logic to save the new name
+      console.log(`New First Name: ${newFirstName}, New Last Name: ${newLastName}`);
+      // Reset state
+      setIsEditingFirstName(false);
+    } else {
+      setIsEditingFirstName(true);
+    }
+  };
+
+  const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewFirstName(e.target.value);
+  };
+
+  const handleLastNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setNewLastName(e.target.value);
+  };
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
@@ -82,20 +115,6 @@ export const Profile: React.FC = () => {
 
   const handleBalanceClick = () => {
     setShowBalanceModal(true);
-  };
-
-  const handleCloseBalanceModal = () => {
-    setShowBalanceModal(false);
-  };
-
-  const handleBalanceAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setBalanceAmount(e.target.value.replace(/[^0-9]/g, ''));
-  };
-
-  const handleAddBalance = () => {
-    // Logic to add balance
-    console.log(`Adding balance: ${balanceAmount}`);
-    setShowBalanceModal(false);
   };
 
   return (
@@ -124,11 +143,37 @@ export const Profile: React.FC = () => {
           <div className={styles.nameFields}>
             <div className={styles.formGroup}>
               <label htmlFor="firstName">First Name</label>
-              <div className={styles.inputDiv}>{currentUser?.first_name}</div>
+              {isEditingFirstName ? (
+                <input
+                  type="text"
+                  id="firstName"
+                  value={newFirstName}
+                  onChange={handleFirstNameChange}
+                  className={styles.inputDiv}
+                />
+              ) : (
+                <div className={styles.inputDiv}>{currentUser?.first_name}</div>
+              )}
+              <button className={styles.changeNameButton} onClick={handleEditFirstName}>
+                {isEditingFirstName ? 'Save Changes' : 'Change Name'}
+              </button>
             </div>
             <div className={styles.formGroup}>
               <label htmlFor="lastName">Last Name</label>
-              <div className={styles.inputDiv}>{currentUser?.last_name}</div>
+              {isEditingLastName ? (
+                <input
+                  type="text"
+                  id="lastName"
+                  value={newLastName}
+                  onChange={handleLastNameChange}
+                  className={styles.inputDiv}
+                />
+              ) : (
+                <div className={styles.inputDiv}>{currentUser?.last_name}</div>
+              )}
+              <button className={styles.changeNameButton} onClick={handleEditName}>
+                {isEditingLastName ? 'Save Changes' : 'Change Name'}
+              </button>
             </div>
           </div>
           <div className={styles.formGroup}>
