@@ -148,7 +148,7 @@ export const Filter: React.FC<FilterProps> = ({
               </div>
               <div className={styles.boxGroup}>
                 <label>
-                  Closing price (opitonal)
+                  Closing price (optional)
                 </label>
                 <div className={styles.inputWrapper}>
                   <span className={styles.dollarSign}>$</span>
