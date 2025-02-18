@@ -8,7 +8,7 @@ import { CardsCarusel } from "../../Component/CardCarusel/CardsCarusel";
 import styles from './MainPage.module.scss';
 import { useNavigate } from 'react-router-dom';
 
-import image1 from '/img/icons/BanerImg.jpg'
+import image1 from '/img/PhotoSlider/Hummer2.png'
 import image2 from '/img/PhotoSlider/Helly-Hansen-Emblem.png'
 import image3 from '/img/PhotoSlider/Ralph-Lauren-Emblem.png'
 import { CardList } from "../../Component/CardList";
