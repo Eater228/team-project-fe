@@ -7,6 +7,7 @@ interface BalanceModalProps {
 
 export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
   const [balanceAmount, setBalanceAmount] = useState('');
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
 
   const handleBalanceAmountChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setBalanceAmount(e.target.value.replace(/[^0-9]/g, ''));
@@ -24,6 +25,10 @@ export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
     }
   };
 
+  const handlePaymentMethodSelect = (method: string) => {
+    setSelectedPaymentMethod(method);
+  };
+
   return (
     <div className={styles.modal} onClick={handleOutsideClick}>
       <div className={styles.modalContent}>
@@ -33,22 +38,37 @@ export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
           <input
             type="text"
             id="balanceAmount"
-            value={balanceAmount}
+            value={`$${balanceAmount}`}
             onChange={handleBalanceAmountChange}
             className={styles.inputDiv}
             onInput={(e) => {
               const input = e.target as HTMLInputElement;
               if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
               }
             }}
           />
           <label className={styles.inputLabel} htmlFor="balanceAmount">Enter count</label>
         </div>
         <div className={styles.paymentMethods}>
-          <div className={styles.paymentMethod}>Credit Card</div>
-          <div className={styles.paymentMethod}>PayPal</div>
-          <div className={styles.paymentMethod}>Bank Transfer</div>
+          <div
+            className={`${styles.paymentMethod} ${selectedPaymentMethod === 'PayPal' ? styles.selected : ''}`}
+            onClick={() => handlePaymentMethodSelect('PayPal')}
+          >
+            <img src="/img/icons/PayPal.png" alt="PayPal" />
+          </div>
+          <div
+            className={`${styles.paymentMethod} ${selectedPaymentMethod === 'GooglePay' ? styles.selected : ''}`}
+            onClick={() => handlePaymentMethodSelect('GooglePay')}
+          >
+            <img src="/img/icons/GooglePay.png" alt="GooglePay" />
+          </div>
+          <div
+            className={`${styles.paymentMethod} ${selectedPaymentMethod === 'ApplePay' ? styles.selected : ''}`}
+            onClick={() => handlePaymentMethodSelect('ApplePay')}
+          >
+            <img src="/img/icons/ApplePay.png" alt="ApplePay" />
+          </div>
         </div>
         <button onClick={handleAddBalance}>Add Balance</button>
       </div>
