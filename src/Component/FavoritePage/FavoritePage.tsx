@@ -20,11 +20,16 @@ export const FavoritePage: React.FC = () => {
         <CardList products={favoriteItems} name="Favorites" itemsPerPage={12} />
       ) : (
         <div className={styles.noItemsMessage}>
-          <h2>We didn’t find anything.</h2>
-          <p>Save auctions you like and they will appear here.</p>
-          <button className={styles.backToHomeButton} onClick={handleBackToHome}>
-            Back to Home
-          </button>
+          <div className={styles.textBlock}>
+            <h2>We didn’t find anything.</h2>
+            <p>Save auctions you like and they will appear here.</p>
+            <button className={styles.backToHomeButton} onClick={handleBackToHome}>
+              Back to Home
+            </button>
+          </div>
+          <div className={styles.imgBlock}>
+            <img src="/img/icons/HummerForSaved.png" alt="Hummer" />
+          </div>
         </div>
       )}
       <BackToTop />

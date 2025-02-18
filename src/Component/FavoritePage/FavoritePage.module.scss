@@ -27,12 +27,12 @@
 
 .noItemsMessage {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   // align-items: center;
-  justify-content: center;
+  justify-content: space-between;
   text-align: left; /* Align text to the left */
   font-size: 18px;
-  margin: 220px 0 0 47px;
+  margin: 220px 47px 0 47px;
 
   h2 {
     font-family: 'Lexend Exa', sans-serif;
