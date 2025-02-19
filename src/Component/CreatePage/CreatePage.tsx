@@ -59,13 +59,14 @@ export const CreatePage: React.FC = () => {
     e.preventDefault();
 
     // Validate fields
-    const newErrors: { [key: string]: boolean } = {};
-    if (!name) newErrors.name = true;
-    if (!description) newErrors.description = true;
+    const newErrors: { [key: string]: boolean | string } = {};
+    if (!name) newErrors.name = 'Name is required';
+    if (!description) newErrors.description = 'Description is required';
     if (!openingPrice || isNaN(Number(openingPrice)) || Number(openingPrice) <= 0) newErrors.openingPrice = true;
     if (closingPrice && (isNaN(Number(closingPrice)) || Number(closingPrice) <= 0)) newErrors.closingPrice = true;
     if (!step || isNaN(Number(step)) || Number(step) <= 0) newErrors.step = true;
     if (!closingTime) newErrors.closingTime = true;
+    if (images.length === 0) newErrors.images = 'At least one image is required';
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -211,6 +212,7 @@ export const CreatePage: React.FC = () => {
               ref={fileInputRef}
               style={{ display: "none" }}
             />
+            {errors.images && <span className={styles.errorText}>{errors.images}</span>}
           </div>
         </div>
         <div className={styles.rightSection}>
@@ -221,7 +223,6 @@ export const CreatePage: React.FC = () => {
               value={name}
               onChange={(e) => setName(e.target.value)}
               onBlur={handleNameBlur}
-              required
             />
             <label className={styles.inputLabel} htmlFor="name">Name of the item</label>
             {errors.name && <span className={styles.errorText}>{errors.name}</span>}
@@ -232,7 +233,6 @@ export const CreatePage: React.FC = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               onBlur={handleDescriptionBlur}
-              required
             />
             <label className={styles.inputLabel} htmlFor="description">Description</label>
             {errors.description && <span className={styles.errorText}>{errors.description}</span>}
