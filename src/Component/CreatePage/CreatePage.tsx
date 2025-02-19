@@ -3,6 +3,7 @@ import styles from './CreatePage.module.scss';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/Store'; // Adjust the import path as necessary
+import ArrowBackIcon from '/img/icons/ArrowBack.svg'; // Adjust the import path as necessary
 
 const categories = [
   "Art & Antiques",
@@ -29,7 +30,8 @@ export const CreatePage: React.FC = () => {
   const [condition, setCondition] = useState('new');
   const [category, setCategory] = useState(categories[0]);
   const [showModal, setShowModal] = useState(false);
-  const [errors, setErrors] = useState<{ [key: string]: boolean }>({});
+  const [errors, setErrors] = useState<{ [key: string]: boolean | string }>({});
+  const [closingTime, setClosingTime] = useState('');
   const navigate = useNavigate();
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -63,6 +65,7 @@ export const CreatePage: React.FC = () => {
     if (!openingPrice || isNaN(Number(openingPrice)) || Number(openingPrice) <= 0) newErrors.openingPrice = true;
     if (closingPrice && (isNaN(Number(closingPrice)) || Number(closingPrice) <= 0)) newErrors.closingPrice = true;
     if (!step || isNaN(Number(step)) || Number(step) <= 0) newErrors.step = true;
+    if (!closingTime) newErrors.closingTime = true;
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
@@ -83,7 +86,7 @@ export const CreatePage: React.FC = () => {
       state: condition,
       location: "New York, USA", // Example location
       startingTime: new Date().toISOString(),
-      endTime: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+      endTime: closingTime || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
       description,
     };
     console.log(JSON.stringify(auctionData, null, 2));
@@ -122,9 +125,48 @@ export const CreatePage: React.FC = () => {
     }
   };
 
+  const handleClosingTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setClosingTime(e.target.value);
+  };
+
+  const handleGoBack = () => {
+    navigate(-1);
+  };
+
+  const handleNameBlur = () => {
+    if (!name.trim()) {
+      setErrors((prev) => ({ ...prev, name: 'Name is required' }));
+    } else if (name.trim().length < 3) {
+      setErrors((prev) => ({ ...prev, name: 'Name must be at least 3 characters' }));
+    } else {
+      setErrors((prev) => ({ ...prev, name: '' }));
+    }
+  };
+
+  const handleDescriptionBlur = () => {
+    if (!description.trim()) {
+      setErrors((prev) => ({ ...prev, description: 'Description is required' }));
+    } else if (description.trim().split(' ').length < 5) {
+      setErrors((prev) => ({ ...prev, description: 'Description must be at least 5 words' }));
+    } else {
+      setErrors((prev) => ({ ...prev, description: '' }));
+    }
+  };
+
+  const maxClosingTime = new Date();
+  maxClosingTime.setMonth(maxClosingTime.getMonth() + 1);
+  const maxClosingTimeString = maxClosingTime.toISOString().slice(0, 16);
+  const minClosingTimeString = new Date().toISOString().slice(0, 16);
+
   return (
     <div className={styles.createPage}>
-      <h1>Creating an auction</h1>
+      <div className={styles.backButton} onClick={handleGoBack}>
+        <img src={ArrowBackIcon} alt="Back" />
+      </div>
+      <div className={styles.header}>
+        <h1>Creating an auction</h1>
+        <p>Input all required information</p>
+      </div>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.leftSection}>
           <div className={styles.imageUpload}>
@@ -133,7 +175,9 @@ export const CreatePage: React.FC = () => {
                 {images[0] ? (
                   <div className={styles.imageContainer}>
                     <img src={images[0]} alt="Main Auction" className={styles.image} />
-                    <button className={styles.removeButton} onClick={() => handleRemoveImage(0)}>×</button>
+                    <button className={styles.removeButton} onClick={() => handleRemoveImage(0)}>
+                      <img src="/img/icons/Trash.svg" alt="" />
+                    </button>
                   </div>
                 ) : (
                   <img src="/img/icons/AddImage.png" alt="Placeholder" className={styles.image} />
@@ -149,7 +193,9 @@ export const CreatePage: React.FC = () => {
                     {images[index + 1] ? (
                       <div className={styles.imageContainer}>
                         <img src={images[index + 1]} alt={`Auction ${index + 1}`} className={styles.smallImage} />
-                        <button className={styles.removeButton} onClick={() => handleRemoveImage(index + 1)}>×</button>
+                        <button className={styles.removeButton} onClick={() => handleRemoveImage(index + 1)}>
+                          <img src="/img/icons/Trash.svg" alt="" />
+                        </button>
                       </div>
                     ) : (
                       <img src="/img/icons/AddImage.png" alt="Placeholder" className={styles.smallImage} />
@@ -174,18 +220,22 @@ export const CreatePage: React.FC = () => {
               id="name"
               value={name}
               onChange={(e) => setName(e.target.value)}
+              onBlur={handleNameBlur}
               required
             />
             <label className={styles.inputLabel} htmlFor="name">Name of the item</label>
+            {errors.name && <span className={styles.errorText}>{errors.name}</span>}
           </div>
           <div className={`${styles.formGroup} ${errors.description ? styles.error : ''}`}>
             <textarea
               id="description"
               value={description}
               onChange={(e) => setDescription(e.target.value)}
+              onBlur={handleDescriptionBlur}
               required
             />
             <label className={styles.inputLabel} htmlFor="description">Description</label>
+            {errors.description && <span className={styles.errorText}>{errors.description}</span>}
           </div>
           <div className={styles.fullWidthLine}></div>
           <div className={styles.PriceSection}>
@@ -240,6 +290,20 @@ export const CreatePage: React.FC = () => {
                     }
                   }}
                   onChange={handlePriceChange}
+                />
+              </div>
+            </div>
+            <div className={`${styles.formGroupPrice} ${errors.closingTime ? styles.error : ''}`}>
+              <label htmlFor="closingTime">Closing time</label>
+              <div className={styles.inputWrapper}>
+                <input
+                  type="datetime-local"
+                  id="closingTime"
+                  value={closingTime}
+                  onChange={handleClosingTimeChange}
+                  min={minClosingTimeString}
+                  max={maxClosingTimeString}
+                  className={styles.datetime}
                 />
               </div>
             </div>
