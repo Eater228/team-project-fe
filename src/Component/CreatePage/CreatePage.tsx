@@ -116,15 +116,25 @@ export const CreatePage: React.FC = () => {
     navigate('/Home');
   };
 
+  const sanitizePriceInput = (value: string) => value.replace(/^0+|\D/g, "").slice(0, 6);
+
   const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
-    if (name === 'openingPrice') {
-      setOpeningPrice(value.replace(/[^0-9]/g, '').slice(0, 6));
-    } else if (name === 'closingPrice') {
-      setClosingPrice(value.replace(/[^0-9]/g, '').slice(0, 6));
-    } else if (name === 'step') {
-      setStep(value.replace(/[^0-9]/g, '').slice(0, 6));
+    const sanitizedValue = sanitizePriceInput(value);
+
+    switch (name) {
+      case "openingPrice":
+        setOpeningPrice(sanitizedValue);
+        break;
+      case "closingPrice":
+        setClosingPrice(sanitizedValue);
+        break;
+      case "step":
+        setStep(sanitizedValue);
+        break;
     }
+
+    setErrors((prev) => ({ ...prev, [name]: false }));
   };
 
   const handleClosingTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -248,12 +258,6 @@ export const CreatePage: React.FC = () => {
                   type="text"
                   name="openingPrice"
                   value={openingPrice}
-                  onInput={(e) => {
-                    const input = e.target as HTMLInputElement;
-                    if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                      input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
-                    }
-                  }}
                   onChange={handlePriceChange}
                 />
               </div>
@@ -266,12 +270,6 @@ export const CreatePage: React.FC = () => {
                   type="text"
                   name="closingPrice"
                   value={closingPrice}
-                  onInput={(e) => {
-                    const input = e.target as HTMLInputElement;
-                    if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                      input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
-                    }
-                  }}
                   onChange={handlePriceChange}
                 />
               </div>
@@ -284,12 +282,6 @@ export const CreatePage: React.FC = () => {
                   type="text"
                   name="step"
                   value={step}
-                  onInput={(e) => {
-                    const input = e.target as HTMLInputElement;
-                    if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                      input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
-                    }
-                  }}
                   onChange={handlePriceChange}
                 />
               </div>
@@ -305,7 +297,6 @@ export const CreatePage: React.FC = () => {
                   min={minClosingTimeString}
                   max={maxClosingTimeString}
                   className={styles.datetime}
-                // placeholder='mm dd'
                 />
               </div>
             </div>
