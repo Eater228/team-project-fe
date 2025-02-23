@@ -70,6 +70,7 @@ export const CreatePage: React.FC = () => {
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
+      window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top if there are errors
       return;
     }
 
@@ -176,7 +177,7 @@ export const CreatePage: React.FC = () => {
                 {images[0] ? (
                   <div className={styles.imageContainer}>
                     <img src={images[0]} alt="Main Auction" className={styles.image} />
-                    <button className={styles.removeButton} onClick={() => handleRemoveImage(0)}>
+                    <button type="button" className={styles.removeButton} onClick={() => handleRemoveImage(0)}>
                       <img src="/img/icons/Trash.svg" alt="" />
                     </button>
                   </div>
@@ -194,7 +195,7 @@ export const CreatePage: React.FC = () => {
                     {images[index + 1] ? (
                       <div className={styles.imageContainer}>
                         <img src={images[index + 1]} alt={`Auction ${index + 1}`} className={styles.smallImage} />
-                        <button className={styles.removeButton} onClick={() => handleRemoveImage(index + 1)}>
+                        <button type="button" className={styles.removeButton} onClick={() => handleRemoveImage(index + 1)}>
                           <img src="/img/icons/Trash.svg" alt="" />
                         </button>
                       </div>
@@ -304,6 +305,7 @@ export const CreatePage: React.FC = () => {
                   min={minClosingTimeString}
                   max={maxClosingTimeString}
                   className={styles.datetime}
+                // placeholder='mm dd'
                 />
               </div>
             </div>
