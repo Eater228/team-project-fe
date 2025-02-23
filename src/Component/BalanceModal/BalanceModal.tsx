@@ -35,16 +35,17 @@ export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
         <img src="/img/icons/Close.svg" alt="Close" className={styles.closeButton} onClick={onClose} />
         <h2>Choose payment method</h2>
         <div className={styles.formGroup}>
+          <span className={styles.DolarSing}>$</span>
           <input
             type="text"
             id="balanceAmount"
-            value={`$${balanceAmount}`}
+            value={`${balanceAmount}`}
             onChange={handleBalanceAmountChange}
             className={styles.inputDiv}
             onInput={(e) => {
               const input = e.target as HTMLInputElement;
               if (input.value.replace(/[^0-9]/g, '').length > 6) {
-                input.value = `$${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
+                input.value = `${input.value.replace(/[^0-9]/g, '').slice(0, 6)}`;
               }
             }}
           />

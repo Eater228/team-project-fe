@@ -136,7 +136,6 @@ export const AuthPageFormik = () => {
               (<Formik
                 innerRef={formikRef}
                 initialValues={{
-                  userName: '',
                   firstName: '',
                   lastName: '',
                   email: '',
@@ -144,11 +143,11 @@ export const AuthPageFormik = () => {
                   repeatPassword: '',
                 }}
                 validateOnMount={true}
-                onSubmit={({ userName, firstName, lastName, email, password, repeatPassword }, formikHelpers) => {
+                onSubmit={({ firstName, lastName, email, password, repeatPassword }, formikHelpers) => {
                   formikHelpers.setSubmitting(true);
                   authService
                     .register(
-                      { userName, first_name: firstName, last_name: lastName, email, password, repeatPassword },
+                      {first_name: firstName, last_name: lastName, email, password, repeatPassword },
                       dispatch
                     )
                     .then(() => {

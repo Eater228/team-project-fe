@@ -14,7 +14,7 @@ export const userService = {
     try {
       const response = await client.put('/account/profile/', profileData);
       return response;
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error updating profile:', error.response || error);
       throw error;
     }
