@@ -81,7 +81,31 @@
       color: var(--white);
     }
 
-    input[type="radio"],
+    input[type="radio"] {
+        appearance: none; // Ховаємо стандартне радіо
+        width: 18px;
+        height: 18px;
+        border: 2px solid #999;
+        border-radius: 50%;
+        position: relative;
+        cursor: pointer;
+        transition: all 0.3s;
+        // accent-color: red;
+      }
+
+      input[type="radio"]:checked::before {
+        content: "";
+        width: 10px;
+        height: 10px;
+        background: #ecd57b; // Колір заливки при виборі
+        border-radius: 50%;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+      }
+
+
     input[type="checkbox"] {
       accent-color: #ECD57B;
     }
