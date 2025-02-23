@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../Store/Store';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../Reducer/UsersSlice';
+import { LogoutModal } from '../LogoutModal/LogoutModal';
 import styles from './ProfileModal.module.scss';
 
 interface ProfileModalProps {
@@ -10,6 +11,7 @@ interface ProfileModalProps {
 }
 
 export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
   const currentUser = useSelector((state: RootState) => state.userData.currentUser);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -49,12 +51,15 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
               Settings
               <img src="/img/icons/Arrow_Right.svg" alt="Arrow Right" />
             </button>
-            <button onClick={handleLogout}>
+            <button onClick={() => setShowLogoutModal(true)}>
               Log Out
             </button>
           </div>
         </div>
       </div>
+      {showLogoutModal && (
+        <LogoutModal onClose={() => setShowLogoutModal(false)} onLogout={handleLogout} />
+      )}
     </div>
   );
 };

@@ -21,8 +21,8 @@ interface UsersState {
 const initialState: UsersState = {
   users: [],
   currentUser: JSON.parse(localStorage.getItem("currentUser") || "null"),
-  // isLoggedIn: true,
-  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+  isLoggedIn: true,
+  // isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
 };
 
 
