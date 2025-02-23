@@ -187,7 +187,7 @@ export const Profile: React.FC = () => {
                 className={styles.inputDiv}
               />
             ) : (
-              <div className={styles.inputDiv}>********</div>
+              <div className={styles.inputDiv}>*******</div>
             )}
             <button className={styles.changePasswordButton} onClick={handleChangePassword}>
               {isEditingPassword ? 'Save Changes' : 'Change Password'}
