@@ -21,6 +21,13 @@ const store = configureStore({
     favorite: favoriteReducer,
     carts: cartsReducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: {
+        ignoredActions: ['persist/PERSIST'],
+        ignoredPaths: ['register'],
+      },
+    }),
 });
 
 // Типізація RootState та AppDispatch
