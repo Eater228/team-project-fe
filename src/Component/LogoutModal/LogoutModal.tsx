@@ -15,7 +15,7 @@ export const LogoutModal: React.FC<LogoutModalProps> = ({ onClose, onLogout }) =
         </button>
         <div className={styles.titelBlock}>
           <h2>Want to Logout?</h2>
-          <p>You will log out of your profile</p>
+          <p>You will log out of profile</p>
         </div>
         <div className={styles.logoutActions}>
           <button className={styles.logoutButton} onClick={onLogout}>Logout</button>

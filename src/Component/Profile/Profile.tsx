@@ -180,7 +180,7 @@ export const Profile: React.FC = () => {
             <label htmlFor="password">Password</label>
             {isEditingPassword ? (
               <input
-                type="password"
+                type="text"
                 id="password"
                 value={newPassword}
                 onChange={handlePasswordChange}

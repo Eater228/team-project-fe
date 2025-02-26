@@ -35,11 +35,10 @@ export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
         <img src="/img/icons/Close.svg" alt="Close" className={styles.closeButton} onClick={onClose} />
         <h2>Choose payment method</h2>
         <div className={styles.formGroup}>
-          <span className={styles.DolarSing}>$</span>
           <input
             type="text"
             id="balanceAmount"
-            value={`${balanceAmount}`}
+            value={`$ ${balanceAmount}`}
             onChange={handleBalanceAmountChange}
             className={styles.inputDiv}
             onInput={(e) => {
