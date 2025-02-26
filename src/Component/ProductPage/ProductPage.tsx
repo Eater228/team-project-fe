@@ -149,11 +149,13 @@ export const ProductPage: React.FC = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
+  console.log(categories)
+
   const categoryObj = categories.find((category) => category.name === nameCategory);
 
   return (
     <div className={styles.productPage}>
-      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory} categoryImage={categoryObj.image}/>) : (<></>)}
+      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory.split('_').join(' & ')} categoryImage={categoryObj.image}/>) : (<></>)}
       <div className={classNames(styles.blockSearch, { [styles.withBanner]: nameCategory && categoryObj })}>
         <Search onSearch={handleSearch} />
         <img 

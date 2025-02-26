@@ -8,7 +8,9 @@ export const Categories: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCategoryClick = (categoryName: string) => {
-    navigate(`/product?nameCategory=${categoryName}`);
+    const name = categoryName.split(' & ').join('_')
+    console.log(name)
+    navigate(`/product?nameCategory=${name}`);
   };
 
   const handleSeeAllCategory = () => {
@@ -43,7 +45,7 @@ export const Categories: React.FC = () => {
                   <div className={`${styles.categoryName} 
                           ${index === 0 ? styles.firstName : ''} 
                           ${index === categories.length - 2 ? styles.lastName : ''}`}>
-                    <h3 className={styles.categoryNameTitle}>{category.name}</h3>
+                    <h3 className={styles.categoryNameTitle}>{category.name.split('_').join(' & ')}</h3>
                   </div>
                 </>
               ) : (
