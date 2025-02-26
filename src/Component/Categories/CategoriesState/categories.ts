@@ -16,15 +16,15 @@ const serverCategories = [
 
 
 export const categories = serverCategories.map((category) => {
-  // Розділити назву по "_"
-  const splitName = category.name.split('_');
+  return category
+  // // Розділити назву по "_"
+  // const splitName = category.name.split('_');
   
-  // Об'єднати назву через " & "
-  const formattedName = splitName.join(' & ');
-
+  // // Об'єднати назву через " & "
+  // const formattedName = splitName.join(' & ');
   // Повернути об'єкт із оновленою назвою
-  return {
-    ...category,
-    name: formattedName
-  };
+  // return {
+  //   ...category,
+  //   name: formattedName
+  // };
 });
