@@ -2,7 +2,7 @@
   "products": [
     {
       "id": 1,
-      "category": "electronics",
+      "category": "Art_Antiques",
       "images": [],
       "name": "Smartphone X1",
       "fullPrice": 799,
@@ -25,7 +25,7 @@
     },
     {
       "id": 2,
-      "category": "furniture",
+      "category": "Art_Antiques",
       "images": ["https://s3-alpha-sig.figma.com/img/f654/4a27/2cdf207bcf213878ec843a9e83eaab4b?Expires=1737331200&Key-Pair-Id=APKAQ4GOSFWCVNEHN3O4&Signature=jhZK4Yh~YW8UFVeRUNxl-HUa-AC5-JQwAjcvnaBP08u4nDa1m-RKxJ~jlm8wvcoQI3cbVGti8pRzr8f9ImlxpgR4Ds8FB3fM0ymQRk12JUN8MC9DMxsIoDU1CndTXRCZIKRk4b141-19plecvG6-4S0MswFkowbaaa5ne6rVuuxw2cqWuHiftLVR6JJBzu1raYZSdMTZEKY-2eCg~Itv9W1nKsvC-oIcSh3GLV6DxoEYq5VJxSE2~n0Tx4bpj5~QEgJqpYtzEvoSZSpv1hp6~RySwdaEHjpXG38OURixUDn9djyKnU3sIyTenfN4j7zyCTNbsfllIhGe0ANjtmxpYg__", "/img/icons/NonPhoto.jpg"],
       "name": "Ergonomic Chair",
       "fullPrice": 299,

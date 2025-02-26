@@ -8,9 +8,13 @@ export const Categories: React.FC = () => {
   const navigate = useNavigate();
 
   const handleCategoryClick = (categoryName: string) => {
-    const name = categoryName.split(' & ').join('_')
-    console.log(name)
-    navigate(`/product?nameCategory=${name}`);
+    const name = categoryName.split(' & ').join('_');
+
+    // Отримуємо поточний хеш (фрагмент після #)
+    const hash = window.location.hash.split('?')[0]; // Видаляємо старі query параметри
+  
+    // Формуємо новий URL з query параметром
+    window.location.hash = `${hash}?nameCategory=${name}`;
   };
 
   const handleSeeAllCategory = () => {

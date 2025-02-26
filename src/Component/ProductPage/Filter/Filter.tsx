@@ -56,8 +56,12 @@ export const Filter: React.FC<FilterProps> = ({
   const resetFilters = () => {
     setSort('newest');
     setStates('all');
-    setPrice({ openingPrice: '', buyFullPrice: '', step: '' });
-    handleFiltersApply({ sort: 'newest', price: { openingPrice: '', buyFullPrice: '', step: '' }, states: 'all' });
+    setPrice({ openingPrice: '0', buyFullPrice: '0', step: '0' });
+    handleFiltersApply({ 
+      sort: 'newest', 
+      price: { openingPrice: '0', buyFullPrice: '0', step: '0' }, 
+      states: 'all' 
+    });
     toggleFilter();
   };
 

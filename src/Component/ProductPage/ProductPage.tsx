@@ -66,6 +66,8 @@ export const ProductPage: React.FC = () => {
     setStatusState(status);
   }, [location.search]);
 
+  // console.log(sortType, priceFilters, statusState)
+
   useEffect(() => {
     let filteredProducts = [...products];
 
@@ -108,6 +110,12 @@ export const ProductPage: React.FC = () => {
       );
     }
 
+    if (nameCategory) {
+      filteredProducts = filteredProducts.filter(product =>
+        product.category.toLocaleLowerCase() === nameCategory.toLocaleLowerCase()
+      );
+    }
+
     setCurrentPage(1);
     setVisibleProducts(filteredProducts);
   }, [products, sortType, priceFilters, statusState, searchQuery]);
@@ -123,33 +131,30 @@ export const ProductPage: React.FC = () => {
   }, [currentPage]);
 
   const handleFiltersApply = (filters: { sort: string; price: { openingPrice: string; buyFullPrice: string; step: string }; states: string }) => {
-    setSortType(filters.sort);
-    setPriceFilters(filters.price);
-    setStatusState(filters.states);
-
-    const params = new URLSearchParams();
+    const params = new URLSearchParams(location.search);
+  console.log(filters.price.openingPrice)
     if (filters.sort) params.set('sort', filters.sort);
     if (filters.price.openingPrice) params.set('openingPrice', filters.price.openingPrice);
     if (filters.price.buyFullPrice) params.set('buyFullPrice', filters.price.buyFullPrice);
     if (filters.price.step) params.set('step', filters.price.step);
     if (filters.states) params.set('status', filters.states);
-    if (searchQuery) params.set('search', searchQuery);
-
-    navigate({ search: params.toString() });
+  
+    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
   };
-
+  
   const handleSearch = (query: string) => {
     setSearchQuery(query);
     const params = new URLSearchParams(location.search);
-    params.set('search', query);
-    navigate({ search: params.toString() });
+    
+    params.set('search', query); // Додаємо або оновлюємо параметр пошуку
+    
+    navigate(`${location.pathname}?${params.toString()}`, { replace: true });
   };
+  
 
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
   };
-
-  console.log(categories)
 
   const categoryObj = categories.find((category) => category.name === nameCategory);
 
