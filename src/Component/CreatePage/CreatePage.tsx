@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/Store'; // Adjust the import path as necessary
 import ArrowBackIcon from '/img/icons/ArrowBack.svg'; // Adjust the import path as necessary
+import { AuctionLotData, userService } from '../../Service/userService';
 
 const categories = [
   "Art & Antiques",
@@ -21,7 +22,8 @@ const categories = [
 ];
 
 export const CreatePage: React.FC = () => {
-  const [images, setImages] = useState<string[]>([]);
+  const [images, setImages] = useState<File[]>([]);
+  const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [openingPrice, setOpeningPrice] = useState('');
@@ -46,66 +48,75 @@ export const CreatePage: React.FC = () => {
 
   const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const filesArray = Array.from(e.target.files).map(file => URL.createObjectURL(file));
+      const filesArray = Array.from(e.target.files);
+
       setImages(prevImages => [...prevImages, ...filesArray]);
+
+      // Створення прев’ю зображень
+      const newPreviews = filesArray.map(file => URL.createObjectURL(file));
+      setImagePreviews(prevPreviews => [...prevPreviews, ...newPreviews]);
     }
   };
 
   const handleRemoveImage = (index: number) => {
     setImages(prevImages => prevImages.filter((_, i) => i !== index));
+    setImagePreviews(prevPreviews => prevPreviews.filter((_, i) => i !== index));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     // Validate fields
-    const newErrors: { [key: string]: boolean | string } = {};
-    if (!name) newErrors.name = 'Name is required';
-    if (!description) newErrors.description = 'Description is required';
-    if (!openingPrice || isNaN(Number(openingPrice)) || Number(openingPrice) <= 0) newErrors.openingPrice = true;
-    if (closingPrice && (isNaN(Number(closingPrice)) || Number(closingPrice) <= 0)) newErrors.closingPrice = true;
-    if (!step || isNaN(Number(step)) || Number(step) <= 0) newErrors.step = true;
-    if (!closingTime) newErrors.closingTime = true;
-    if (images.length === 0) newErrors.images = 'At least one image is required';
+    const newErrors: Record<string, string | boolean> = {};
+    if (!name) newErrors.name = "Name is required";
+    if (!description) newErrors.description = "Description is required";
+    if (!openingPrice || isNaN(+openingPrice) || +openingPrice <= 0) newErrors.openingPrice = "Invalid opening price";
+    if (closingPrice && (isNaN(+closingPrice) || +closingPrice <= 0)) newErrors.closingPrice = "Invalid closing price";
+    if (!step || isNaN(+step) || +step <= 0) newErrors.step = "Invalid step";
+    if (!closingTime) newErrors.closingTime = "Closing time is required";
+    if (images.length === 0) newErrors.images = "At least one image is required";
 
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
-      window.scrollTo({ top: 0, behavior: 'smooth' }); // Scroll to top if there are errors
+      window.scrollTo({ top: 0, behavior: "smooth" }); // Scroll to top if there are errors
       return;
     }
 
-    const auctionData = {
-      category,
-      images,
-      name,
-      fullPrice: Number(closingPrice) || Number(openingPrice),
-      startPrice: Number(openingPrice),
-      currentPrice: Number(openingPrice),
-      bet: Number(step),
-      bids: [],
-      seller: { id: user.currentUser?.id, name: `${user.currentUser?.first_name} ${user.currentUser?.last_name}` },
-      status: "active",
-      state: condition,
-      location: "New York, USA", // Example location
-      startingTime: new Date().toISOString(),
-      endTime: closingTime || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(), // 7 days from now
+    const auctionData: AuctionLotData = {
+      item_name: name,
       description,
+      location: "New York", // Example location
+      initial_price: openingPrice,
+      min_step: step,
+      buyout_price: closingPrice ? closingPrice : openingPrice,
+      // close_time: closingTime || new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
+      close_time: closingTime,
+      category: 1,
+      images_to_upload: images,
     };
-    console.log(JSON.stringify(auctionData, null, 2));
 
-    // Clear all fields
-    setImages([]);
-    setName('');
-    setDescription('');
-    setOpeningPrice('');
-    setClosingPrice('');
-    setStep('');
-    setCondition('new');
-    setCategory(categories[0]);
-    setErrors({});
+    try {
+      const result = await userService.createAuctionLot(auctionData);
 
-    // Show modal
-    setShowModal(true);
+      if (result) {
+        setShowModal(true);
+        // Clear all fields
+        setName("");
+        setDescription("");
+        setOpeningPrice("");
+        setClosingPrice("");
+        setStep("");
+        setCondition("new");
+        setCategory(categories[0]);
+        setImages([]);
+        setErrors({});
+      } else {
+        alert("Error creating auction. Please try again.");
+      }
+    } catch (error) {
+      console.error("Auction creation error:", error);
+      alert("An unexpected error occurred. Please try again.");
+    }
   };
 
   const handleAddAnother = () => {
@@ -138,6 +149,7 @@ export const CreatePage: React.FC = () => {
   };
 
   const handleClosingTimeChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.value)
     setClosingTime(e.target.value);
   };
 
@@ -181,49 +193,51 @@ export const CreatePage: React.FC = () => {
       </div>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.leftSection}>
-          <div className={styles.imageUpload}>
-            <div className={styles.imageBlock}>
-              <div className={styles.mainImage} onClick={!images[0] ? openFilePicker : undefined}>
-                {images[0] ? (
-                  <div className={styles.imageContainer}>
-                    <img src={images[0]} alt="Main Auction" className={styles.image} />
-                    <button type="button" className={styles.removeButton} onClick={() => handleRemoveImage(0)}>
-                      <img src="/img/icons/Trash.svg" alt="" />
-                    </button>
-                  </div>
-                ) : (
-                  <img src="/img/icons/AddImage.png" alt="Placeholder" className={styles.image} />
-                )}
+          <div className={styles.stickyContainer}>
+            <div className={styles.imageUpload}>
+              <div className={styles.imageBlock}>
+                <div className={styles.mainImage} onClick={!images[0] ? openFilePicker : undefined}>
+                  {images[0] ? (
+                    <div className={styles.imageContainer}>
+                      <img src={imagePreviews[0]} alt="Main Auction" className={styles.image} />
+                      <button type="button" className={styles.removeButton} onClick={() => handleRemoveImage(0)}>
+                        <img src="/img/icons/Trash.svg" alt="" />
+                      </button>
+                    </div>
+                  ) : (
+                    <img src="/img/icons/AddImage.png" alt="Placeholder" className={styles.image} />
+                  )}
+                </div>
+                <div className={styles.smallImages}>
+                  {Array.from({ length: 4 }).map((_, index) => (
+                    <div
+                      key={index}
+                      className={styles.smallImageContainer}
+                      onClick={!images[index + 1] ? openFilePicker : undefined}
+                    >
+                      {images[index + 1] ? (
+                        <div className={styles.imageContainer}>
+                          <img src={imagePreviews[index + 1]} alt={`Auction ${index + 1}`} className={styles.smallImage} />
+                          <button type="button" className={styles.removeButton} onClick={() => handleRemoveImage(index + 1)}>
+                            <img src="/img/icons/Trash.svg" alt="" />
+                          </button>
+                        </div>
+                      ) : (
+                        <img src="/img/icons/AddImage.png" alt="Placeholder" className={styles.smallImage} />
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
-              <div className={styles.smallImages}>
-                {Array.from({ length: 4 }).map((_, index) => (
-                  <div
-                    key={index}
-                    className={styles.smallImageContainer}
-                    onClick={!images[index + 1] ? openFilePicker : undefined}
-                  >
-                    {images[index + 1] ? (
-                      <div className={styles.imageContainer}>
-                        <img src={images[index + 1]} alt={`Auction ${index + 1}`} className={styles.smallImage} />
-                        <button type="button" className={styles.removeButton} onClick={() => handleRemoveImage(index + 1)}>
-                          <img src="/img/icons/Trash.svg" alt="" />
-                        </button>
-                      </div>
-                    ) : (
-                      <img src="/img/icons/AddImage.png" alt="Placeholder" className={styles.smallImage} />
-                    )}
-                  </div>
-                ))}
-              </div>
+              <input
+                type="file"
+                multiple
+                onChange={handleImageUpload}
+                ref={fileInputRef}
+                style={{ display: "none" }}
+              />
+              {errors.images && <span className={styles.errorText}>{errors.images}</span>}
             </div>
-            <input
-              type="file"
-              multiple
-              onChange={handleImageUpload}
-              ref={fileInputRef}
-              style={{ display: "none" }}
-            />
-            {errors.images && <span className={styles.errorText}>{errors.images}</span>}
           </div>
         </div>
         <div className={styles.rightSection}>
