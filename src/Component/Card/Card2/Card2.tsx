@@ -6,9 +6,10 @@ import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "Store/Store";
 import { addToFavorite, removeFromFavorite } from "../../../Reducer/favoriteSlice";
+import { ListProduct } from "type/ListProduct";
 
 interface Props {
-  product: Product;
+  product: ListProduct;
 }
 
 export const Card2: React.FC<Props> = ({ product }) => {
@@ -71,7 +72,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
   const inFavorite = () => {
     return favorite.some(fav => fav.id === product.id);
   };
-
+// console.log(product.item_name)
   return (
     <div className={styles.container}>
       <NavLink
@@ -83,7 +84,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
       <div className={styles.full}>
         <div className={styles.nameSection}>
           <div className={styles.nameContainer}>
-            <div className={styles.name}>{product.name}</div>
+            <div className={styles.name}>{product.item_name}</div>
             <button
               className={classNames([styles.button], {
                 [styles.isUnadd]: !inFavorite(),
@@ -99,7 +100,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
           </div>
           <div className={styles.priceContainer}>
               <div className={styles.description}>Opening price:</div>
-              <div>{`$${product.currentPrice}`}</div>
+              <div>{`$${product.initial_price}`}</div>
           </div>
           <div className={styles.timeContainer}>
             <div>Over:</div>

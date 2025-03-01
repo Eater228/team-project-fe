@@ -39,10 +39,10 @@ export const PicturesSlider: React.FC<PicturesSliderProps> = ({ images }) => {
           <div className={styles.title}>
             <h2>Welcome</h2>
             <p>
-              To TopBid! Your ultimate destination for{' '}
-              <span className={styles.highlight}>online</span>
+              To TopBid! Your ultimate destination {' '}
               <br />
-              <span className={styles.highlight}>auctions.</span>
+              <span className="">for</span>
+              <span className={styles.highlight}> online auctions.</span>
             </p>
           </div>
           {/* <Order /> */}

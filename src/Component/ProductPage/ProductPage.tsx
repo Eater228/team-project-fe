@@ -179,10 +179,11 @@ export const ProductPage: React.FC = () => {
       {(nameCategory && categoryObj) ? (<></>) : (<Categories />)}
       <div className={styles.productList} ref={sectionRef}>
         {loading && <Loader />}
-        {error && <p>{error}</p>}
+        {/* {error && <p>{error}</p>} */}
         {visibleProducts.length !== 0 && (
           <>
-            <CardList products={currentTableData} name={"For you"} itemsPerPage={products.length} />
+            <CardList products={currentTableData} name={"Test"} itemsPerPage={products.length} />
+            {/* <CardList products={currentTableData} name={"For you"} itemsPerPage={products.length} /> */}
             <Pagination
               className="pagination-bar"
               currentPage={currentPage}

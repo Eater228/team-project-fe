@@ -55,7 +55,7 @@ export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
             className={`${styles.paymentMethod} ${selectedPaymentMethod === 'PayPal' ? styles.selected : ''}`}
             onClick={() => handlePaymentMethodSelect('PayPal')}
           >
-            <img src="/img/icons/PayPal.png" alt="PayPal" />
+            <img src="/img/icons/PayPal.png" alt="PayPal"/>
           </div>
           <div
             className={`${styles.paymentMethod} ${selectedPaymentMethod === 'GooglePay' ? styles.selected : ''}`}

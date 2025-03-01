@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import { Card2 } from '../../Component/Card/Card2/Card2';
 import { Product } from '../../type/Product';
 import styles from './CardList.module.scss';
+import { ListProduct } from 'type/ListProduct';
 
 type Props = {
-  products: Product[];
+  products: ListProduct[];
   name: string;
   itemsPerPage: number;
 };
@@ -28,7 +29,7 @@ export const CardList: React.FC<Props> = ({ products, name, itemsPerPage }) => {
 
   const startIndex = (currentPage - 1) * itemsPerPage;
   const selectedProducts = products.slice(startIndex, startIndex + itemsPerPage);
-
+// console.log(selectedProducts)
   return (
     <div className={styles.container}>
       <div className={styles.title}>

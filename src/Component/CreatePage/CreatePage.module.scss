@@ -67,18 +67,30 @@
     flex-direction: column;
     // align-items: center;
 
+    .stickyContainer {
+      position: sticky;
+      top: 100px; /* Висота navbar */
+      align-self: flex-start;
+      // max-height: calc(100vh - 70px);
+      overflow-y: auto;
+    }
+
     .imageUpload {
+      // position: fixed;
       display: flex;
       flex-direction: column;
       // align-items: center;
       gap: 10px;
+      transition: position 0.3s ease-in-out;
 
       .imageBlock {
         width: 100%;
         display: flex;
+        flex-wrap: wrap;
         flex-direction: column;
 
         .mainImage {
+          // flex: 1 1 auto;
           box-sizing: border-box;
           border: 4px solid #3b3b3c;
           border-radius: 10px;
@@ -134,12 +146,14 @@
         
 
         .smallImages {
+          // flex-wrap: wrap;
+          // flex-grow: 1; /* Дозволяє займати доступний простір */
           display: grid;
           grid-template-columns: repeat(2, 1fr);
           grid-template-rows: repeat(2, 1fr);
           // gap: 10px; // Додає простір між зображеннями
-          width: 100%;
-          max-width: 200px; // Контроль максимального розміру блоку
+          // width: 100%;
+          // max-width: 200px; // Контроль максимального розміру блоку
         
           .smallImageContainer {
             box-sizing: border-box;
@@ -348,7 +362,7 @@
 
     .createButton {
       padding: 10px 20px;
-      border-radius: 8px;
+      border-radius: 100px;
       border: none;
       background-color: #204dff;
       color: #fff;
