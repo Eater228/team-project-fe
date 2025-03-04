@@ -7,24 +7,25 @@ import { AppDispatch, RootState } from 'Store/Store';
 import { useState } from 'react';
 import { ProfileModal } from '../ProfileModal/ProfileModal';
 import { BalanceModal } from '../BalanceModal/BalanceModal';
+import { NotificationModal } from '../NotificationModal/NotificationModal';
 
 export const Navbar = () => {
   const { isLoggedIn, currentUser } = useSelector((state: RootState) => state.userData);
-  const dispatch = useDispatch<AppDispatch>();
-  const navigate = useNavigate();
+  // const dispatch = useDispatch<AppDispatch>();
+  // const navigate = useNavigate();
 
-  const [showNotifications, setShowNotifications] = useState(false);
   const [showProfileModal, setShowProfileModal] = useState(false);
   const [showBalanceModal, setShowBalanceModal] = useState(false);
+  const [showNotificationModal, setShowNotificationModal] = useState(false);
 
-  const toggleNotifications = () => setShowNotifications((prev) => !prev);
   const toggleProfileModal = () => setShowProfileModal((prev) => !prev);
   const toggleBalanceModal = () => setShowBalanceModal((prev) => !prev);
+  const toggleNotificationModal = () => setShowNotificationModal((prev) => !prev);
 
-  const handleLogout = () => {
-    dispatch(logout());
-    navigate('/Home');
-  };
+  // const handleLogout = () => {
+  //   dispatch(logout());
+  //   navigate('/Home');
+  // };
 
   const getLinkClass = ({ isActive }: { isActive: boolean }) =>
     classNames(styles.itemLink, { [styles.active]: isActive });
@@ -71,14 +72,12 @@ export const Navbar = () => {
                 </div>
               </li>
               <li className={styles.item}>
-                <button className={styles.notificationButton} onClick={toggleNotifications}>
+                <div
+                  className={styles.notificationButton}
+                  onClick={toggleNotificationModal}
+                >
                   <img src="/img/icons/Bell.svg" alt="Notifications" />
-                </button>
-                {showNotifications && (
-                  <div className={styles.notificationDropdown}>
-                    <p>No new notifications</p>
-                  </div>
-                )}
+                </div>
               </li>
               <li className={styles.item}>
                 <div onClick={toggleProfileModal}>
@@ -98,6 +97,8 @@ export const Navbar = () => {
       {showProfileModal && <ProfileModal onClose={toggleProfileModal} />}
       {/* Модальне вікно балансу */}
       {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} />}
+      {/* Модальне вікно сповіщень */}
+      {showNotificationModal && <NotificationModal onClose={toggleNotificationModal} />}
     </nav>
   );
 };

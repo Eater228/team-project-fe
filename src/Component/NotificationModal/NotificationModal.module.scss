@@ -1,0 +1,47 @@
+.modal {
+  position: fixed;
+  top: 0px;
+  right: 00px;
+  width: 100%;
+  height: 100%;
+  // background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-start;
+  z-index: 1000;
+}
+
+.modalContent {
+  position: relative;
+  top: 80px;
+  right: 90px;
+  background-color: #1c1c1d;
+  border: 1px solid #59595a;
+  border-radius: 8px;
+  padding: 20px;
+  width: 300px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.modalContent::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 20px;
+  width: 0;
+  height: 0;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #1C1C1D;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  color: #f1f1f8;
+  font-size: 16px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
