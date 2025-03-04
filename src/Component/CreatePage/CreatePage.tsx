@@ -339,7 +339,7 @@ export const CreatePage: React.FC = () => {
           </div>
           <div className={styles.fullWidthLine}></div>
           <div className={styles.formGroupRadio}>
-            <label>Category</label>
+            <h2>Category</h2>
             <div className={styles.radioGroup}>
               {categories.map((cat) => (
                 <label key={cat}>
