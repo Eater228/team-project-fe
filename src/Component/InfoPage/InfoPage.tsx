@@ -121,7 +121,11 @@ export const InfoPage: React.FC = () => {
             <div>{timeLeft}</div>
           </div>
         </div>
-        <h3 className={styles.nameCategory}>Contacts</h3>
+        <div className={styles.category}>
+          <h3>Category:</h3>
+          <div className={styles.categoryName}>{product.category_id}</div>
+        </div>
+        <h3 className={styles.contacts}>Contacts</h3>
         <div className={styles.contactBlock}>
           <div className={styles.contactIcons}>
             <img src="/img/icons/Phone.svg" alt="Phone Icon" />

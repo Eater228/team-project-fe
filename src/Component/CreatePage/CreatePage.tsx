@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../Store/Store'; // Adjust the import path as necessary
 import ArrowBackIcon from '/img/icons/ArrowBack.svg'; // Adjust the import path as necessary
 import { AuctionLotData, userService } from '../../Service/userService';
+import classNames from 'classnames';
 
 const categories = [
   "Art & Antiques",
@@ -29,8 +30,8 @@ export const CreatePage: React.FC = () => {
   const [openingPrice, setOpeningPrice] = useState('');
   const [closingPrice, setClosingPrice] = useState('');
   const [step, setStep] = useState('');
-  const [condition, setCondition] = useState('new');
-  const [category, setCategory] = useState(categories[0]);
+  const [condition, setCondition] = useState('');
+  const [category, setCategory] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [errors, setErrors] = useState<{ [key: string]: boolean | string }>({});
   const [closingTime, setClosingTime] = useState('');
@@ -107,7 +108,7 @@ export const CreatePage: React.FC = () => {
         setClosingPrice("");
         setStep("");
         setCondition("new");
-        setCategory(categories[0]);
+        setCategory("");
         setImages([]);
         setErrors({});
       } else {
@@ -179,21 +180,28 @@ export const CreatePage: React.FC = () => {
 
   const maxClosingTime = new Date();
   maxClosingTime.setMonth(maxClosingTime.getMonth() + 1);
-  const maxClosingTimeString = maxClosingTime.toISOString().slice(0, 16);
-  const minClosingTimeString = new Date().toISOString().slice(0, 16);
+  const maxClosingTimeString = maxClosingTime.toISOString().split("T")[0]; // Формат YYYY-MM-DD
+  const minClosingTimeString = new Date().toISOString().split("T")[0];
+
+
+  const handleInputFocus = (event: React.FocusEvent<HTMLInputElement>) => {
+    event.target.showPicker(); // Відкриває календар при будь-якому кліку
+  };
 
   return (
     <div className={styles.createPage}>
-      <div className={styles.backButton} onClick={handleGoBack}>
-        <img src={ArrowBackIcon} alt="Back" />
-      </div>
-      <div className={styles.header}>
-        <h1>Creating an auction</h1>
-        <p>Input all required information</p>
-      </div>
       <form onSubmit={handleSubmit} className={styles.form}>
         <div className={styles.leftSection}>
           <div className={styles.stickyContainer}>
+            <div className={styles.header}>
+              <div className={styles.backButton} onClick={handleGoBack}>
+                <img src={ArrowBackIcon} alt="Back" />
+              </div>
+              <div>
+                <h1>Creating an auction</h1>
+                <p>Input all required information</p>
+              </div>
+            </div>
             <div className={styles.imageUpload}>
               <div className={styles.imageBlock}>
                 <div className={styles.mainImage} onClick={!images[0] ? openFilePicker : undefined}>
@@ -258,6 +266,7 @@ export const CreatePage: React.FC = () => {
               value={description}
               onChange={(e) => setDescription(e.target.value)}
               onBlur={handleDescriptionBlur}
+              maxLength={500}
             />
             <label className={styles.inputLabel} htmlFor="description">Description</label>
             {errors.description && <span className={styles.errorText}>{errors.description}</span>}
@@ -304,13 +313,14 @@ export const CreatePage: React.FC = () => {
               <label htmlFor="closingTime">Closing time</label>
               <div className={styles.inputWrapper}>
                 <input
-                  type="datetime-local"
+                  type="date"
                   id="closingTime"
                   value={closingTime}
                   onChange={handleClosingTimeChange}
+                  onFocus={handleInputFocus}
                   min={minClosingTimeString}
                   max={maxClosingTimeString}
-                  className={styles.datetime}
+                  className={classNames(styles.datetime, { [styles.filled]: closingTime })}
                 />
               </div>
             </div>
@@ -339,7 +349,7 @@ export const CreatePage: React.FC = () => {
           </div>
           <div className={styles.fullWidthLine}></div>
           <div className={styles.formGroupRadio}>
-            <label>Category</label>
+            <h2>Category</h2>
             <div className={styles.radioGroup}>
               {categories.map((cat) => (
                 <label key={cat}>

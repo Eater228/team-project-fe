@@ -14,23 +14,43 @@
 //   updatedAt?: string; // Дата оновлення (якщо буде)
 // };
 
-export type Product = {
+// export type Product = {
+//   id: number;
+//   category: string;
+//   images: string[]; // Масив URL зображень товару
+//   name: string; // Назва товару
+//   fullPrice: number; // Повна ціна товару
+//   startPrice: number; // Стартова ціна на аукціоні
+//   currentPrice: number; // Поточна ціна товару (останній бід)
+//   bet: number; // Мінімальна ціна, яку продавець прийме
+//   bids: { userId: number; amount: number; time: string }[]; // Історія ставок
+//   seller: { id: number; name: string }; // Інформація про продавця
+//   status: "active" | "sold" | "expired"; // Статус товару
+//   state: "new" | "used"; // Стан товару
+//   location: string; // Місцезнаходження товару
+//   startingTime: string; // Час початку аукціону у форматі ISO 8601
+//   endTime: string; // Час завершення аукціону у форматі ISO 8601
+//   description: string; // Опис товару
+//   createdAt: string; // Дата створення у форматі ISO 8601
+//   updatedAt: string; // Дата оновлення у форматі ISO 8601
+// };
+
+type Image = {
+  url: string; // Тут можна уточнити інші властивості з об'єкта зображення, якщо вони є
+};
+
+type Product = {
   id: number;
-  category: string;
-  images: string[]; // Масив URL зображень товару
-  name: string; // Назва товару
-  fullPrice: number; // Повна ціна товару
-  startPrice: number; // Стартова ціна на аукціоні
-  currentPrice: number; // Поточна ціна товару (останній бід)
-  bet: number; // Мінімальна ціна, яку продавець прийме
-  bids: { userId: number; amount: number; time: string }[]; // Історія ставок
-  seller: { id: number; name: string }; // Інформація про продавця
-  status: "active" | "sold" | "expired"; // Статус товару
-  state: "new" | "used"; // Стан товару
-  location: string; // Місцезнаходження товару
-  startingTime: string; // Час початку аукціону у форматі ISO 8601
-  endTime: string; // Час завершення аукціону у форматі ISO 8601
-  description: string; // Опис товару
-  createdAt: string; // Дата створення у форматі ISO 8601
-  updatedAt: string; // Дата оновлення у форматі ISO 8601
+  item_name: string;
+  description: string;
+  category_id: number;
+  buyout_price: string;
+  initial_price: string;
+  min_step: string;
+  close_time: string; // Можна використовувати Date тип, якщо це потрібно
+  location: string;
+  bids: Array<any>; // Якщо є специфічна структура для bids, то краще уточнити
+  images: Image[]; // Массив зображень
+  owner_id: number;
+  winner_id: number | null;
 };
