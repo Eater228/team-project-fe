@@ -32,15 +32,18 @@ export const MainPage = () => {
     return <div>Error: {error}</div>;
   }
 
-  const sortedProducts = [...products].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-  const newestProducts = sortedProducts.slice(0, 10);
+  // const sortedProducts = [...products].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
+  const newestProducts = products.slice(0, 10).map(product => ({
+    ...product,
+    images: product.images.map(img => img.url)
+  }));
 
   const handleSearch = (query: string) => {
     if (query.trim() !== '') {
       navigate(`/product?search=${query}`);
     }
   };
-
+// console.log(products[1].images[0])
   return (
     <div className={styles.MainPage}>
       <PicturesSlider images={[image1]} />
@@ -55,7 +58,10 @@ export const MainPage = () => {
         <CardList products={newestProducts} name={"Top"} itemsPerPage={4}/>
       )}
       {products.length !== 0 && (
-        <CardList products={sortedProducts} name={"For you"} itemsPerPage={12}/>
+        <CardList products={products.map(product => ({
+          ...product,
+          images: product.images.map(img => img.url)
+        }))} name={"For you"} itemsPerPage={12}/>
       )}
       <div className={styles.bottomGap}></div>
     </div>
