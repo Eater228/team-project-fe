@@ -39,7 +39,7 @@ type Image = {
   url: string; // Тут можна уточнити інші властивості з об'єкта зображення, якщо вони є
 };
 
-type Product = {
+export type Product = {
   id: number;
   item_name: string;
   description: string;

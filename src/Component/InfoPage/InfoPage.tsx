@@ -85,7 +85,7 @@ export const InfoPage: React.FC = () => {
     <div className={styles.infoPage}>
       <div className={styles.imageBlock}>
         <div className={styles.image}>
-          <img src={product.images[currentImageIndex]} alt={product.name} />
+          <img src={product.images[currentImageIndex]} alt={product.item_name} />
         </div>
         <div className={styles.imageControls}>
           <button onClick={handlePrevImage}>
@@ -133,7 +133,16 @@ export const InfoPage: React.FC = () => {
           </div>
           <div className={styles.messengers}>
             <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
+              <img src="/img/icons/Viber.svg" alt="Telegram" />
+            </a>
+            <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
               <img src="/img/icons/Telegram.svg" alt="Telegram" />
+            </a>
+            <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
+              <img src="/img/icons/Facebook.svg" alt="Telegram" />
+            </a>
+            <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
+              <img src="/img/icons/Instagram.svg" alt="Telegram" />
             </a>
           </div>
         </div>
