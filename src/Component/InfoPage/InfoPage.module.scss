@@ -152,6 +152,22 @@
   }
 }
 
+.category {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  
+  .categoryName{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 48px;
+    width: 180px;
+    border-radius: 100px;
+    background-color: #59595A;
+  }
+}
+
 .contactBlock {
   display: flex;
   justify-content: space-between;
