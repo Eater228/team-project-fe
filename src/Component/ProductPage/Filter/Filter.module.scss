@@ -82,32 +82,31 @@
     }
 
     input[type="radio"] {
-        appearance: none; // Ховаємо стандартне радіо
-        width: 18px;
-        height: 18px;
-        border: 2px solid #999;
-        border-radius: 50%;
-        position: relative;
-        cursor: pointer;
-        transition: all 0.3s;
-        // accent-color: red;
-      }
+      appearance: none; // Ховаємо стандартне радіо
+      width: 18px;
+      height: 18px;
+      border: 2px solid #999;
+      border-radius: 50%;
+      position: relative;
+      cursor: pointer;
+      transition: all 0.3s;
+      // accent-color: red;
+    }
 
-      input[type="radio"]:checked::before {
-        content: "";
-        width: 10px;
-        height: 10px;
-        background: #ecd57b; // Колір заливки при виборі
-        border-radius: 50%;
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-      }
-
+    input[type="radio"]:checked::before {
+      content: "";
+      width: 10px;
+      height: 10px;
+      background: #ecd57b; // Колір заливки при виборі
+      border-radius: 50%;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+    }
 
     input[type="checkbox"] {
-      accent-color: #ECD57B;
+      accent-color: #ecd57b;
     }
 
     // input[type="radio"]:checked::before {
@@ -172,11 +171,11 @@
     text-align: center;
     gap: 8px;
     border-radius: 4px;
-    background: #59595A;
+    background: #59595a;
     border: none;
     box-shadow: none;
     appearance: none;
-  
+
     &:focus-visible {
       outline: none;
     }
@@ -189,11 +188,11 @@
     text-align: center;
     gap: 8px;
     border-radius: 4px;
-    background: #59595A;
+    background: #59595a;
     border: none;
     box-shadow: none;
     appearance: none;
-  
+
     &:focus-visible {
       outline: none;
     }
@@ -297,4 +296,36 @@
 
 .applyButton:hover {
   background-color: #4466f0;
+}
+
+@media screen and (max-height: 850px) {
+  .filterCategory:first-of-type {
+    margin-top: 20px; /* Було 40px, стало 20px */
+  }
+
+  .filterCategory {
+    gap: 0;
+
+    .radioGroup {
+      gap: 0;
+    }
+  }
+
+  .filterCategoryPrice {
+    gap: 0;
+  }
+
+  .separator {
+    margin: 8px 0; /* Було 16px, стало 8px */
+  }
+
+  .buttonContainer {
+    margin-top: 27px; /* Було 54px, стало 27px */
+  }
+
+  .applyButton,
+  .resetButton {
+    height: 32px; /* Було 48px, стало 24px */
+    font-size: 14px; /* Можна трохи зменшити шрифт */
+  }
 }

@@ -49,16 +49,24 @@
 
 .categoryItem {
   position: relative;
-  text-align: center;
-  box-sizing: border-box;
+  // text-align: center;
+  // box-sizing: border-box;
   // width: calc(25% - 15px); /* Adjust width to fit 4 categories within the screen */
-  height: 504px; /* Set the height of each category item */
+  max-height: 504px; /* Set the height of each category item */
   border-radius: 16px;
 
   &:focus-visible {
     outline: none;
   }
 }
+
+// .categoryCard {
+//   position: relative;
+//   width: 100%;
+//   height: 100%;
+//   // border-radius: 16px;
+//   // overflow: hidden; /* Ensure the image does not overflow the container */
+// }
 
 .categoryImage {
   position: relative;
@@ -80,15 +88,13 @@
 }
 
 .categoryName {
+  position: absolute;
   box-sizing: border-box;
   width: 100%;
   height: 155px;
   border-bottom-right-radius: 16px;
   border-bottom-left-radius: 16px;
-  position: relative;
-  bottom: 150px;
-  // left: 5%;
-  // transform: translateX(-50%);
+  bottom: 0;
   font-size: 16px;
   font-weight: bold;
   color: white;
@@ -100,7 +106,7 @@
     #1c1c1d 89.36%
   ); /* Add a gradient background */
   backdrop-filter: blur(2.1px); /* Add a blur effect */
-  padding: 16px 48px;
+  padding: 16px 0 0 48px;
   margin: 0;
   display: flex;
   align-items: center;
