@@ -25,9 +25,6 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
   return (
     <div className={styles.modalOverlay} onClick={onClose}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>
-          &times;
-        </button>
         <div className={styles.profileInfo}>
           <img src={currentUser?.profile_pic || "/img/icons/default-user.svg"} alt="User" className={styles.profilePic} />
           <div className={styles.profileDetails}>
