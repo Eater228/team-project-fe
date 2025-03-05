@@ -9,6 +9,7 @@ export const Profile: React.FC = () => {
   const currentUser = useSelector((state: RootState) => state.userData.currentUser);
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [newPassword, setNewPassword] = useState('');
+  const [repeatPassword, setRepeatPassword] = useState('');
   const [passwordChangeSuccess, setPasswordChangeSuccess] = useState(false);
   const [isEditingContact, setIsEditingContact] = useState<{ [key: string]: boolean }>({
     phone: false,
@@ -23,7 +24,7 @@ export const Profile: React.FC = () => {
     viber: '',
   });
   const [showBalanceModal, setShowBalanceModal] = useState(false);
-  const [balanceAmount, setBalanceAmount] = useState('');
+  // const [balanceAmount, setBalanceAmount] = useState('');
   const [isEditingLastName, setIsEditingName] = useState(false);
   const [isEditingFirstName, setIsEditingFirstName] = useState(false);
   const [newFirstName, setNewFirstName] = useState(currentUser?.first_name || '');
@@ -31,37 +32,37 @@ export const Profile: React.FC = () => {
 
   const toggleBalanceModal = () => setShowBalanceModal((prev) => !prev);
 
-  const handleChangePassword = async () => {
-    if (!currentUser?.email || !currentUser?.first_name || !currentUser?.last_name) {
-      console.error('Required user data is missing');
-      return;
-    }
+  // const handleChangePassword = async () => {
+  //   if (!currentUser?.email || !currentUser?.first_name || !currentUser?.last_name) {
+  //     console.error('Required user data is missing');
+  //     return;
+  //   }
 
-    const updateProfile = {
-      email: currentUser.email,
-      first_name: currentUser.first_name,
-      last_name: currentUser.last_name,
-      profile_pic: currentUser.profile_pic || '',
-      password: newPassword,
-    };
+  //   const updateProfile = {
+  //     email: currentUser.email,
+  //     first_name: currentUser.first_name,
+  //     last_name: currentUser.last_name,
+  //     profile_pic: currentUser.profile_pic || '',
+  //     password: newPassword,
+  //   };
 
-    console.log("Up date profile", updateProfile);
+  //   console.log("Up date profile", updateProfile);
 
-    if (isEditingPassword) {
-      try {
-        await userService.updateProfile(updateProfile);
-        setPasswordChangeSuccess(true);
-        setTimeout(() => setPasswordChangeSuccess(false), 3000); // Hide success message after 3 seconds
-      } catch (error) {
-        console.error('Failed to change password:', error);
-      }
-      // Reset state
-      setIsEditingPassword(false);
-      setNewPassword('');
-    } else {
-      setIsEditingPassword(true);
-    }
-  };
+  //   if (isEditingPassword) {
+  //     try {
+  //       await userService.updateProfile(updateProfile);
+  //       setPasswordChangeSuccess(true);
+  //       setTimeout(() => setPasswordChangeSuccess(false), 3000); // Hide success message after 3 seconds
+  //     } catch (error) {
+  //       console.error('Failed to change password:', error);
+  //     }
+  //     // Reset state
+  //     setIsEditingPassword(false);
+  //     setNewPassword('');
+  //   } else {
+  //     setIsEditingPassword(true);
+  //   }
+  // };
 
   const handleEditName = () => {
     if (isEditingLastName) {
@@ -95,6 +96,32 @@ export const Profile: React.FC = () => {
 
   const handlePasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setNewPassword(e.target.value);
+  };
+
+  const handleRepeatPasswordChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setRepeatPassword(e.target.value);
+  };
+
+  const handleSavePassword = () => {
+    if (newPassword === repeatPassword) {
+      // Тут можна додати логіку для оновлення пароля в бекенді
+      setPasswordChangeSuccess(true);
+      setIsEditingPassword(false);
+      setRepeatPassword('');
+    } else {
+      alert('Passwords do not match!');
+    }
+  };
+
+  const handleCancelPasswordEdit = () => {
+    setIsEditingPassword(false);
+    setNewPassword('');
+    setRepeatPassword('');
+  };
+
+  const handleChangePassword = () => {
+    setIsEditingPassword(true);
+    setPasswordChangeSuccess(false);
   };
 
   const handleEditContact = (contactType: string) => {
@@ -155,7 +182,7 @@ export const Profile: React.FC = () => {
                 <div className={styles.inputDiv}>{currentUser?.first_name}</div>
               )}
               <button className={styles.changeNameButton} onClick={handleEditFirstName}>
-                {isEditingFirstName ? 'Save Changes' : 'Change Name'}
+                {isEditingFirstName ? 'Save Changes' : <img src='./img/icons/Pencil.svg' />}
               </button>
             </div>
             <div className={styles.formGroup}>
@@ -172,28 +199,50 @@ export const Profile: React.FC = () => {
                 <div className={styles.inputDiv}>{currentUser?.last_name}</div>
               )}
               <button className={styles.changeNameButton} onClick={handleEditName}>
-                {isEditingLastName ? 'Save Changes' : 'Change Name'}
+                {isEditingLastName ? 'Save Changes' : <img src='./img/icons/Pencil.svg' />}
               </button>
             </div>
           </div>
           <div className={styles.formGroup}>
-            <label htmlFor="password">Password</label>
+            <label className={isEditingPassword ? styles.passwordLabel : undefined} htmlFor="password">Password</label>
             {isEditingPassword ? (
-              <input
-                type="text"
-                id="password"
-                value={newPassword}
-                onChange={handlePasswordChange}
-                className={styles.inputDiv}
-              />
+              <div className={styles.passwordFields}>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="password">New Password</label>
+                  <input
+                    type="text"
+                    id="password"
+                    value={newPassword}
+                    onChange={handlePasswordChange}
+                    className={styles.inputPassword}
+                  />
+                </div>
+                <div className={styles.inputGroup}>
+                  <label htmlFor="repeatPassword">Repeat Password</label>
+                  <input
+                    type="text"
+                    id="repeatPassword"
+                    value={repeatPassword}
+                    onChange={handleRepeatPasswordChange}
+                    className={styles.inputPassword}
+                  />
+                </div>
+                <div className={styles.buttonGroup}>
+                  <button className={styles.cancelButton} onClick={handleCancelPasswordEdit}>Back</button>
+                  <button className={styles.saveButton} onClick={handleSavePassword}>Save</button>
+                </div>
+              </div>
             ) : (
               <div className={styles.inputDiv}>*******</div>
             )}
-            <button className={styles.changePasswordButton} onClick={handleChangePassword}>
-              {isEditingPassword ? 'Save Changes' : 'Change Password'}
-            </button>
-            {passwordChangeSuccess && <div className={styles.successMessage}>Password changed successfully!</div>}
+            {!isEditingPassword && (
+              <button className={styles.changePasswordButton} onClick={handleChangePassword}>
+                <img src="./img/icons/Pencil.svg" alt="Edit" />
+              </button>
+            )}
+            {/* {passwordChangeSuccess && <div className={styles.successMessage}>Password changed successfully!</div>} */}
           </div>
+
         </div>
         <hr className={styles.divider} />
         <div className={styles.contactsSection}>
@@ -214,11 +263,13 @@ export const Profile: React.FC = () => {
                 <div className={styles.inputDiv}>{currentUser?.[contactType] || 'Not provided'}</div>
               )}
               <button className={styles.changePasswordButton} onClick={() => handleEditContact(contactType)}>
-                {isEditingContact[contactType] ? 'Save Changes' : `Add ${contactType.charAt(0).toUpperCase() + contactType.slice(1)}`}
+                {isEditingContact[contactType] ? 'Save Changes' : <img src='./img/icons/Pencil.svg' />}
               </button>
             </div>
           ))}
         </div>
+      </div>
+      <div className={styles.sidebar}>
       </div>
       {/* Модальне вікно балансу */}
       {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} />}

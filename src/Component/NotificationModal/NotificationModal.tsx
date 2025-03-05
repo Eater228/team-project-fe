@@ -14,7 +14,7 @@ export const NotificationModal = ({ onClose }: NotificationModalProps) => {
   return (
     <div className={styles.modal} onClick={handleOutsideClick}>
       <div className={styles.modalContent} onClick={(e) => e.stopPropagation()}>
-        <button className={styles.closeButton} onClick={onClose}>X</button>
+        {/* <button className={styles.closeButton} onClick={onClose}>X</button> */}
         <p>No new notifications</p>
       </div>
     </div>
