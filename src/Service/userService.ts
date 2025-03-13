@@ -1,4 +1,3 @@
-import { User } from "../type/User";
 import { authClient as client } from "../http/auth";
 import { Product } from "type/Product";
 
@@ -27,6 +26,7 @@ export const userService = {
     try {
       const response = await client.put('/account/profile/', profileData);
       return response;
+      
     } catch (error: any) {
       console.error('Error updating profile:', error.response || error);
       throw error;
@@ -35,8 +35,6 @@ export const userService = {
   async createAuctionLot(lotData: AuctionLotData) {
     try {
       const formData = new FormData();
-      
-      // Додаємо текстові поля
       formData.append('item_name', lotData.item_name);
       formData.append('description', lotData.description);
       formData.append('location', lotData.location);
@@ -44,17 +42,12 @@ export const userService = {
       formData.append('min_step', lotData.min_step);
       formData.append('buyout_price', lotData.buyout_price);
       formData.append('close_time', lotData.close_time);
-      formData.append('category', lotData.category);
-      
-      // Додаємо файли
-      if (lotData.images_to_upload) {
-        lotData.images_to_upload.forEach((file, index) => {
-          formData.append(`images_to_upload`, file);
-        });
-      }
+      formData.append('category', lotData.category.toString());
 
-      for (const pair of formData.entries()) {
-        console.log(pair[0], pair[1]);
+      if (lotData.images_to_upload) {
+        lotData.images_to_upload.forEach((file) => {
+          formData.append('images_to_upload', file);
+        });
       }
 
       const response = await client.post('/api/auction-lots/', formData, {
@@ -66,40 +59,36 @@ export const userService = {
 
       return response;
     } catch (error: unknown) {
-      if (error instanceof Error) {
-        console.error('Error creating auction lot:', error.message);
-      } else {
-        console.error('An unknown error occurred:', error);
-      }
+      console.error('Error creating auction lot:', error instanceof Error ? error.message : 'An unknown error occurred');
       throw error;
     }
   },
   async getProducts() {
     try {
-      const response = await client.get('/api/auction-lots/')
+      const response = await client.get('/api/auction-lots/');
       return response;
     } catch (error: any) {
-      console.error('Error', error.response || error);
+      console.error('Error fetching products:', error.response || error);
       throw error;
     }
   },
-
-  async getLotById (id: string) {
-    const response = await client.get(`/api/auction-lots/${id}`);
-    return response;
+  async getLotById(id: string) {
+    try {
+      const response = await client.get(`/api/auction-lots/${id}`);
+      return response;
+    } catch (error: any) {
+      console.error('Error fetching lot by ID:', error.response || error);
+      throw error;
+    }
+  },
+  async getCategories() {
+    try {
+      const response = await client.get('/api/categories/');
+      // console.log(response);
+      return response;
+    } catch (error: any) {
+      console.error('Error fetching categories:', error.response || error);
+      throw error;
+    }
   },
 };
-
-
-const API_URL = "http://localhost:3001"; // Змініть на реальну URL до вашої бази даних
-
-// getUserById: async (id: number): Promise<User | null> => {
-//   try {
-//     const response = await axios.get<User[]>(`${API_URL}/users`); // Отримуємо масив користувачів
-//     const user = response.data.find((user) => user.id === id); // Шукаємо користувача за ID
-//     return user || null;
-//   } catch (error) {
-//     console.error("Error fetching user by ID:", error);
-//     return null;
-//   }
-// },

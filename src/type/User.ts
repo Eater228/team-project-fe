@@ -1,10 +1,13 @@
 export type User = {
   id: number;
-  email: string,
+  email: string;
   first_name: string;
   last_name: string;
-  profile_pic: string;
-  balance: string;
-  // telegram: string;
-  // phone: string;
+  password: string;
+  profile_pic?: string;
+  balance?: number;
+  phone_number?: string;        // Змінено з phone_number
+  telegram?: string;
+  instagram?: string;
+  viber?: boolean;
 };
