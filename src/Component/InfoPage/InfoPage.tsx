@@ -1,10 +1,18 @@
 import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
+import classNames from 'classnames'; // Import classNames
 import styles from './InfoPage.module.scss';
 import { Product } from '../../type/Product';
 import { User } from 'type/User';
 import { userService } from '../../Service/userService';
+import { useSelector } from 'react-redux';
+import { RootState } from 'Store/Store';
+import { useDispatch } from 'react-redux';
+import { addToFavorite, removeFromFavorite } from "../../Reducer/favoriteSlice";
+import { fetchCategories } from '../../Reducer/categoriesSlice';
+import { AppDispatch } from '../../Store/Store';
+
 
 export const InfoPage: React.FC = () => {
   const { itemId } = useParams();  // Отримуємо ID лоту з URL
@@ -13,13 +21,24 @@ export const InfoPage: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [userDetails, setUserDetails] = useState<User[]>([]);
   const [selerInfo, setSelerInfo] = useState<User | null>(null);
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+  const isLoggedIn = useSelector((state: RootState) => state.userData.isLoggedIn);
+  const favorite = useSelector((state: RootState) => state.favorite.items);
+  const categories = useSelector((state: RootState) => state.categories.categories);
+
+  useEffect(() => {
+    dispatch(fetchCategories());
+  }, []);
+
+  // categories.find(cat => console.log(cat));
 
   useEffect(() => {
     if (itemId) {
       // Отримуємо дані лоту з бекенду за допомогою axios
       userService.getLotById(itemId)
         .then((response: AxiosResponse) => {
-          console.log(response); // Логуємо data
+          // console.log(response); // Логуємо data
           setProduct(response);  // Встановлюємо дані продукту
         })
         .catch((error) => {
@@ -77,15 +96,59 @@ export const InfoPage: React.FC = () => {
     }
   };
 
+  const HandlerAddFavorite = () => {
+    if (!isLoggedIn) {
+      navigate('/auth');
+      return;
+    }
+
+    if (!product) {
+      return;
+    }
+
+    const inFavoriteIndex = favorite.findIndex(fav => fav.id === product.id);
+
+    if (inFavoriteIndex !== -1) {
+      dispatch(removeFromFavorite(product.id));
+    } else {
+      dispatch(addToFavorite(product));
+    }
+  };
+
+  const inFavorite = () => {
+    return product ? favorite.some(fav => fav.id === product.id) : false;
+  };
+
   if (!product) {
     return <div>Loading...</div>;
   }
+
+  const findCategoryName = () => {
+    console.log(product);
+    const category = categories
+      .find(cat => cat.id === product.category_id);
+    return category ? category.name : 'Loading...';
+  }
+
+  console.log(findCategoryName());
 
   return (
     <div className={styles.infoPage}>
       <div className={styles.imageBlock}>
         <div className={styles.image}>
           <img src={product.images[currentImageIndex]} alt={product.item_name} />
+          <button
+            className={classNames([styles.button], {
+              [styles.isUnadd]: !inFavorite(),
+              [styles.isAdd]: inFavorite(),
+            })}
+            onClick={HandlerAddFavorite}
+          >
+            <img
+              src={inFavorite() ? "/img/icons/Star_Field.svg" : "/img/icons/Star_Empty.svg"}
+              alt="Favorite"
+            />
+          </button>
         </div>
         <div className={styles.imageControls}>
           <button onClick={handlePrevImage}>
@@ -123,13 +186,13 @@ export const InfoPage: React.FC = () => {
         </div>
         <div className={styles.category}>
           <h3>Category:</h3>
-          <div className={styles.categoryName}>{product.category_id}</div>
+          <div className={styles.categoryName}>{findCategoryName()}</div>
         </div>
         <h3 className={styles.contacts}>Contacts</h3>
         <div className={styles.contactBlock}>
           <div className={styles.contactIcons}>
             <img src="/img/icons/Phone.svg" alt="Phone Icon" />
-            <div className={styles.contactNumber}>{selerInfo?.phone}</div>
+            <div className={styles.contactNumber}>{product?.phone}</div>
           </div>
           <div className={styles.messengers}>
             <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">

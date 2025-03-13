@@ -63,7 +63,7 @@ export const Profile: React.FC = () => {
   //     setIsEditingPassword(true);
   //   }
   // };
-
+console.log("Current user", currentUser);
   const handleEditName = () => {
     if (isEditingLastName) {
       // Logic to save the new name

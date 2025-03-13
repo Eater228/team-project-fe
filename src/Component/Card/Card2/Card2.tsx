@@ -22,7 +22,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
   const [timeLeft, setTimeLeft] = useState<string>("");
 
   const calculateTimeLeft = () => {
-    const endTime = new Date(product.endTime).getTime();
+    const endTime = new Date(product.close_time).getTime();
     const now = new Date().getTime();
     const diff = endTime - now;
 
@@ -48,7 +48,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
     }, 1000);
 
     return () => clearInterval(interval); // Очищення інтервалу
-  }, [product.endTime]);
+  }, [product.close_time]);
 
   const HandlerAddFavorite = () => {
     if (!isLoggedIn) {
@@ -72,7 +72,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
   const inFavorite = () => {
     return favorite.some(fav => fav.id === product.id);
   };
-// console.log(product.item_name)
+console.log(product)
   return (
     <div className={styles.container}>
       <NavLink

@@ -5,6 +5,7 @@ import userReducer from "../Reducer/UsersSlice";
 import productsReducer from "../Reducer/ProductsSlice";
 import favoriteReducer from "../Reducer/favoriteSlice";
 import cartsReducer from "../Reducer/cartsSlice";
+import categoriesReducer from "../Reducer/categoriesSlice";
 
 const persistConfig = {
   key: 'root',
@@ -20,6 +21,7 @@ const store = configureStore({
     products: persistedReducer,
     favorite: favoriteReducer,
     carts: cartsReducer,
+    categories: categoriesReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
@@ -36,3 +38,5 @@ export type AppDispatch = typeof store.dispatch; // Додаємо тип для
 
 export const persistor = persistStore(store)
 export default store;
+
+
