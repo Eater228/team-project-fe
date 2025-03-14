@@ -37,6 +37,18 @@
     object-fit: cover;
     border-radius: 8px;
   }
+
+  .starButton {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 64px;
+    height: 64px;
+    padding: 8px;
+    background-color: #959499;
+    border-radius: 50%;
+    color: #ff0000;
+  }
 }
 
 .imageControls {

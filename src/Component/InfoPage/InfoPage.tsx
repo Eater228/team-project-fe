@@ -138,7 +138,7 @@ export const InfoPage: React.FC = () => {
         <div className={styles.image}>
           <img src={product.images[currentImageIndex]} alt={product.item_name} />
           <button
-            className={classNames([styles.button], {
+            className={classNames([styles.starButton], {
               [styles.isUnadd]: !inFavorite(),
               [styles.isAdd]: inFavorite(),
             })}
