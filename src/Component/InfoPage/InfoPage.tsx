@@ -130,13 +130,21 @@ export const InfoPage: React.FC = () => {
     return category ? category.name : 'Loading...';
   }
 
-  console.log(findCategoryName());
+  const NormalizeData = (isoDate: string) => {
+    const date = new Date(isoDate);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}.${month}.${year}`;
+  };
+
+  // console.log(findCategoryName());
 
   return (
     <div className={styles.infoPage}>
       <div className={styles.imageBlock}>
         <div className={styles.image}>
-          <img src={product.images[currentImageIndex]} alt={product.item_name} />
+          <img src={`${product.images[currentImageIndex]}`} alt={product.item_name} />
           <button
             className={classNames([styles.starButton], {
               [styles.isUnadd]: !inFavorite(),
@@ -164,7 +172,10 @@ export const InfoPage: React.FC = () => {
         </div>
       </div>
       <div className={styles.descriptionBlock}>
-        <h2 className={styles.name}>{product.item_name}</h2>
+        <div className={styles.titelBlock}>
+          <h2 className={styles.name}>{product.item_name}</h2>
+          <div className={styles.dataEnd}>{NormalizeData(product.close_time)}</div>
+        </div>
         <div className={styles.descript}>{product.description}</div>
         <div className={styles.priceBlock}>
           <div className={styles.openingPrice}>

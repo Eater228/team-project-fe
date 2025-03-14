@@ -118,21 +118,31 @@
   align-items: flex-start;
   width: 50%; /* Ensure the description block takes half the screen */
   // max-width: 600px;
+}
 
-  h2 {
+.titelBlock {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
 
+  .dataEnd {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .name {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+  
+    h2 {
+      margin: 0;
+    }
   }
 }
 
-.name {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 10px;
-
-  h2 {
-    margin: 0;
-  }
-}
 
 .descript {
   font-size: 16px;
