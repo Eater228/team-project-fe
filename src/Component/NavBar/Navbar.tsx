@@ -55,7 +55,7 @@ export const Navbar = () => {
         <div className={styles.end}>
           {!isLoggedIn ? (
             <li className={styles.item}>
-              <NavLink className={getLinkClass} to={getAuthLink()}>{getAuthText()}</NavLink>
+              <NavLink className={styles.singUp} to={getAuthLink()}>{getAuthText()}</NavLink>
             </li>
           ) : (
             <>
