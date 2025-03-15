@@ -53,6 +53,26 @@
   }
 }
 
+.singUp {
+  padding: 8px 16px;
+  border-radius: 50px;
+  border: 1px solid #59595a;
+  background-color: #204dff;
+  display: flex;
+  align-items: center;
+  color: #f1f1f8;
+  font-size: 18px;
+  font-weight: 500;
+  line-height: 18px;
+  text-decoration: none;
+  height: 100%;
+  letter-spacing: -8%;
+
+  &:hover {
+    background-color: #5073ff;
+  }
+}
+
 .createButton {
   padding: 8px 16px;
   border-radius: 50px;
