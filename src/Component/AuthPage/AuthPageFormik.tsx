@@ -68,7 +68,7 @@ export const AuthPageFormik = () => {
 
   function validateName(value: string) {
     if (!value) return 'Field required'
-    if (value.length < 2) return 'Min 2 charters'
+    if (value.length < 2) return 'Min 2 characters'
     if (value.length > 20) return 'Max symbols 20'
   }
 
