@@ -12,49 +12,79 @@ export const PrivacyStatement: React.FC = () => {
   return (
     <div className={styles.container}>
       <button className={styles.backButton} onClick={handleBackClick}>
-        <img src="/img/icons/Arrow_Left.svg" alt="Back" />
+        <img src="/img/icons/ArrowBack.svg" alt="Back" />
       </button>
-      <h1>Політика конфіденційності</h1>
-      <p>Останнє оновлення: 02-10-2025</p>
-      <p>Ця Політика конфіденційності пояснює, як top-bid ("ми", "наш", "нас") збирає, використовує та захищає вашу особисту інформацію під час використання нашого онлайн-аукціону top-bid ("Сайт"). Використовуючи Сайт, ви погоджуєтеся з умовами цієї Політики.</p>
-      <h2>1. Яку інформацію ми збираємо?</h2>
-      <p>Ми можемо збирати таку інформацію:</p>
-      <ul>
-        <li>Особисті дані: ім'я, прізвище, електронна пошта, номер телефону, адреса, платіжна інформація.</li>
-        <li>Технічні дані: IP-адреса, тип браузера, дані файлів cookie, інформація про пристрій.</li>
-        <li>Інформація про активність: історія ставок, покупки, залишені коментарі.</li>
-      </ul>
-      <h2>2. Як ми використовуємо вашу інформацію?</h2>
-      <p>Ми використовуємо зібрані дані для:</p>
-      <ul>
-        <li>Надання доступу до функцій сайту та обробки ставок.</li>
-        <li>Верифікації користувачів та запобігання шахрайству.</li>
-        <li>Покращення роботи сайту та персоналізації користувацького досвіду.</li>
-        <li>Надсилання важливих сповіщень та маркетингових пропозицій (за вашою згодою).</li>
-      </ul>
-      <h2>3. Як ми захищаємо вашу інформацію?</h2>
-      <p>Ми використовуємо сучасні заходи безпеки для захисту ваших даних від несанкціонованого доступу, зміни або розголошення.</p>
-      <h2>4. Чи ми передаємо ваші дані третім особам?</h2>
-      <p>Ми не продаємо та не передаємо ваші особисті дані третім особам без вашої згоди, за винятком випадків, передбачених законом або необхідних для роботи Сайту (наприклад, платіжним сервісам).</p>
-      <h2>5. Використання файлів cookie</h2>
-      <p>Сайт використовує файли cookie для покращення роботи та аналізу трафіку. Ви можете керувати налаштуваннями cookie у своєму браузері.</p>
-      <h2>6. Ваші права</h2>
-      <p>Ви маєте право:</p>
-      <ul>
-        <li>Отримати доступ до своїх даних та вимагати їх виправлення або видалення.</li>
-        <li>Відкликати згоду на обробку персональних даних.</li>
-        <li>Подати скаргу до органу захисту персональних даних.</li>
-      </ul>
-      <h2>7. Зміни в Політиці конфіденційності</h2>
-      <p>Ми можемо оновлювати цю Політику. Оновлення публікуються на цій сторінці, і ваш подальший доступ до Сайту означає згоду з новими умовами.</p>
-      <h2>8. Контактна інформація</h2>
-      <p>Якщо у вас є питання щодо цієї Політики, зв’яжіться з нами:</p>
-      <ul>
-        <li>Email: [Email]</li>
-        <li>Телефон: [Телефон]</li>
-        <li>Адреса: [Фізична адреса]</li>
-      </ul>
-      <p>Дякуємо, що обираєте top-bid!</p>
-    </div>
+      <h1>Privacy Policy</h1>
+      <div className={styles.block}>
+        <div className={styles.mainText}>
+          <p>This Privacy Policy explains how TopBid ("we", "our", "us") collects, uses, and protects your personal information when you use our online auction website, top-bid (the "Site"). By using the Site, you agree to the terms of this Policy.</p>
+          <ul>
+            <li>
+              <h2>Information We Collect</h2>
+            </li>
+          </ul>
+          {/* <p>We may collect the following information:</p> */}
+          <p>Personal Data: Name, email address, phone number, address, payment information.<br />
+            Technical Data: IP address, browser type, cookie data, device information.<br />
+            Activity Information: Bidding history, purchases, comments left.</p>
+          <ul>
+            <li>
+              <h2>How We Use Your Information</h2>
+            </li>
+          </ul>
+          <p>
+            Provide access to the Site's features and process bids.<br />
+            Verify users and prevent fraud.<br />
+            Improve the Site and personalize user experience.<br />
+            Send important notifications and marketing offers (with your consent).</p>
+          <ul>
+            <li>
+              <h2>How We Protect Your Information</h2>
+            </li>
+          </ul>
+          <p>We use modern security measures to protect your data from unauthorized access, modification, or disclosure.</p>
+          <ul>
+            <li>
+              <h2>Do We Share Your Data with Third Parties?</h2>
+            </li>
+          </ul>
+          <p>We do not sell or share your personal data with third parties without your consent, except as required by law or necessary for the operation of the Site (e.g., payment services).</p>
+          <ul>
+            <li>
+              <h2>Use of Cookies</h2>
+            </li>
+          </ul>
+          <p>The Site uses cookies to improve performance and analyze traffic. You can manage cookie settings in your browser.</p>
+          <ul>
+            <li>
+              <h2>Your rights</h2>
+            </li>
+          </ul>
+          <p>You have the right to:<br />
+            Access your data and request its correction or deletion.<br />
+            Withdraw consent to the processing of personal data.<br />
+            File a complaint with the data protection authority.</p>
+          <ul>
+            <li>
+              <h2>Changes to the Privacy Policy</h2>
+            </li>
+          </ul>
+          <p>We may update this Policy. Updates are published on this page, and your continued access to the Site constitutes acceptance of the new terms.</p>
+          <ul>
+            <li>
+              <h2>Contact Information</h2>
+            </li>
+          </ul>
+          <p>
+            If you have questions about this Policy, please contact us:<br />
+            Email: [Email]<br />
+            Phone: [Phone]<br />
+            Address: [Physical Address]
+          </p>
+          <br />
+          <p>Last updated: February 10</p>
+        </div>
+      </div>
+    </div >
   );
 };

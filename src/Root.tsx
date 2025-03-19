@@ -74,8 +74,8 @@ export const Root = () => {
           <Route path="/info/:itemId" element={<InfoPage />} />
           <Route path="/allCategories" element={<AllCategoriesPage />} />
           <Route path="/myAuctions" element={<MyAuctionsPage />} />
-          <Route path="/privacyStatement" element={<PrivacyStatement />} />
           <Route path="/create" element={<CreatePage />} />
+          <Route path="/privacyStatement" element={<PrivacyStatement />} />
         </Route>
       </Routes>
     </Router>
