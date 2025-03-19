@@ -96,7 +96,7 @@ export const CreatePage: React.FC = () => {
 
   const validateForm = useCallback(() => {
     const newErrors: Record<string, string> = {};
-    const { name, description, openingPrice, step, closingTime } = formState;
+    const { name, description, openingPrice, step, closingTime, category } = formState;
 
     newErrors.name = validateField('name', name);
     newErrors.description = validateField('description', description);
@@ -112,6 +112,9 @@ export const CreatePage: React.FC = () => {
     }
     if (images.length === 0) {
       newErrors.images = "At least one image is required";
+    }
+    if (category === 0) {
+      newErrors.category = "Category is required";
     }
 
     return Object.entries(newErrors).reduce((acc, [key, value]) => {
@@ -172,6 +175,23 @@ export const CreatePage: React.FC = () => {
     .map(d => d.toISOString().split("T")[0]);
 
   const handleInputFocus = (e: React.FocusEvent<HTMLInputElement>) => e.target.showPicker();
+
+  const isFormValid = useCallback(() => {
+    const { name, description, openingPrice, step, closingTime, category } = formState;
+    return (
+      name.trim() &&
+      description.trim() &&
+      openingPrice &&
+      !isNaN(+openingPrice) &&
+      +openingPrice > 0 &&
+      step &&
+      !isNaN(+step) &&
+      +step > 0 &&
+      closingTime &&
+      category !== 0 &&
+      images.length > 0
+    );
+  }, [formState, images]);
 
   return (
     <div className={styles.createPage}>
@@ -354,8 +374,15 @@ export const CreatePage: React.FC = () => {
                 </label>
               ))}
             </div>
+            {errors.category && <span className={styles.errorText}>{errors.category}</span>}
           </div>
-          <button type="submit" className={styles.createButton}>Create Auction</button>
+          <button
+            type="submit"
+            className={classNames(styles.createButton, { [styles.disabled]: !isFormValid() })}
+            disabled={!isFormValid()}
+          >
+            Create Auction
+          </button>
         </div>
       </form>
       {showModal && (
