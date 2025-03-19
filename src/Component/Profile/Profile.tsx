@@ -1,12 +1,16 @@
-import React, { useState } from 'react';
-import { useSelector } from 'react-redux';
+import React, { useState, useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../Store/Store';
 import { userService } from '../../Service/userService';
 import styles from './Profile.module.scss';
 import { BalanceModal } from '../../Component/BalanceModal/BalanceModal';
+import { updateUser } from '../../Reducer/UsersSlice';
 
 export const Profile: React.FC = () => {
+  const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.userData.currentUser);
+  
+  // Стани компонента
   const [isEditingPassword, setIsEditingPassword] = useState(false);
   const [newPassword, setNewPassword] = useState('');
   const [repeatPassword, setRepeatPassword] = useState('');
@@ -24,66 +28,40 @@ export const Profile: React.FC = () => {
     viber: '',
   });
   const [showBalanceModal, setShowBalanceModal] = useState(false);
-  // const [balanceAmount, setBalanceAmount] = useState('');
-  const [isEditingLastName, setIsEditingName] = useState(false);
   const [isEditingFirstName, setIsEditingFirstName] = useState(false);
+  const [isEditingLastName, setIsEditingLastName] = useState(false);
   const [newFirstName, setNewFirstName] = useState(currentUser?.first_name || '');
   const [newLastName, setNewLastName] = useState(currentUser?.last_name || '');
 
-  const toggleBalanceModal = () => setShowBalanceModal((prev) => !prev);
+  useEffect(() => {
+    setNewFirstName(currentUser?.first_name || '');
+    setNewLastName(currentUser?.last_name || '');
+    setNewContact({
+      phone: currentUser?.phone_number || '',
+      telegram: currentUser?.telegram || '',
+      instagram: currentUser?.instagram || '',
+      viber: currentUser?.viber?.toString() || '',
+    });
+  }, [currentUser]);
 
-  // const handleChangePassword = async () => {
-  //   if (!currentUser?.email || !currentUser?.first_name || !currentUser?.last_name) {
-  //     console.error('Required user data is missing');
-  //     return;
-  //   }
-
-  //   const updateProfile = {
-  //     email: currentUser.email,
-  //     first_name: currentUser.first_name,
-  //     last_name: currentUser.last_name,
-  //     profile_pic: currentUser.profile_pic || '',
-  //     password: newPassword,
-  //   };
-
-  //   console.log("Up date profile", updateProfile);
-
-  //   if (isEditingPassword) {
-  //     try {
-  //       await userService.updateProfile(updateProfile);
-  //       setPasswordChangeSuccess(true);
-  //       setTimeout(() => setPasswordChangeSuccess(false), 3000); // Hide success message after 3 seconds
-  //     } catch (error) {
-  //       console.error('Failed to change password:', error);
-  //     }
-  //     // Reset state
-  //     setIsEditingPassword(false);
-  //     setNewPassword('');
-  //   } else {
-  //     setIsEditingPassword(true);
-  //   }
-  // };
-console.log("Current user", currentUser);
   const handleEditName = () => {
     if (isEditingLastName) {
-      // Logic to save the new name
-      console.log(`New First Name: ${newFirstName}, New Last Name: ${newLastName}`);
-      // Reset state
-      setIsEditingName(false);
+      setIsEditingLastName(false);
     } else {
-      setIsEditingName(true);
+      setIsEditingLastName(true);
     }
   };
 
-  const handleEditFirstName = () => {
+  const handleEditFirstName = async () => {
     if (isEditingFirstName) {
-      // Logic to save the new name
-      console.log(`New First Name: ${newFirstName}, New Last Name: ${newLastName}`);
-      // Reset state
-      setIsEditingFirstName(false);
-    } else {
-      setIsEditingFirstName(true);
+      try {
+        const updatedUser = await userService.updateProfile({ first_name: newFirstName });
+        dispatch(updateUser(updatedUser.data)); // Використовуємо .data з відповіді
+      } catch (error) {
+        console.error('Error updating first name:', error);
+      }
     }
+    setIsEditingFirstName(!isEditingFirstName);
   };
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,15 +80,21 @@ console.log("Current user", currentUser);
     setRepeatPassword(e.target.value);
   };
 
-  const handleSavePassword = () => {
+  const handleSavePassword = async () => {
     if (newPassword === repeatPassword) {
-      // Тут можна додати логіку для оновлення пароля в бекенді
-      setPasswordChangeSuccess(true);
-      setIsEditingPassword(false);
-      setRepeatPassword('');
+      try {
+        await userService.updateProfile({ password: newPassword });
+        setPasswordChangeSuccess(true);
+        setTimeout(() => setPasswordChangeSuccess(false), 3000);
+      } catch (error) {
+        console.error('Password update failed:', error);
+      }
     } else {
       alert('Passwords do not match!');
     }
+    setIsEditingPassword(false);
+    setNewPassword('');
+    setRepeatPassword('');
   };
 
   const handleCancelPasswordEdit = () => {
@@ -124,25 +108,53 @@ console.log("Current user", currentUser);
     setPasswordChangeSuccess(false);
   };
 
-  const handleEditContact = (contactType: string) => {
+  const handleEditContact = async (contactType: string) => {
     if (isEditingContact[contactType]) {
-      // Handle contact change logic here
-      console.log(`New ${contactType}:`, newContact[contactType]);
-      // Reset state
-      setIsEditingContact(prev => ({ ...prev, [contactType]: false }));
-      setNewContact(prev => ({ ...prev, [contactType]: '' }));
-    } else {
-      setIsEditingContact(prev => ({ ...prev, [contactType]: true }));
+      try {
+        const apiField = contactType === 'phone' ? 'phone_number' : contactType;
+        let value: string | boolean = newContact[contactType];
+        
+        if (contactType === 'viber') {
+          value = value === 'true';
+        }
+
+        const updatedUser = await userService.updateProfile({ [apiField]: value });
+        dispatch(updateUser(updatedUser.data)); // Використовуємо .data з відповіді
+      } catch (error) {
+        console.error(`Error updating ${contactType}:`, error);
+      }
     }
+    setIsEditingContact(prev => ({
+      ...prev,
+      [contactType]: !prev[contactType]
+    }));
   };
 
   const handleContactChange = (e: React.ChangeEvent<HTMLInputElement>, contactType: string) => {
     setNewContact(prev => ({ ...prev, [contactType]: e.target.value }));
   };
 
+  const toggleBalanceModal = () => setShowBalanceModal(prev => !prev);
+
   const handleBalanceClick = () => {
     setShowBalanceModal(true);
   };
+
+  const handleAddBalance = async (amount: number) => {
+    try {
+      // Оновлюємо баланс через API
+      const updatedUser = await userService.updateProfile({
+        balance: (currentUser?.balance || 0) + amount
+      });
+      
+      // Оновлюємо Redux store
+      dispatch(updateUser(updatedUser.data));
+    } catch (error) {
+      console.error('Error adding balance:', error);
+      throw error;
+    }
+  };
+
 
   return (
     <div className={styles.profilePage}>
@@ -182,7 +194,7 @@ console.log("Current user", currentUser);
                 <div className={styles.inputDiv}>{currentUser?.first_name}</div>
               )}
               <button className={styles.changeNameButton} onClick={handleEditFirstName}>
-                {isEditingFirstName ? 'Save Changes' : <img src='./img/icons/Pencil.svg' />}
+                {isEditingFirstName ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
               </button>
             </div>
             <div className={styles.formGroup}>
@@ -199,7 +211,7 @@ console.log("Current user", currentUser);
                 <div className={styles.inputDiv}>{currentUser?.last_name}</div>
               )}
               <button className={styles.changeNameButton} onClick={handleEditName}>
-                {isEditingLastName ? 'Save Changes' : <img src='./img/icons/Pencil.svg' />}
+                {isEditingLastName ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
               </button>
             </div>
           </div>
@@ -263,7 +275,7 @@ console.log("Current user", currentUser);
                 <div className={styles.inputDiv}>{currentUser?.[contactType] || 'Not provided'}</div>
               )}
               <button className={styles.changePasswordButton} onClick={() => handleEditContact(contactType)}>
-                {isEditingContact[contactType] ? 'Save Changes' : <img src='./img/icons/Pencil.svg' />}
+                {isEditingContact[contactType] ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
               </button>
             </div>
           ))}
@@ -272,7 +284,7 @@ console.log("Current user", currentUser);
       <div className={styles.sidebar}>
       </div>
       {/* Модальне вікно балансу */}
-      {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} />}
+      {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} onAddBalance={handleAddBalance} />}
     </div>
   );
 };

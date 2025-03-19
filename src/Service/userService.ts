@@ -22,9 +22,11 @@ export interface AuctionLotData {
 }
 
 export const userService = {
-  async updateProfile(profileData: ProfileData) {
+  async updateProfile(profileData: any) {
     try {
-      const response = await client.put('/account/profile/', profileData);
+      console.log('profileData:', JSON.stringify(profileData, null, 2));
+      const response = await client.patch('/account/profile/', profileData);
+      console.log('response:', response);
       return response;
       
     } catch (error: any) {

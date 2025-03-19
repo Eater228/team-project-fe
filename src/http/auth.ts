@@ -5,11 +5,56 @@ export const authClient = axios.create({
   // withCredentials: true,
 });
 
-authClient.interceptors.request.use((request) => {
-  const accessToken = localStorage.getItem('accessToken');
+const refreshAccessToken = async () => {
+  const refreshToken = localStorage.getItem("refreshToken");
 
-  // Додаємо заголовок Authorization для всіх запитів, якщо токен існує
-  if (accessToken && !request.url?.includes("/account/register/")) {
+  if (!refreshToken) {
+    throw new Error("No refresh token available");
+  }
+
+  try {
+    const response = await axios.post("http://localhost:8000/account/token/refresh/", {
+      refresh: refreshToken,
+    });
+
+    const { access } = response.data;
+    localStorage.setItem("accessToken", access);
+    return access;
+  } catch (error) {
+    console.error("Error refreshing token:", error);
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    localStorage.removeItem("currentUser");
+    localStorage.setItem("isLoggedIn", "false");
+    window.location.reload(); // Якщо токен не оновився — редірект на логін
+    return null;
+  }
+};
+
+// Додаємо заголовок Authorization для всіх запитів
+authClient.interceptors.request.use(async (request) => {
+  let accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken && request.url !== "/account/token/refresh/") {
+    accessToken = await refreshAccessToken();
+  }
+
+  if (accessToken) {
+    request.headers.Authorization = `Bearer ${accessToken}`;
+  }
+
+  return request;
+});
+
+
+authClient.interceptors.request.use(async (request) => {
+  let accessToken = localStorage.getItem("accessToken");
+
+  if (!accessToken && request.url !== "/account/token/refresh/") {
+    accessToken = await refreshAccessToken();
+  }
+
+  if (accessToken) {
     request.headers.Authorization = `Bearer ${accessToken}`;
   }
 
@@ -19,7 +64,20 @@ authClient.interceptors.request.use((request) => {
 
 // to awoid getting `res.data` everywhere
 authClient.interceptors.response.use(
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-  res => res.data,
-  error => Promise.reject(error)
+  response => response.data,
+  async error => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const newAccessToken = await refreshAccessToken();
+      if (newAccessToken) {
+        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+        return authClient(originalRequest);
+      }
+    }
+
+    return Promise.reject(error);
+  }
 );

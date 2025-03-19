@@ -229,6 +229,11 @@
   justify-content: flex-start;
   align-items: flex-start;
   text-align: left;
+
+  word-wrap: break-word; /* Додає перенесення слів */
+  overflow-wrap: break-word; /* Альтернативний спосіб */
+  white-space: normal; /* Дозволяє переносити текст */
+  max-width: 100%; /* Щоб текст не виходив за межі */
 }
 
 .forgotPassword {

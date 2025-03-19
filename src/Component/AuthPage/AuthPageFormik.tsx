@@ -346,8 +346,9 @@ export const AuthPageFormik = () => {
                       navigate('/Home'); // Переадресація після авторизації
                     })
                     .catch((error) => {
-                      setError(error);
-                      console.error('Login error:', error);
+                      const errorMessage = error.detail || 'Unknown error occurred';
+                      setError(errorMessage);
+                      console.error('Login error:', errorMessage);
                     })
                     .finally(() => formikHelpers.setSubmitting(false));
                 }}
