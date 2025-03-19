@@ -36,13 +36,13 @@ export const AuthPageFormik = () => {
   const PASSWORD_PATTERN = /^[A-Za-z\d!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?]*$/;
 
   function validateEmail(value: string) {
-    if (!value) return 'Email is required';
-    if (!EMAIL_PATTERN.test(value)) return 'Email is not valid';
+    if (!value) return 'Field required';
+    if (!EMAIL_PATTERN.test(value)) return 'Email not valid';
   }
 
 
   function validatePassword(value: string): string | undefined {
-    if (!value) return 'Password is required';
+    if (!value) return 'Field required';
 
     if (value.length < 6) return 'Password must be at least 6 characters long';
 
@@ -62,14 +62,14 @@ export const AuthPageFormik = () => {
   }
 
   function validateRepeat(value: string, password: string) {
-    if (!value) return 'Repeat password is required';
+    if (!value) return 'Field required';
     if (value !== password) return 'Passwords do not match';
   }
 
   function validateName(value: string) {
-    if (!value) return 'Username is required'
-    if (value.length < 2) return 'At least 2 charters'
-    if (value.length > 20) return 'Max sumbol 20'
+    if (!value) return 'Field required'
+    if (value.length < 2) return 'Min 2 characters'
+    if (value.length > 20) return 'Max symbols 20'
   }
 
   // function validateEmpty(value: string) {

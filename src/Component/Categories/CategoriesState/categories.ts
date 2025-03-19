@@ -10,7 +10,7 @@ const serverCategories = [
   { id: 9, name: 'Collections', image: '/img/PhotoCategories/Collections.png' },
   { id: 10, name: 'Sports_Equipment', image: '/img/PhotoCategories/Sport.png' },
   { id: 11, name: 'Home_Appliances', image: '/img/PhotoCategories/home.png' },
-  { id: 12, name: 'Other', image: '/img/PhotoCategories/SeeMoreNew.png' },
+  { id: 12, name: 'Other', image: '/img/PhotoCategories/other.png' },
   // { id: 9, name: '', image: '' }, // Add an empty card
 ];
 
