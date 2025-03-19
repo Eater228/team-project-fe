@@ -62,7 +62,18 @@ export const authService = {
       return Promise.reject(error.response?.data || error.message);
     }
   },
-  
+  refreshToken: async () => {
+    const refreshToken = localStorage.getItem("refreshToken");
+
+    if (!refreshToken) {
+      throw new Error("No refresh token available");
+    }
+
+    const response = await client.post("/account/token/refresh/", { refresh: refreshToken });
+    console.log(response.access)
+    localStorage.setItem("accessToken", response.access);
+    return response.access;
+  },
 
   foundUser: async (): Promise<User | null> => {
     const accessToken = localStorage.getItem("accessToken");

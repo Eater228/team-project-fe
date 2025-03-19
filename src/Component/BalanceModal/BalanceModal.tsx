@@ -3,9 +3,10 @@ import styles from './BalanceModal.module.scss';
 
 interface BalanceModalProps {
   onClose: () => void;
+  onAddBalance: (amount: number) => Promise<void>; 
 }
 
-export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
+export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose, onAddBalance }) => {
   const [balanceAmount, setBalanceAmount] = useState('');
   const [selectedPaymentMethod, setSelectedPaymentMethod] = useState<string | null>(null);
 
@@ -13,10 +14,16 @@ export const BalanceModal: React.FC<BalanceModalProps> = ({ onClose }) => {
     setBalanceAmount(e.target.value.replace(/[^0-9]/g, ''));
   };
 
-  const handleAddBalance = () => {
-    // Logic to add balance
-    console.log(`Adding balance: ${balanceAmount}`);
-    onClose();
+  const handleAddBalance = async () => {
+    const amount = Number(balanceAmount);
+    if (!isNaN(amount)) {
+      try {
+        await onAddBalance(amount); // Викликаємо функцію з батьківського компонента
+        onClose();
+      } catch (error) {
+        console.error('Failed to add balance:', error);
+      }
+    }
   };
 
   const handleOutsideClick = (e: React.MouseEvent<HTMLDivElement>) => {

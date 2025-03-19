@@ -1,12 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Product } from "type/Product";
+import { ListProduct } from "type/ListProduct";
 import styles from './Card2.module.scss';
 import { NavLink, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "Store/Store";
 import { addToFavorite, removeFromFavorite } from "../../../Reducer/favoriteSlice";
-import { ListProduct } from "type/ListProduct";
 
 interface Props {
   product: ListProduct;
@@ -26,29 +25,25 @@ export const Card2: React.FC<Props> = ({ product }) => {
     const now = new Date().getTime();
     const diff = endTime - now;
 
-    if (diff <= 0) {
-      return "Auction Ended";
-    }
+    if (diff <= 0) return "Auction Ended";
 
     const days = Math.floor(diff / (1000 * 60 * 60 * 24));
     const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
-    const seconds = Math.floor((diff % (1000 * 60)) / 1000);
 
-    if (days > 0) {
-      return `${days}d ${hours}h`;
-    } else {
-      return `${hours}h ${minutes}m ${seconds}s`;
-    }
+    return days > 0 ? `${days}d ${hours}h` : `${hours}h ${minutes}m`;
   };
 
   useEffect(() => {
+    setTimeLeft(calculateTimeLeft());
+
+    // Оновлення тільки раз у 15 хвилин
     const interval = setInterval(() => {
       setTimeLeft(calculateTimeLeft());
-    }, 1000);
+    }, 15 * 60 * 1000);
 
-    return () => clearInterval(interval); // Очищення інтервалу
-  }, [product.close_time]);
+    return () => clearInterval(interval);
+  }, [product.close_time]); // Запускається тільки раз
 
   const HandlerAddFavorite = () => {
     if (!isLoggedIn) {
@@ -62,23 +57,15 @@ export const Card2: React.FC<Props> = ({ product }) => {
       dispatch(removeFromFavorite(product.id));
     } else {
       const productToAdd = products.find(prod => prod.id === product.id);
-
-      if (productToAdd) {
-        dispatch(addToFavorite(productToAdd));
-      }
+      if (productToAdd) dispatch(addToFavorite(productToAdd));
     }
   };
 
-  const inFavorite = () => {
-    return favorite.some(fav => fav.id === product.id);
-  };
-console.log(product)
+  const inFavorite = () => favorite.some(fav => fav.id === product.id);
+
   return (
     <div className={styles.container}>
-      <NavLink
-        to={`/info/${product.id}`}
-        className={styles.image}
-      >
+      <NavLink to={`/info/${product.id}`} className={styles.image}>
         <img className={styles.normaliz} src={`${product.images[0]}`} alt="#" />
       </NavLink>
       <div className={styles.full}>
@@ -99,8 +86,8 @@ console.log(product)
             </button>
           </div>
           <div className={styles.priceContainer}>
-              <div className={styles.description}>Opening price:</div>
-              <div>{`$${product.initial_price}`}</div>
+            <div className={styles.description}>Opening price:</div>
+            <div>{`$${product.initial_price}`}</div>
           </div>
           <div className={styles.timeContainer}>
             <div>Over:</div>

@@ -2,14 +2,6 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { authService } from "../Service/authService";
 import { User } from "../type/User";
 
-// // Тип для одного користувача
-// interface User {
-//   username: string;
-//   email: string;
-//   accessToken?: string;
-//   password?: string;
-// }
-
 // Тип стану
 interface UsersState {
   users: User[]; // Масив зареєстрованих користувачів
@@ -21,8 +13,8 @@ interface UsersState {
 const initialState: UsersState = {
   users: [],
   currentUser: JSON.parse(localStorage.getItem("currentUser") || "null"),
-  isLoggedIn: true,
-  // isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
+  // isLoggedIn: true,
+  isLoggedIn: localStorage.getItem("isLoggedIn") === "true",
 };
 
 
@@ -44,23 +36,6 @@ const usersSlice = createSlice({
         console.error("User with this email already exists");
       }
     },
-
-    // Авторизація користувача
-    // login: (
-    //   state,
-    //   action: PayloadAction<{ email: string; accessToken: string }>
-    // ) => {
-    //   const { email, accessToken } = action.payload;
-    //   const foundUser = state.users.find((user) => user.email === email);
-    // console.log(foundUser)
-    //   if (foundUser) {
-    //     state.currentUser = { ...foundUser, accessToken }; // Зберегти поточного користувача з токеном
-    //     state.isLoggedIn = true; // Встановити статус авторизації
-    //   } else {
-    //     console.error("User not found");
-    //   }
-    // },
-
     login: (
       state,
       action
@@ -72,9 +47,18 @@ const usersSlice = createSlice({
       localStorage.setItem("isLoggedIn", "true");
       console.log(state.currentUser)
     },
-    
-    
-
+    updateUser: (state, action: PayloadAction<Partial<User>>) => {
+      if (state.currentUser) {
+        // Оновлюємо тільки змінені поля
+        state.currentUser = {
+          ...state.currentUser,
+          ...action.payload,
+        };
+        
+        // Оновлюємо localStorage
+        localStorage.setItem("currentUser", JSON.stringify(state.currentUser));
+      }
+    },
     // Оновлення пароля користувача
     updatePassword: (
       state,
@@ -100,7 +84,7 @@ const usersSlice = createSlice({
 });
 
 // Експорт дій
-export const { register, login, updatePassword, logout } = usersSlice.actions;
+export const { register, login, updatePassword, logout, updateUser } = usersSlice.actions;
 
 // Експорт ред'юсера
 export default usersSlice.reducer;
