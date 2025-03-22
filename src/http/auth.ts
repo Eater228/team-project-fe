@@ -9,11 +9,12 @@ const refreshAccessToken = async () => {
   const refreshToken = localStorage.getItem("refreshToken");
 
   if (!refreshToken) {
-    throw new Error("No refresh token available");
+    console.error("No refresh token available");
+    return null;
   }
 
   try {
-    const response = await axios.post("http://localhost:8000/account/token/refresh/", {
+    const response = await authClient.post("/account/token/refresh/", {
       refresh: refreshToken,
     });
 
@@ -21,7 +22,7 @@ const refreshAccessToken = async () => {
     localStorage.setItem("accessToken", access);
     return access;
   } catch (error) {
-    console.error("Error refreshing token:", error);
+    console.error("Error refreshing token:", error.response?.data || error.message);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("currentUser");
@@ -46,36 +47,22 @@ authClient.interceptors.request.use(async (request) => {
   return request;
 });
 
-
-authClient.interceptors.request.use(async (request) => {
-  let accessToken = localStorage.getItem("accessToken");
-
-  if (!accessToken && request.url !== "/account/token/refresh/") {
-    accessToken = await refreshAccessToken();
-  }
-
-  if (accessToken) {
-    request.headers.Authorization = `Bearer ${accessToken}`;
-  }
-
-  return request;
-});
-
-
-// to awoid getting `res.data` everywhere
+// Перехоплення 401 помилок та оновлення токена
 authClient.interceptors.response.use(
-  response => response.data,
-  async error => {
+  (response) => response.data, // Убираємо `res.data` всюди
+  async (error) => {
     const originalRequest = error.config;
 
     if (error.response?.status === 401 && !originalRequest._retry) {
       originalRequest._retry = true;
 
       const newAccessToken = await refreshAccessToken();
-      if (newAccessToken) {
-        originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
-        return authClient(originalRequest);
+      if (!newAccessToken) {
+        return Promise.reject(error); // якщо токен не оновився, не повторюємо запит
       }
+
+      originalRequest.headers.Authorization = `Bearer ${newAccessToken}`;
+      return authClient(originalRequest);
     }
 
     return Promise.reject(error);

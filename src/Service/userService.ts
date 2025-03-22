@@ -23,6 +23,7 @@ export interface AuctionLotData {
 
 export const userService = {
   async updateProfile(profileData: any) {
+    console.log('profileData:', profileData);
     try {
       console.log('profileData:', JSON.stringify(profileData, null, 2));
       const response = await client.patch('/account/profile/', profileData);

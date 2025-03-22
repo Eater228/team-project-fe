@@ -6,6 +6,8 @@ import styles from './Profile.module.scss';
 import { BalanceModal } from '../../Component/BalanceModal/BalanceModal';
 import { updateUser } from '../../Reducer/UsersSlice';
 
+
+
 export const Profile: React.FC = () => {
   const dispatch = useDispatch();
   const currentUser = useSelector((state: RootState) => state.userData.currentUser);
@@ -33,6 +35,13 @@ export const Profile: React.FC = () => {
   const [newFirstName, setNewFirstName] = useState(currentUser?.first_name || '');
   const [newLastName, setNewLastName] = useState(currentUser?.last_name || '');
 
+  const contactMap = {
+    phone: 'phone_number',
+    telegram: 'telegram',
+    instagram: 'instagram',
+    viber: 'viber',
+  };
+
   useEffect(() => {
     setNewFirstName(currentUser?.first_name || '');
     setNewLastName(currentUser?.last_name || '');
@@ -44,24 +53,30 @@ export const Profile: React.FC = () => {
     });
   }, [currentUser]);
 
-  const handleEditName = () => {
-    if (isEditingLastName) {
-      setIsEditingLastName(false);
-    } else {
-      setIsEditingLastName(true);
-    }
-  };
-
   const handleEditFirstName = async () => {
     if (isEditingFirstName) {
       try {
         const updatedUser = await userService.updateProfile({ first_name: newFirstName });
-        dispatch(updateUser(updatedUser.data)); // Використовуємо .data з відповіді
+        dispatch(updateUser(updatedUser));
       } catch (error) {
         console.error('Error updating first name:', error);
+        throw error; // Додано викидання помилки для консистентності
       }
     }
     setIsEditingFirstName(!isEditingFirstName);
+  };
+
+  const handleEditName = async () => {
+    if (isEditingLastName) {
+      try {
+        const updatedUser = await userService.updateProfile({ last_name: newLastName });
+        dispatch(updateUser(updatedUser));
+      } catch (error) {
+        console.error('Error updating last name:', error);
+        throw error;
+      }
+    }
+    setIsEditingLastName(prev => !prev);
   };
 
   const handleFirstNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -83,11 +98,13 @@ export const Profile: React.FC = () => {
   const handleSavePassword = async () => {
     if (newPassword === repeatPassword) {
       try {
-        await userService.updateProfile({ password: newPassword });
+        const updatedUser = await userService.updateProfile({ password: newPassword });
+        dispatch(updateUser(updatedUser)); // Додано диспатч оновленого користувача
         setPasswordChangeSuccess(true);
         setTimeout(() => setPasswordChangeSuccess(false), 3000);
       } catch (error) {
         console.error('Password update failed:', error);
+        throw error;
       }
     } else {
       alert('Passwords do not match!');
@@ -119,9 +136,10 @@ export const Profile: React.FC = () => {
         }
 
         const updatedUser = await userService.updateProfile({ [apiField]: value });
-        dispatch(updateUser(updatedUser.data)); // Використовуємо .data з відповіді
+        dispatch(updateUser(updatedUser)); // Виправлено з updatedUser.data на updatedUser
       } catch (error) {
         console.error(`Error updating ${contactType}:`, error);
+        throw error;
       }
     }
     setIsEditingContact(prev => ({
@@ -148,7 +166,8 @@ export const Profile: React.FC = () => {
       });
       
       // Оновлюємо Redux store
-      dispatch(updateUser(updatedUser.data));
+      console.log('updatedUser:', updatedUser);
+      dispatch(updateUser(updatedUser));
     } catch (error) {
       console.error('Error adding balance:', error);
       throw error;
@@ -258,28 +277,38 @@ export const Profile: React.FC = () => {
         </div>
         <hr className={styles.divider} />
         <div className={styles.contactsSection}>
-          <h3>Contacts</h3>
-          {['phone', 'telegram', 'instagram', 'viber'].map(contactType => (
-            <div className={styles.formGroup} key={contactType}>
-              <label htmlFor={contactType}>{contactType.charAt(0).toUpperCase() + contactType.slice(1)}</label>
-              <img src={`/img/icons/${contactType.charAt(0).toUpperCase() + contactType.slice(1)}.svg`} alt={contactType} className={styles.contactIcon} />
-              {isEditingContact[contactType] ? (
-                <input
-                  type="text"
-                  id={contactType}
-                  value={newContact[contactType]}
-                  onChange={(e) => handleContactChange(e, contactType)}
-                  className={styles.inputDiv}
-                />
-              ) : (
-                <div className={styles.inputDiv}>{currentUser?.[contactType] || 'Not provided'}</div>
-              )}
-              <button className={styles.changePasswordButton} onClick={() => handleEditContact(contactType)}>
-                {isEditingContact[contactType] ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
-              </button>
-            </div>
-          ))}
-        </div>
+  <h3>Contacts</h3>
+  {Object.keys(contactMap).map(contactType => {
+    const actualKey = contactMap[contactType as keyof typeof contactMap]; // Отримуємо реальний ключ
+
+    return (
+      <div className={styles.formGroup} key={contactType}>
+        <label htmlFor={actualKey}>
+          {contactType.charAt(0).toUpperCase() + contactType.slice(1)}
+        </label>
+        <img 
+          src={`/img/icons/${contactType.charAt(0).toUpperCase() + contactType.slice(1)}.svg`} 
+          alt={contactType} 
+          className={styles.contactIcon} 
+        />
+        {isEditingContact[actualKey] ? (
+          <input
+            type="text"
+            id={actualKey}
+            value={newContact[actualKey]}
+            onChange={(e) => handleContactChange(e, actualKey)}
+            className={styles.inputDiv}
+          />
+        ) : (
+          <div className={styles.inputDiv}>{currentUser?.[actualKey] || 'Not provided'}</div>
+        )}
+        <button className={styles.changePasswordButton} onClick={() => handleEditContact(actualKey)}>
+          {isEditingContact[actualKey] ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
+        </button>
+      </div>
+    );
+  })}
+</div>
       </div>
       <div className={styles.sidebar}>
       </div>
@@ -288,3 +317,19 @@ export const Profile: React.FC = () => {
     </div>
   );
 };
+
+// const handleAddBalance = async (amount: number) => {
+//   try {
+//     // Оновлюємо баланс через API
+//     const updatedUser = await userService.updateProfile({
+//       balance: (currentUser?.balance || 0) + amount
+//     });
+    
+//     // Оновлюємо Redux store
+//     console.log('updatedUser:', updatedUser);
+//     dispatch(updateUser(updatedUser));
+//   } catch (error) {
+//     console.error('Error adding balance:', error);
+//     throw error;
+//   }
+// };
