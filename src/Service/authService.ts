@@ -43,7 +43,7 @@ export const authService = {
         email,
         password,
       });
-  
+
       const { access, refresh } = response;
       localStorage.setItem("accessToken", access);
       localStorage.setItem("refreshToken", refresh);
