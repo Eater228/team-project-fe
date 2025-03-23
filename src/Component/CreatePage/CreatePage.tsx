@@ -333,7 +333,7 @@ export const CreatePage: React.FC = () => {
               </div>
             </div>
           </div>
-          <div className={styles.formGroupRadio}>
+          {/* <div className={styles.formGroupRadio}>
             <div className={styles.radioGroup}>
               <label>
                 <input
@@ -356,7 +356,7 @@ export const CreatePage: React.FC = () => {
                 Used
               </label>
             </div>
-          </div>
+          </div> */}
           <div className={styles.fullWidthLine}></div>
           <div className={styles.formGroupRadio}>
             <h2>Category</h2>
