@@ -103,7 +103,7 @@ export const ProductPage: React.FC = () => {
 
     if (priceFilters.step && +priceFilters.step > 0) {
       filteredProducts = filteredProducts.filter(
-        product => console.log(product.min_step, priceFilters.step) || +product.step <= +priceFilters.step
+        product => +product.min_step >= +priceFilters.step,
         
       );
     }
