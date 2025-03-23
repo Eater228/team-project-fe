@@ -182,7 +182,14 @@ export const ProductPage: React.FC = () => {
         {/* {error && <p>{error}</p>} */}
         {visibleProducts.length !== 0 && (
           <>
-            <CardList products={currentTableData} name={"Test"} itemsPerPage={products.length} />
+            <CardList 
+              products={currentTableData.map(product => ({
+                ...product,
+                images: product.images.map(image => image.url) // assuming Image has a url property
+              }))} 
+              name={"You may like"} 
+              itemsPerPage={products.length} 
+            />
             {/* <CardList products={currentTableData} name={"For you"} itemsPerPage={products.length} /> */}
             <Pagination
               className="pagination-bar"

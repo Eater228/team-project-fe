@@ -22,7 +22,8 @@ const refreshAccessToken = async () => {
     localStorage.setItem("accessToken", access);
     return access;
   } catch (error) {
-    console.error("Error refreshing token:", error.response?.data || error.message);
+    const typedError = error as any;
+    console.error("Error refreshing token:", typedError.response?.data || typedError.message);
     localStorage.removeItem("accessToken");
     localStorage.removeItem("refreshToken");
     localStorage.removeItem("currentUser");
