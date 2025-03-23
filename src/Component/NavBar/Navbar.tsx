@@ -2,16 +2,17 @@ import styles from './Navbar.module.scss';
 import classNames from 'classnames';
 import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { logout } from '../../Reducer/UsersSlice';
+import { logout, updateUser } from '../../Reducer/UsersSlice';
 import { AppDispatch, RootState } from 'Store/Store';
 import { useState } from 'react';
 import { ProfileModal } from '../ProfileModal/ProfileModal';
 import { BalanceModal } from '../BalanceModal/BalanceModal';
 import { NotificationModal } from '../NotificationModal/NotificationModal';
+import { userService } from '../../Service/userService';
 
 export const Navbar = () => {
   const { isLoggedIn, currentUser } = useSelector((state: RootState) => state.userData);
-  // const dispatch = useDispatch<AppDispatch>();
+  const dispatch = useDispatch<AppDispatch>();
   // const navigate = useNavigate();
 
   const [showProfileModal, setShowProfileModal] = useState(false);
@@ -21,6 +22,22 @@ export const Navbar = () => {
   const toggleProfileModal = () => setShowProfileModal((prev) => !prev);
   const toggleBalanceModal = () => setShowBalanceModal((prev) => !prev);
   const toggleNotificationModal = () => setShowNotificationModal((prev) => !prev);
+
+  const handleAddBalance = async (amount: number) => {
+    try {
+      // Оновлюємо баланс через API
+      const updatedUser = await userService.updateProfile({
+        balance: (currentUser?.balance || 0) + amount
+      });
+
+      // Оновлюємо Redux store
+      console.log('updatedUser:', updatedUser);
+      dispatch(updateUser(updatedUser));
+    } catch (error) {
+      console.error('Error adding balance:', error);
+      throw error;
+    }
+  };
 
   // const handleLogout = () => {
   //   dispatch(logout());
@@ -96,7 +113,7 @@ export const Navbar = () => {
       {/* Модальне вікно профілю */}
       {showProfileModal && <ProfileModal onClose={toggleProfileModal} />}
       {/* Модальне вікно балансу */}
-      {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} />}
+      {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} onAddBalance={handleAddBalance} />}
       {/* Модальне вікно сповіщень */}
       {showNotificationModal && <NotificationModal onClose={toggleNotificationModal} />}
     </nav>
