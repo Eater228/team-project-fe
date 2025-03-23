@@ -42,11 +42,12 @@ export const Filter: React.FC<FilterProps> = ({
 
   const handlePriceChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
+    const numericValue = value.replace(/[^0-9]/g, '');
     setPrice((prevPrice) => ({
       ...prevPrice,
-      [name]: +value.replace(/[^0-9]/g, ''),
+      [name]: numericValue,
     }));
-  }
+  };
 
   const applyFilters = () => {
     handleFiltersApply({ sort, price, states });
@@ -57,10 +58,10 @@ export const Filter: React.FC<FilterProps> = ({
     setSort('newest');
     setStates('all');
     setPrice({ openingPrice: '0', buyFullPrice: '0', step: '0' });
-    handleFiltersApply({ 
-      sort: 'newest', 
-      price: { openingPrice: '0', buyFullPrice: '0', step: '0' }, 
-      states: 'all' 
+    handleFiltersApply({
+      sort: 'newest',
+      price: { openingPrice: '0', buyFullPrice: '0', step: '0' },
+      states: 'all'
     });
     toggleFilter();
   };
@@ -91,7 +92,7 @@ export const Filter: React.FC<FilterProps> = ({
                     checked={sort === 'cheapest'}
                     onChange={handleSortChange}
                   />
-                  Price: High to Low
+                  Price: Low to High
                 </label>
                 <label>
                   <input
@@ -101,7 +102,7 @@ export const Filter: React.FC<FilterProps> = ({
                     checked={sort === 'expensive'}
                     onChange={handleSortChange}
                   />
-                  Price: Low to High
+                  Price: High to Low
                 </label>
                 <label>
                   <input
