@@ -61,6 +61,13 @@ export const Card2: React.FC<Props> = ({ product }) => {
     }
   };
 
+  const handerSortername = (name: string) => {
+    if (name.length <= 20) return name;
+    
+    const sorter = name.slice(0, 20);
+    return `${sorter}...`;
+  }
+
   const inFavorite = () => favorite.some(fav => fav.id === product.id);
 
   return (
@@ -71,7 +78,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
       <div className={styles.full}>
         <div className={styles.nameSection}>
           <div className={styles.nameContainer}>
-            <div className={styles.name}>{product.item_name}</div>
+            <div className={styles.name}>{handerSortername(product.item_name)}</div>
             <button
               className={classNames([styles.button], {
                 [styles.isUnadd]: !inFavorite(),

@@ -14,6 +14,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { CategoriesBaner } from '../../Component/Categories/CategoriesBaner/CategoriesBaner';
 import { categories } from '../../Component/Categories/CategoriesState/categories';
 import classNames from 'classnames';
+import { useDebouncedCallback } from 'use-debounce';
 
 export const ProductPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -75,38 +76,46 @@ export const ProductPage: React.FC = () => {
       filteredProducts = filteredProducts.sort((a, b) => {
         switch (sortType) {
           case 'cheapest':
-            return a.currentPrice - b.currentPrice;
+            return Number(a.initial_price) - Number(b.initial_price);
           case 'expensive':
-            return b.currentPrice - a.currentPrice;
+            return Number(b.initial_price) - Number(a.initial_price);
           case 'newest':
-            return new Date(b.startingTime).getFullYear() - new Date(a.startingTime).getFullYear();
+            return new Date(b.close_time).getTime() - new Date(a.close_time).getTime();
           case 'oldest':
-            return new Date(a.startingTime).getFullYear() - new Date(b.startingTime).getFullYear();
+            return new Date(a.close_time).getTime() - new Date(b.close_time).getTime();
           default:
             return a.id - b.id;
         }
       });
     }
 
-    if (+priceFilters.openingPrice > 0) {
-      filteredProducts = filteredProducts.filter(product => product.startPrice >= +priceFilters.openingPrice);
+    if (priceFilters.openingPrice && +priceFilters.openingPrice > 0) {
+      filteredProducts = filteredProducts.filter(
+        product => +product.initial_price >= +priceFilters.openingPrice
+      );
     }
 
-    if (+priceFilters.buyFullPrice > 0) {
-      filteredProducts = filteredProducts.filter(product => product.fullPrice <= +priceFilters.buyFullPrice);
+    if (priceFilters.buyFullPrice && +priceFilters.buyFullPrice > 0) {
+      filteredProducts = filteredProducts.filter(
+        product => +product.buyout_price <= +priceFilters.buyFullPrice
+      );
     }
 
-    if (+priceFilters.step > 0) {
-      filteredProducts = filteredProducts.filter(product => product.bet >= +priceFilters.step);
+    if (priceFilters.step && +priceFilters.step > 0) {
+      filteredProducts = filteredProducts.filter(
+        product => +product.min_step >= +priceFilters.step,
+        
+      );
     }
 
-    if (statusState !== 'all') {
-      filteredProducts = filteredProducts.filter(product => product.state === statusState);
-    }
+    // if (statusState !== 'all') {
+    //   filteredProducts = filteredProducts.filter(product => product.state === statusState);
+    // }
 
     if (searchQuery) {
+      // console.log(searchQuery)
       filteredProducts = filteredProducts.filter(product =>
-        product.name.toLowerCase().includes(searchQuery.toLowerCase())
+        product.item_name.toLowerCase().includes(searchQuery.toLowerCase())
       );
     }
 
@@ -132,25 +141,23 @@ export const ProductPage: React.FC = () => {
 
   const handleFiltersApply = (filters: { sort: string; price: { openingPrice: string; buyFullPrice: string; step: string }; states: string }) => {
     const params = new URLSearchParams(location.search);
-  console.log(filters.price.openingPrice)
+    // console.log(filters.price.openingPrice)
     if (filters.sort) params.set('sort', filters.sort);
     if (filters.price.openingPrice) params.set('openingPrice', filters.price.openingPrice);
     if (filters.price.buyFullPrice) params.set('buyFullPrice', filters.price.buyFullPrice);
     if (filters.price.step) params.set('step', filters.price.step);
     if (filters.states) params.set('status', filters.states);
-  
+
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
   };
-  
-  const handleSearch = (query: string) => {
+
+  const handleSearch = useDebouncedCallback((query: string) => {
     setSearchQuery(query);
     const params = new URLSearchParams(location.search);
-    
-    params.set('search', query); // Додаємо або оновлюємо параметр пошуку
-    
+    params.set('search', query);
     navigate(`${location.pathname}?${params.toString()}`, { replace: true });
-  };
-  
+  }, 300);
+
 
   const toggleFilter = () => {
     setIsFilterOpen(!isFilterOpen);
@@ -160,12 +167,12 @@ export const ProductPage: React.FC = () => {
 
   return (
     <div className={styles.productPage}>
-      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory.split('_').join(' & ')} categoryImage={categoryObj.image}/>) : (<></>)}
+      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory.split('_').join(' & ')} categoryImage={categoryObj.image} />) : (<></>)}
       <div className={classNames(styles.blockSearch, { [styles.withBanner]: nameCategory && categoryObj })}>
         <Search onSearch={handleSearch} />
-        <img 
-          src="/img/icons/Filters.svg" 
-          alt="Filter" 
+        <img
+          src="/img/icons/Filters.svg"
+          alt="Filter"
           onClick={toggleFilter}
           className={styles.filterButton}
         />
@@ -182,7 +189,14 @@ export const ProductPage: React.FC = () => {
         {/* {error && <p>{error}</p>} */}
         {visibleProducts.length !== 0 && (
           <>
-            <CardList products={currentTableData} name={"Test"} itemsPerPage={products.length} />
+            <CardList
+              products={currentTableData.map(product => ({
+                ...product,
+                images: product.images.map(image => image.url) // assuming Image has a url property
+              }))}
+              name={"You may like"}
+              itemsPerPage={products.length}
+            />
             {/* <CardList products={currentTableData} name={"For you"} itemsPerPage={products.length} /> */}
             <Pagination
               className="pagination-bar"

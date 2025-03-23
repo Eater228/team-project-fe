@@ -463,17 +463,17 @@
     // padding-left: 25px;
     input,
     textarea {
-      border-color: red;
+      border-color: #DF2433 !important;
     }
 
     label {
-      color: red;
+      color: #DF2433;
     }
   }
 
   .errorText {
     padding-left: 20px;
-    color: red;
+    color: #DF2433;
     font-size: 12px;
     // margin-top: 5px;
   }

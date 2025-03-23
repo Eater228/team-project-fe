@@ -44,10 +44,10 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
               My Auctions
               <img src="/img/icons/Arrow_Right.svg" alt="Arrow Right" />
             </button>
-            <button onClick={() => { navigate('/settings'); onClose(); }}>
+            {/* <button onClick={() => { navigate('/settings'); onClose(); }}>
               Settings
               <img src="/img/icons/Arrow_Right.svg" alt="Arrow Right" />
-            </button>
+            </button> */}
             <button onClick={() => setShowLogoutModal(true)}>
               Log Out
             </button>

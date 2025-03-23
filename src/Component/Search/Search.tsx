@@ -5,14 +5,41 @@ interface SearchProps {
   onSearch: (query: string) => void;
 }
 
+// Функція для отримання параметрів з хеш-частини URL
+const getHashParams = () => {
+  const hash = window.location.hash.substring(1); // Видаляємо #
+  const [path, queryString] = hash.split('?');
+  return new URLSearchParams(queryString || '');
+};
+
 export const Search: React.FC<SearchProps> = ({ onSearch }) => {
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState<string>(() => {
+    const hashParams = getHashParams();
+    return hashParams.get('search') || '';
+  });
 
   useEffect(() => {
-    const url = new URL(window.location.href);
-    url.searchParams.set('query', query);
-    window.history.pushState({}, '', url.toString());
+    // Оновлюємо хеш-частину URL
+    const hashParams = getHashParams();
+    if (query) {
+      hashParams.set('search', query);
+    } else {
+      hashParams.delete('search');
+    }
+    
+    const newHash = `#/product?${hashParams.toString()}`;
+    window.history.replaceState({}, '', newHash);
   }, [query]);
+
+  useEffect(() => {
+    const handlePopState = () => {
+      const hashParams = getHashParams();
+      setQuery(hashParams.get('search') || '');
+    };
+
+    window.addEventListener('popstate', handlePopState);
+    return () => window.removeEventListener('popstate', handlePopState);
+  }, []);
 
   const handleSearch = (event: React.ChangeEvent<HTMLInputElement>) => {
     setQuery(event.target.value);
