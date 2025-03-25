@@ -27,6 +27,8 @@ export const AuthPageFormik = () => {
   const [error, setError] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [showRepeatPassword, setShowRepeatPassword] = useState(false);
+  
+  
   const navigate = useNavigate();
   const dispatch = useDispatch();
 

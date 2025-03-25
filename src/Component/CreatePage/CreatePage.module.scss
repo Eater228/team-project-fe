@@ -383,19 +383,7 @@
       }
     }
 
-    .createButton {
-      padding: 10px 20px;
-      border-radius: 100px;
-      border: none;
-      background-color: #204dff;
-      color: #fff;
-      font-size: 16px;
-      cursor: pointer;
 
-      &:hover {
-        background-color: #5073ff;
-      }
-    }
 
     .createButton.disabled {
       background-color: #ccc; // Example color for disabled state
@@ -463,18 +451,80 @@
     // padding-left: 25px;
     input,
     textarea {
-      border-color: #DF2433 !important;
+      border-color: #df2433 !important;
     }
 
     label {
-      color: #DF2433;
+      color: #df2433;
     }
   }
 
   .errorText {
     padding-left: 20px;
-    color: #DF2433;
+    color: #df2433;
     font-size: 12px;
     // margin-top: 5px;
+  }
+
+  .isSuccess {
+    background-color: #204dff;
+    color: white;
+    border: 1px solid transparent;
+    padding: 12px 25px;
+    border-radius: 50px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      background-color: #5073ff;
+    }
+
+    &:active {
+      transform: translateY(1px);
+    }
+
+    &:disabled {
+      background-color: #2b312b;
+      cursor: not-allowed;
+    }
+  }
+
+  .isLoading {
+    position: relative;
+
+    &::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 24px;
+      height: 24px;
+      border: 3px solid #fff;
+      border-top: 3px solid transparent;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    .buttonText {
+      visibility: hidden;
+    }
+  }
+
+  .buttonText {
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 27px;
+    letter-spacing: -8%;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: translate(-50%, -50%) rotate(0deg);
+    }
+    100% {
+      transform: translate(-50%, -50%) rotate(360deg);
+    }
   }
 }
