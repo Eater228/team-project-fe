@@ -24,6 +24,7 @@ export const CreatePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
   const fileInputRef = useRef<HTMLInputElement>(null);
 
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [images, setImages] = useState<File[]>([]);
   const [imagePreviews, setImagePreviews] = useState<string[]>([]);
   const [showModal, setShowModal] = useState(false);
@@ -133,6 +134,8 @@ export const CreatePage: React.FC = () => {
       return;
     }
 
+    setIsSubmitting(true);
+
     const auctionData: AuctionLotData = {
       item_name: formState.name,
       description: formState.description,
@@ -166,6 +169,8 @@ export const CreatePage: React.FC = () => {
     } catch (error) {
       console.error("Auction creation error:", error);
       alert("An unexpected error occurred. Please try again.");
+    } finally {
+      setIsSubmitting(false);
     }
   }, [formState, images, validateForm]);
 
@@ -378,10 +383,12 @@ export const CreatePage: React.FC = () => {
           </div>
           <button
             type="submit"
-            className={classNames(styles.createButton, { [styles.disabled]: !isFormValid() })}
-            disabled={!isFormValid()}
+            className={classNames(styles.createButton, styles.isSuccess, {
+              [styles.isLoading]: isSubmitting,
+            })}
+            disabled={!isFormValid() || isSubmitting}
           >
-            Create Auction
+            <span className={styles.buttonText}>Create Auction</span>
           </button>
         </div>
       </form>
