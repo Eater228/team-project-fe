@@ -209,7 +209,7 @@ export const Filter: React.FC<FilterProps> = ({
                   />
                   All
                 </label>
-                <label>
+                {/* <label>
                   <input
                     type="radio"
                     name="state"
@@ -228,7 +228,7 @@ export const Filter: React.FC<FilterProps> = ({
                     onChange={handleStateChange}
                   />
                   Used
-                </label>
+                </label> */}
               </div>
             </div>
           </div>
