@@ -62,14 +62,14 @@ export const Card2: React.FC<Props> = ({ product }) => {
   };
 
   const handerSortername = (name: string) => {
-    if (name.length <= 20) return name;
+    if (name.length <= 15) return name;
     
-    const sorter = name.slice(0, 20);
+    const sorter = name.slice(0, 15);
     return `${sorter}...`;
   }
 
   const inFavorite = () => favorite.some(fav => fav.id === product.id);
-
+// console.log('product:', product);
   return (
     <div className={styles.container}>
       <NavLink to={`/info/${product.id}`} className={styles.image}>

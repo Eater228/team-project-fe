@@ -49,7 +49,7 @@ export const authService = {
       localStorage.setItem("refreshToken", refresh);
 
       const userProfile = await authService.foundUser(); // Отримуємо профіль користувача
-      console.log(userProfile)
+      // console.log(userProfile)
       
       if (userProfile) {
         dispatch(
@@ -70,7 +70,7 @@ export const authService = {
     }
 
     const response = await client.post("/account/token/refresh/", { refresh: refreshToken });
-    console.log(response.access)
+    // console.log(response.access)
     localStorage.setItem("accessToken", response.access);
     return response.access;
   },

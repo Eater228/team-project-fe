@@ -17,7 +17,14 @@ export const FavoritePage: React.FC = () => {
   return (
     <div className={styles.favoritePage}>
       {favoriteItems.length > 0 ? (
-        <CardList products={favoriteItems} name="Favorites" itemsPerPage={12} />
+        <CardList
+          products={favoriteItems.map(item => ({
+            ...item,
+            images: item.images.map(image => image.url),
+          }))}
+          name="Favorites"
+          itemsPerPage={12}
+        />
       ) : (
         <div className={styles.noItemsMessage}>
           <div className={styles.textBlock}>

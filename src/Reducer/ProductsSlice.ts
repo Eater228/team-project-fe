@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk, PayloadAction } from "@reduxjs/toolkit";
 import { Product } from "../type/Product";
 import { userService } from "../Service/userService";
 
-type ProductsState = {
+export type ProductsState = {
   items: Product[];
   loading: boolean;
   error: string | null;
@@ -31,6 +31,7 @@ export const fetchProducts = createAsyncThunk<Product[], void>(
   async (_, { rejectWithValue }) => {
     try {
       const products: any = await userService.getProducts(); // Гарантовано масив
+      // console.log("Fetched products:", products);
       return products;
     } catch (error: any) {
       console.error("Error fetching products", error);
@@ -54,7 +55,8 @@ const productsSlice = createSlice({
       const { productId, newPrice } = action.payload;
       const product = state.items.find(product => product.id === productId);
       if (product) {
-        product.currentPrice = newPrice;
+        product.buyout_price = `${newPrice}`;
+        // product.currentPrice = newPrice;
       }
     },
   },
@@ -66,7 +68,12 @@ const productsSlice = createSlice({
       })
       .addCase(fetchProducts.fulfilled, (state, action: PayloadAction<Product[]>) => {
         state.loading = false;
-        state.items = action.payload;
+        state.items = action.payload.map(product => ({
+          ...product,
+          images: product.images?.map(img => ({
+            url: (img as any).image || img.url // Конвертація image → url
+          })) || [{ url: 'default-image.jpg' }]
+        }));
       })
       .addCase(fetchProducts.rejected, (state, action) => {
         state.loading = false;

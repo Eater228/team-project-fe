@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../Store/Store';
 import { userService } from '../../Service/userService';
@@ -129,11 +129,7 @@ export const Profile: React.FC = () => {
     if (isEditingContact[contactType]) {
       try {
         const apiField = contactType === 'phone' ? 'phone_number' : contactType;
-        let value: string | boolean = newContact[contactType];
-        
-        if (contactType === 'viber') {
-          value = value === 'true';
-        }
+        let value: string  = newContact[contactType];
 
         const updatedUser = await userService.updateProfile({ [apiField]: value });
         dispatch(updateUser(updatedUser)); // Виправлено з updatedUser.data на updatedUser
@@ -174,6 +170,30 @@ export const Profile: React.FC = () => {
     }
   };
 
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleAddPhoto = async (file: File) => {
+    try {
+      const formData = new FormData();
+      formData.append('profile_pic', file);
+  
+      const updatedUser = await userService.updateProfile(formData);
+      dispatch(updateUser(updatedUser));
+    } catch (error) {
+      console.error('Error updating profile picture:', error);
+    }
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files[0]) {
+      handleAddPhoto(e.target.files[0]);
+    }
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+  };
+
 
   return (
     <div className={styles.profilePage}>
@@ -191,7 +211,23 @@ export const Profile: React.FC = () => {
           </div>
         </div>
         <div className={styles.profileInfo}>
-          <img src={currentUser?.profile_pic || "/img/icons/default-user.svg"} alt="User" className={styles.profilePic} />
+          <div className={styles.profilePicContainer} onClick={triggerFileInput}>
+            <img
+              src={currentUser?.profile_pic || "/img/icons/default-user.svg"}
+              alt="User"
+              className={styles.profilePic}
+            />
+            <div className={styles.overlay}>
+              <span className={styles.overlayText}>Add avatar</span>
+            </div>
+            <input
+              type="file"
+              accept="image/*"
+              ref={fileInputRef}
+              onChange={handleFileChange}
+              style={{display: 'none'}}
+            />
+          </div>
           <div className={styles.profileDetails}>
             <h2>{currentUser?.first_name} {currentUser?.last_name}</h2>
             <p>{currentUser?.email}</p>
@@ -277,38 +313,44 @@ export const Profile: React.FC = () => {
         </div>
         <hr className={styles.divider} />
         <div className={styles.contactsSection}>
-  <h3>Contacts</h3>
-  {Object.keys(contactMap).map(contactType => {
-    const actualKey = contactMap[contactType as keyof typeof contactMap]; // Отримуємо реальний ключ
+          <h3>Contacts</h3>
+          {Object.values(contactMap).every(actualKey => 
+          !currentUser?.phone_number || currentUser.phone_number === 'Not provided') && (
+            <div className={styles.warningMessage}>
+              Будь ласка, додайте номер телефону
+            </div>
+          )}
+          {Object.keys(contactMap).map(contactType => {
+          const actualKey = contactMap[contactType as keyof typeof contactMap]; // Отримуємо реальний ключ
 
-    return (
-      <div className={styles.formGroup} key={contactType}>
-        <label htmlFor={actualKey}>
-          {contactType.charAt(0).toUpperCase() + contactType.slice(1)}
-        </label>
-        <img 
-          src={`/img/icons/${contactType.charAt(0).toUpperCase() + contactType.slice(1)}.svg`} 
-          alt={contactType} 
-          className={styles.contactIcon} 
-        />
-        {isEditingContact[actualKey] ? (
-          <input
-            type="text"
-            id={actualKey}
-            value={newContact[actualKey]}
-            onChange={(e) => handleContactChange(e, actualKey)}
-            className={styles.inputDiv}
-          />
-        ) : (
-          <div className={styles.inputDiv}>{currentUser?.[actualKey] || 'Not provided'}</div>
-        )}
-        <button className={styles.changePasswordButton} onClick={() => handleEditContact(actualKey)}>
-          {isEditingContact[actualKey] ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
-        </button>
-      </div>
-    );
-  })}
-</div>
+            return (
+              <div className={styles.formGroup} key={contactType}>
+                <label htmlFor={actualKey}>
+                  {contactType.charAt(0).toUpperCase() + contactType.slice(1)}
+                </label>
+                <img 
+                  src={`/img/icons/${contactType.charAt(0).toUpperCase() + contactType.slice(1)}.svg`} 
+                  alt={contactType} 
+                  className={styles.contactIcon} 
+                />
+                {isEditingContact[actualKey] ? (
+                  <input
+                    type="text"
+                    id={actualKey}
+                    value={newContact[actualKey]}
+                    onChange={(e) => handleContactChange(e, actualKey)}
+                    className={styles.inputDiv}
+                  />
+                ) : (
+                  <div className={styles.inputDiv}>{currentUser?.[actualKey] || 'Not provided'}</div>
+                )}
+                <button className={styles.changePasswordButton} onClick={() => handleEditContact(actualKey)}>
+                  {isEditingContact[actualKey] ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
+                </button>
+              </div>
+            );
+          })}
+        </div>
       </div>
       <div className={styles.sidebar}>
       </div>

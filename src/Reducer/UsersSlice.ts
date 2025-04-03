@@ -45,7 +45,7 @@ const usersSlice = createSlice({
 
       localStorage.setItem("currentUser", JSON.stringify(action.payload));
       localStorage.setItem("isLoggedIn", "true");
-      console.log(state.currentUser)
+      // console.log(state.currentUser)
     },
     updateUser: (state, action: PayloadAction<Partial<User>>) => {
       if (state.currentUser) {

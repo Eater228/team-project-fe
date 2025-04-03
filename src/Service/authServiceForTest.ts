@@ -30,11 +30,11 @@ export const authService = {
       return Promise.reject(new Error("User with this email already exists"));
     }
 
-    console.log({email, first_name, last_name, password})
+    // console.log({email, first_name, last_name, password})
 
     const data = client.post('account/register/', { email, first_name, last_name, password })
 
-    console.log(data)
+    // console.log(data)
 
     const newUser = { username: userName, email, password };
     store.dispatch(register(newUser));

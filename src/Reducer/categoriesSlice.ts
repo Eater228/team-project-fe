@@ -28,7 +28,7 @@ export const fetchCategories = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await userService.getCategories();
-      console.log(response);
+      // console.log(response);
       return response; // Приводимо до правильного типу
     } catch (error: any) {
       return rejectWithValue(error.response?.data?.message || 'Error fetching categories');
@@ -48,7 +48,7 @@ const categoriesSlice = createSlice({
       })
       .addCase(fetchCategories.fulfilled, (state, action) => {
         state.status = 'succeeded';
-        console.log(action.payload);
+        // console.log(action.payload);
         state.categories = action.payload;
       })
       .addCase(fetchCategories.rejected, (state, action) => {

@@ -18,16 +18,16 @@ export interface AuctionLotData {
   buyout_price: string;
   close_time: string;
   category: number;
-  images_to_upload?: File[];
+  images?: File[];
 }
 
 export const userService = {
   async updateProfile(profileData: any) {
-    console.log('profileData:', profileData);
+    // console.log('profileData:', profileData);
     try {
-      console.log('profileData:', JSON.stringify(profileData, null, 2));
+      // console.log('profileData:', JSON.stringify(profileData, null, 2));
       const response = await client.patch('/account/profile/', profileData);
-      console.log('response:', response);
+      // console.log('response:', response);
       return response;
       
     } catch (error: any) {
@@ -36,6 +36,7 @@ export const userService = {
     }
   },
   async createAuctionLot(lotData: AuctionLotData) {
+    // console.log('lotData:', lotData);
     try {
       const formData = new FormData();
       formData.append('item_name', lotData.item_name);
@@ -47,9 +48,9 @@ export const userService = {
       formData.append('close_time', lotData.close_time);
       formData.append('category', lotData.category.toString());
 
-      if (lotData.images_to_upload) {
-        lotData.images_to_upload.forEach((file) => {
-          formData.append('images_to_upload', file);
+      if (lotData.images) {
+        lotData.images.forEach((file) => {
+          formData.append('images', file);
         });
       }
 
@@ -59,7 +60,7 @@ export const userService = {
           'Content-Type': 'multipart/form-data',
         },
       });
-
+// console.log('response:', response);
       return response;
     } catch (error: unknown) {
       console.error('Error creating auction lot:', error instanceof Error ? error.message : 'An unknown error occurred');
@@ -69,6 +70,7 @@ export const userService = {
   async getProducts() {
     try {
       const response = await client.get('/api/auction-lots/');
+      // console.log('response:', response);
       return response;
     } catch (error: any) {
       console.error('Error fetching products:', error.response || error);
