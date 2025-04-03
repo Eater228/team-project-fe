@@ -145,9 +145,9 @@ export const CreatePage: React.FC = () => {
       buyout_price: formState.closingPrice || formState.openingPrice,
       close_time: formState.closingTime,
       category: formState.category,
-      images_to_upload: images,
+      images: images,
     };
-
+console.log(auctionData);
     try {
       const result = await userService.createAuctionLot(auctionData);
       if (result) {
@@ -170,6 +170,7 @@ export const CreatePage: React.FC = () => {
       console.error("Auction creation error:", error);
       alert("An unexpected error occurred. Please try again.");
     } finally {
+      console.log("Form submission completed");
       setIsSubmitting(false);
     }
   }, [formState, images, validateForm]);

@@ -124,7 +124,7 @@ export const InfoPage: React.FC = () => {
   }
 
   const findCategoryName = () => {
-    console.log(product);
+    // console.log(product);
     const category = categories
       .find(cat => cat.id === product.category_id);
     return category ? category.name : 'Loading...';
@@ -138,13 +138,13 @@ export const InfoPage: React.FC = () => {
     return `${day}.${month}.${year}`;
   };
 
-  // console.log(findCategoryName());
+  // console.log(product.images[0].image);
 
   return (
     <div className={styles.infoPage}>
       <div className={styles.imageBlock}>
         <div className={styles.image}>
-          <img src={`${product.images[currentImageIndex]}`} alt={product.item_name} />
+          <img src={`${product.images[currentImageIndex].image}`} alt={product.item_name} />
           <button
             className={classNames([styles.starButton], {
               [styles.isUnadd]: !inFavorite(),

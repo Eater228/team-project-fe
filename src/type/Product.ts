@@ -50,7 +50,9 @@ export type Product = {
   close_time: string; // Можна використовувати Date тип, якщо це потрібно
   location: string;
   bids: Array<any>; // Якщо є специфічна структура для bids, то краще уточнити
-  images: Image[]; // Массив зображень
+  images: Array<{
+    image: any; url: string 
+}>; // Массив зображень
   owner_id: number;
   winner_id: number | null;
 };
