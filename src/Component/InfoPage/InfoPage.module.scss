@@ -209,16 +209,38 @@
   margin-bottom: 20px;
 
   .contactIcons {
-    margin-left: 32px;
-    display: flex;
-    align-items: center;
-    gap: 20px;
+  margin-left: 32px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
 
+  // Новий контейнер для телефону
+  .phoneLink {
+    display: inline-flex; // Використовуємо inline-flex для природного вигляду тексту
+    align-items: center;
+    gap: 8px; // Зменшуємо проміжок між іконкою і номером
+    
     img {
-      width: 42px;
+      width: 42px; // Зменшуємо розмір іконки
       height: 42px;
+      vertical-align: middle; // Вирівнюємо по центру відносно тексту
+    }
+
+    .contactNumber {
+      font-size: 16px; // Налаштовуємо розмір шрифту як у звичайного тексту
+      line-height: 1.5; // Стандартний міжрядковий інтервал
     }
   }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+    // Додаємо ховер-ефект для індикації клікабельності
+    // &:hover {
+    //   opacity: 0.8;
+    // }
+  }
+}
 
   .messengers {
     display: flex;

@@ -20,7 +20,7 @@ export const InfoPage: React.FC = () => {
   const [timeLeft, setTimeLeft] = useState<string>("");
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [userDetails, setUserDetails] = useState<User[]>([]);
-  const [selerInfo, setSelerInfo] = useState<User | null>(null);
+  const [selerInfo, setSelerInfo] = useState<User>();
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.userData.isLoggedIn);
@@ -66,11 +66,35 @@ export const InfoPage: React.FC = () => {
 
       const interval = setInterval(() => {
         setTimeLeft(calculateTimeLeft());
-      }, 1000);
+      }, 10000);
 
       return () => clearInterval(interval);
     }
   }, [product]);
+
+  useEffect(() => {
+    // Окремий ефект для завантаження даних продавця
+    let isMounted = true; // Прапорець для відстеження монтування
+
+    const fetchSellerInfo = async () => {
+      if (product?.owner_id) {
+        try {
+          const seller = await userService.getUserProfile(product.owner_id);
+          if (isMounted) {
+            setSelerInfo(seller);
+          }
+        } catch (error) {
+          console.error('Failed to fetch seller info:', error);
+        }
+      }
+    };
+
+    fetchSellerInfo();
+
+    return () => {
+      isMounted = false; // Скасувати оновлення стану після розмонтування
+    };
+  }, [product?.owner_id]); // Залежність від ID власника
 
   // useEffect(() => {
   //   if (product?.seller.id) {
@@ -123,6 +147,7 @@ export const InfoPage: React.FC = () => {
     return <div>Loading...</div>;
   }
 
+  // console.log(product.owner_id);
   const findCategoryName = () => {
     // console.log(product);
     const category = categories
@@ -138,7 +163,7 @@ export const InfoPage: React.FC = () => {
     return `${day}.${month}.${year}`;
   };
 
-  // console.log(product.images[0].image);
+  // console.log(selerInfo)
 
   return (
     <div className={styles.infoPage}>
@@ -202,22 +227,32 @@ export const InfoPage: React.FC = () => {
         <h3 className={styles.contacts}>Contacts</h3>
         <div className={styles.contactBlock}>
           <div className={styles.contactIcons}>
-            <img src="/img/icons/Phone.svg" alt="Phone Icon" />
-            <div className={styles.contactNumber}>{product?.phone}</div>
+            {selerInfo?.phone_number && (
+              <a href={`tel:${selerInfo.phone_number}`} className={styles.phoneLink}>
+                <img src="/img/icons/Phone.svg" alt="Phone Icon" />
+                <div className={styles.contactNumber}>{selerInfo.phone_number}</div>
+              </a>
+            )}
           </div>
           <div className={styles.messengers}>
-            <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
-              <img src="/img/icons/Viber.svg" alt="Telegram" />
-            </a>
-            <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
-              <img src="/img/icons/Telegram.svg" alt="Telegram" />
-            </a>
-            <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
+            {selerInfo?.viber && (
+              <a href={`viber://add?number=${selerInfo.viber}`} target="_blank" rel="noopener noreferrer">
+                <img src="/img/icons/Viber.svg" alt="Viber" />
+              </a>
+            )}
+            {selerInfo?.telegram && (
+              <a href={`https://t.me/${selerInfo.telegram}`} target="_blank" rel="noopener noreferrer">
+                <img src="/img/icons/Telegram.svg" alt="Telegram" />
+              </a>
+            )}
+            {/* <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
               <img src="/img/icons/Facebook.svg" alt="Telegram" />
-            </a>
-            <a href={selerInfo?.telegram} target="_blank" rel="noopener noreferrer">
-              <img src="/img/icons/Instagram.svg" alt="Telegram" />
-            </a>
+            </a> */}
+            {selerInfo?.instagram && (
+              <a href={`https://instagram.com/${selerInfo.instagram}`} target="_blank" rel="noopener noreferrer">
+                <img src="/img/icons/Instagram.svg" alt="Instagram" />
+              </a>
+            )}
           </div>
         </div>
         <div className={styles.bids}>

@@ -124,18 +124,9 @@ export const CreatePage: React.FC = () => {
     }, {} as Record<string, string>);
   }, [formState, images, validateField]);
 
-  const handleSubmit = useCallback(async (e: React.FormEvent) => {
-    e.preventDefault();
-    const formErrors = validateForm();
-
-    if (Object.keys(formErrors).length > 0) {
-      setErrors(formErrors);
-      window.scrollTo({ top: 0, behavior: "smooth" });
-      return;
-    }
-
+  const handleSubmit = useCallback(async () => {
     setIsSubmitting(true);
-
+  
     const auctionData: AuctionLotData = {
       item_name: formState.name,
       description: formState.description,
@@ -147,11 +138,11 @@ export const CreatePage: React.FC = () => {
       category: formState.category,
       images: images,
     };
-console.log(auctionData);
+  
     try {
       const result = await userService.createAuctionLot(auctionData);
       if (result) {
-        setShowModal(true);
+        // Скидаємо всі поля форми
         setFormState({
           name: '',
           description: '',
@@ -162,18 +153,21 @@ console.log(auctionData);
           category: 0,
           closingTime: ''
         });
+        
+        // Очищаємо зображення
         setImages([]);
         setImagePreviews([]);
-        setErrors({});
+        
+        // Закриваємо модалку
+        setShowModal(false);
       }
     } catch (error) {
       console.error("Auction creation error:", error);
       alert("An unexpected error occurred. Please try again.");
     } finally {
-      console.log("Form submission completed");
       setIsSubmitting(false);
     }
-  }, [formState, images, validateForm]);
+  }, [formState, images, navigate]);
 
   const maxClosingTime = new Date();
   maxClosingTime.setMonth(maxClosingTime.getMonth() + 1);
@@ -201,7 +195,19 @@ console.log(auctionData);
 
   return (
     <div className={styles.createPage}>
-      <form onSubmit={handleSubmit} className={styles.form}>
+    <form 
+      onSubmit={(e) => {
+        e.preventDefault();
+        const formErrors = validateForm();
+        if (Object.keys(formErrors).length === 0) {
+          setShowModal(true);
+        } else {
+          setErrors(formErrors);
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }} 
+      className={styles.form}
+    >
         <div className={styles.leftSection}>
           <div className={styles.stickyContainer}>
             <div className={styles.header}>
@@ -396,9 +402,24 @@ console.log(auctionData);
       {showModal && (
         <div className={styles.modal}>
           <div className={styles.modalContent}>
-            <h2>Auction Created Successfully!</h2>
-            <button onClick={() => setShowModal(false)}>Add Another</button>
-            <button onClick={() => navigate('/Home')}>Go Home</button>
+            <h2>Confirm Auction Creation</h2>
+            <p>Are you sure you want to create this auction?</p>
+            <div className={styles.modalButtons}>
+              <button 
+                className={styles.cancelButton} 
+                onClick={() => setShowModal(false)}
+                disabled={isSubmitting}
+              >
+                Cancel
+              </button>
+              <button 
+                className={styles.confirmButton} 
+                onClick={handleSubmit}
+                disabled={isSubmitting}
+              >
+                {isSubmitting ? 'Creating...' : 'Confirm'}
+              </button>
+            </div>
           </div>
         </div>
       )}

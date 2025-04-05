@@ -32,13 +32,14 @@ export const MainPage = () => {
     return <div>Error: {error}</div>;
   }
 
-  // const sortedProducts = [...products].sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
-  const newestProducts = products.slice(0, 10).map(product => ({
+  const sortedProducts = [...products].sort((a, b) => new Date(b.close_time).getTime() - new Date(a.close_time).getTime());
+  const newestProducts = sortedProducts.slice(0, 10).map(product => ({
     ...product,
     images: product.images.map(img => img.url)
   }));
 
   const handleSearch = (query: string) => {
+    console.log('Search query:', query); // Додайте це для налагодження
     if (query.trim() !== '') {
       navigate(`/product?search=${query}`);
     }
@@ -58,7 +59,7 @@ export const MainPage = () => {
         <CardList products={newestProducts} name={"Top"} itemsPerPage={4}/>
       )}
       {products.length !== 0 && (
-        <CardList products={products.map(product => ({
+        <CardList products={sortedProducts.map(product => ({
           ...product,
           images: product.images.map(img => img.url)
         }))} name={"For you"} itemsPerPage={12}/>

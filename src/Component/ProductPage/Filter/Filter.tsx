@@ -196,7 +196,7 @@ export const Filter: React.FC<FilterProps> = ({
             <div className={styles.separator}></div>
 
             {/* State Filter */}
-            <div className={styles.filterCategory}>
+            {/* <div className={styles.filterCategory}>
               <h3>State</h3>
               <div className={styles.radioGroup}>
                 <label>
@@ -209,7 +209,7 @@ export const Filter: React.FC<FilterProps> = ({
                   />
                   All
                 </label>
-                {/* <label>
+                <label>
                   <input
                     type="radio"
                     name="state"
@@ -228,9 +228,9 @@ export const Filter: React.FC<FilterProps> = ({
                     onChange={handleStateChange}
                   />
                   Used
-                </label> */}
+                </label>
               </div>
-            </div>
+            </div> */}
           </div>
 
           {/* Apply Filters and Reset Filters Buttons */}
