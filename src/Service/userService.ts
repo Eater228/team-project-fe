@@ -1,5 +1,6 @@
 import { authClient as client } from "../http/auth";
 import { Product } from "type/Product";
+import { User } from "type/User"; // Assuming User is defined in "type/User"
 
 interface ProfileData {
   email: string;
@@ -96,4 +97,14 @@ export const userService = {
       throw error;
     }
   },
+  async getUserProfile(id: number): Promise<User> {
+    try {
+      const response = await client.get<User>(`/account/${id}/info`); // Вказуємо тип даних
+      
+      return response; // Повертаємо тільки дані
+    } catch (error: any) {
+      console.error('Error fetching user profile:', error.response || error);
+      throw error;
+    }
+  }
 };
