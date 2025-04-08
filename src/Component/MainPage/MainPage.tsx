@@ -14,6 +14,7 @@ import image3 from '/img/PhotoSlider/Ralph-Lauren-Emblem.png'
 import { CardList } from "../../Component/CardList";
 import { Search } from "../../Component/Search/Search";
 import { Categories } from "../../Component/Categories/Categories2/Categories";
+// import { Categories } from "../../Component/Categories/Categories";
 
 export const MainPage = () => {
   const dispatch = useDispatch<AppDispatch>();

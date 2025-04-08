@@ -1,26 +1,39 @@
-import { categories } from "../CategoriesState/categories";
+import { AppDispatch, RootState } from "Store/Store";
 import styles from './Categories.module.scss'
 import { useNavigate } from 'react-router-dom';
-
-const categoriesArray = categories.slice(0, 3);
+import { useSelector } from 'react-redux';
+import { useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { fetchCategories } from "../../../Reducer/categoriesSlice";
 
 export const Categories: React.FC = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
+    useEffect(() => {
+      dispatch(fetchCategories());
+    }, [dispatch]);
+
+  const categories = useSelector((state: RootState) => state.categories.categories);
+  const categoriesArray = categories.slice(0, 3);
+// console.log(categories)
   const handleCategoryClick = (categoryName: string) => {
-    const name = categoryName.split(' & ').join('_');
-
+    const encodedName = encodeURIComponent(categoryName.replace(/ /g, '_'));
+    
+    // Навігація на сторінку продуктів з параметром
+    navigate(`/product?nameCategory=${encodedName}`);
     // Отримуємо поточний хеш (фрагмент після #)
-    const hash = window.location.hash.split('?')[0]; // Видаляємо старі query параметри
-  
-    // Формуємо новий URL з query параметром
-    window.location.hash = `${hash}?nameCategory=${name}`;
+    // const hash = window.location.hash.split('?')[0]; // Видаляємо старі query параметри
+    // console.log(hash)
+    // // Формуємо новий URL з query параметром
+    // window.location.hash = `${hash}?nameCategory=${name}`;
   };
 
+  
   const handleSeeAllCategory = () => {
     navigate('/allCategories')
   }
-
+  
   return (
     <div className={styles.Block}>
       <div className={styles.carouselContainer}>

@@ -12,7 +12,7 @@ import styles from './ProductPage.module.scss';
 import { Loader } from '../../Component/Loader';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { CategoriesBaner } from '../../Component/Categories/CategoriesBaner/CategoriesBaner';
-import { categories } from '../../Component/Categories/CategoriesState/categories';
+// import { categories } from '../../Component/Categories/CategoriesState/categories';
 import classNames from 'classnames';
 import { useDebouncedCallback } from 'use-debounce';
 
@@ -20,7 +20,7 @@ export const ProductPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
   const products = useSelector((state: RootState) => state.products.items);
   const loading = useSelector((state: RootState) => state.products.loading);
-  const error = useSelector((state: RootState) => state.products.error);
+  const categories = useSelector((state: RootState) => state.categories.categories);
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -34,7 +34,10 @@ export const ProductPage: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
   const queryParams = new URLSearchParams(location.search);
-  const nameCategory = queryParams.get('nameCategory');
+  const nameCategoryParam = queryParams.get('nameCategory');
+  const nameCategory = nameCategoryParam
+    ? nameCategoryParam.replace(/_/g, ' ')
+    : null;
   const searchParams = queryParams.get('search');
   const sectionRef = useRef<HTMLDivElement>(null); // створення рефу для секції "For you"
 
@@ -104,7 +107,7 @@ export const ProductPage: React.FC = () => {
     if (priceFilters.step && +priceFilters.step > 0) {
       filteredProducts = filteredProducts.filter(
         product => +product.min_step >= +priceFilters.step,
-        
+
       );
     }
 
@@ -119,16 +122,16 @@ export const ProductPage: React.FC = () => {
       );
     }
 
-    if (nameCategory) {
-      filteredProducts = filteredProducts.filter(product =>
-        product.category.toLocaleLowerCase() === nameCategory.toLocaleLowerCase()
-      );
-    }
+    // if (nameCategory) {
+    //   filteredProducts = filteredProducts.filter(product => {
+    //     console.log(product);
+    //     return product.category.toLocaleLowerCase() === nameCategory.toLocaleLowerCase();
+    //   });
+    // }
 
     setCurrentPage(1);
     setVisibleProducts(filteredProducts);
   }, [products, sortType, priceFilters, statusState, searchQuery]);
-
   useEffect(() => {
     if (searchQuery && sectionRef.current) {
       sectionRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -163,12 +166,22 @@ export const ProductPage: React.FC = () => {
     setIsFilterOpen(!isFilterOpen);
   };
 
-  const categoryObj = categories.find((category) => category.name === nameCategory);
+  const categoryObj = useMemo(() => {
+    if (!nameCategory || !categories.length) return null;
+    return categories.find(
+      (category) => category.name.toLowerCase() === nameCategory.toLowerCase()
+    );
+  }, [nameCategory, categories]);
 
   return (
     <div className={styles.productPage}>
-      {(nameCategory && categoryObj) ? (<CategoriesBaner categoryName={nameCategory.split('_').join(' & ')} categoryImage={categoryObj.image} />) : (<></>)}
-      <div className={classNames(styles.blockSearch, { [styles.withBanner]: nameCategory && categoryObj })}>
+      {categoryObj && (
+        <CategoriesBaner
+          categoryName={categoryObj.name}
+          categoryImage={categoryObj.image}
+        />
+      )}
+      <div className={classNames(styles.blockSearch, { [styles.withBanner]: categoryObj })}>
         <Search onSearch={handleSearch} />
         <img
           src="/img/icons/Filters.svg"
