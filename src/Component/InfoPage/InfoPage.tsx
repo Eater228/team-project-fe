@@ -66,7 +66,7 @@ export const InfoPage: React.FC = () => {
 
       const interval = setInterval(() => {
         setTimeLeft(calculateTimeLeft());
-      }, 10000);
+      }, 1000);
 
       return () => clearInterval(interval);
     }
