@@ -110,7 +110,7 @@ export const userService = {
   async getFavorites(): Promise<Product[]> {
     try {
       const response = await client.get<Product[]>('/account/favorites/');
-      console.log('response:', response);
+      // console.log('response:', response);
       return response;
     } catch (error: any) {
       console.error('Error fetching favorites:', error.response || error);
@@ -125,4 +125,14 @@ export const userService = {
       throw error;
     }
   },
+  async getMyAuctions() : Promise<Product[]> {
+    try {
+      const response = await client.get<Product[]>('/account/my-lots/');
+      // console.log('response:', response);
+      return response;
+    } catch (error: any) {
+      console.error('Error fetching my auctions:', error.response || error);
+      throw error;
+    }
+  }
 };

@@ -6,6 +6,7 @@ import productsReducer, { ProductsState } from "../Reducer/ProductsSlice"; // І
 import favoriteReducer from "../Reducer/favoriteSlice";
 import cartsReducer from "../Reducer/cartsSlice";
 import categoriesReducer from "../Reducer/categoriesSlice";
+import myLotsReducer from "../Reducer/myLotsSlice";
 
 // Створюємо трансформацію для images
 const productsTransform = createTransform(
@@ -42,6 +43,7 @@ const store = configureStore({
     favorite: favoriteReducer,
     carts: cartsReducer,
     categories: categoriesReducer,
+    myLots: myLotsReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

@@ -1,46 +1,51 @@
 import React, { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../../Store/Store';
-import { Pagination } from '../Pagination/Pagination'; // Assuming you have a Pagination component
+import { useDispatch, useSelector } from 'react-redux';
+import { AppDispatch, RootState } from '../../Store/Store'; // Додано RootState
+import { Pagination } from '../Pagination/Pagination';
 import styles from './myAuctionsPage.module.scss';
 import { AuctionList } from './AuctionsList/AuctionList';
-import { userService } from '../../Service/userService';
+import { fetchMyLots } from '../../Reducer/myLotsSlice'; // Імпорт нашого Slice
 
 export const MyAuctionsPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
-  const [products, setProducts] = useState([]); 
   const [currentPage, setCurrentPage] = useState(1);
+  
+  // Отримуємо дані зі стану Redux
+  const { items, loading, error } = useSelector((state: RootState) => state.myLots);
 
   useEffect(() => {
-    const fetchUserProducts = async () => {
-      const response = await userService.getProducts();
-      setProducts(response);
-    };
-    fetchUserProducts();
-  }, []);
+    // Оновлюємо дані тільки якщо вони застарілі або відсутні
+    if (items.length === 0) {
+      dispatch(fetchMyLots());
+    }
+  }, [dispatch, items.length]);
 
   const currentTableData = useMemo(() => {
     const firstPageIndex = (currentPage - 1) * 2;
     const lastPageIndex = firstPageIndex + 2;
+    return items.slice(firstPageIndex, lastPageIndex);
+  }, [currentPage, items]);
 
-    return products.slice(firstPageIndex, lastPageIndex);
-  }, [currentPage, products]);
+  if (loading) return <div>Loading auctions...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   return (
     <div className={styles.container}>
       <h2 className={styles.title}>My Auctions</h2>
       <div className={styles.auctions}>
-        {products.length !== 0 && (
+        {items.length > 0 ? (
           <>
             <AuctionList auctions={currentTableData} />
             <Pagination
               className="pagination-bar"
               currentPage={currentPage}
-              totalCount={products.length}
+              totalCount={items.length}
               pageSize={2}
               onPageChange={page => setCurrentPage(page)}
             />
           </>
+        ) : (
+          <p>No auctions found</p>
         )}
       </div>
     </div>
