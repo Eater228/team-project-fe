@@ -106,5 +106,23 @@ export const userService = {
       console.error('Error fetching user profile:', error.response || error);
       throw error;
     }
-  }
+  }, 
+  async getFavorites(): Promise<Product[]> {
+    try {
+      const response = await client.get<Product[]>('/account/favorites/');
+      console.log('response:', response);
+      return response;
+    } catch (error: any) {
+      console.error('Error fetching favorites:', error.response || error);
+      throw error;
+    }
+  },
+  async toggleFavorite(productId: number): Promise<void> {
+    try {
+      await client.post(`/api/auction-lots/${productId}/toggle_favorite/`);
+    } catch (error: any) {
+      console.error('Error adding to favorites:', error.response || error);
+      throw error;
+    }
+  },
 };

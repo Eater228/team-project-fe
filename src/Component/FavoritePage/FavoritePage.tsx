@@ -1,26 +1,35 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../Store/Store';
+import { AppDispatch, RootState } from '../../Store/Store';
 import { CardList } from '../CardList';
 import { BackToTop } from '../BackToTop/BackToTop';
 import { useNavigate } from 'react-router-dom';
 import styles from './FavoritePage.module.scss';
+import { useDispatch } from 'react-redux';
+import { fetchFavorites } from '../../Reducer/favoriteSlice';
 
 export const FavoritePage: React.FC = () => {
-  const favoriteItems = useSelector((state: RootState) => state.favorite.items);
+  const dispatch = useDispatch<AppDispatch>();
+  const { items, loading, error } = useSelector((state: RootState) => state.favorite);
   const navigate = useNavigate();
+  useEffect(() => {
+    dispatch(fetchFavorites());
+  }, [dispatch]);
+
+  if (loading) return <div>Loading...</div>;
+  if (error) return <div>Error: {error}</div>;
 
   const handleBackToHome = () => {
     navigate('/Home');
   };
-
+console.log('favoriteItems:', items);
   return (
     <div className={styles.favoritePage}>
-      {favoriteItems.length > 0 ? (
+      {items.length > 0 ? (
         <CardList
-          products={favoriteItems.map(item => ({
+          products={items.map(item => ({
             ...item,
-            images: item.images.map(image => image.url),
+            images: item.images.map(image => image.image),
           }))}
           name="Favorites"
           itemsPerPage={12}

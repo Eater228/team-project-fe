@@ -4,15 +4,15 @@ import styles from './Card2.module.scss';
 import { NavLink, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
-import { RootState } from "Store/Store";
-import { addToFavorite, removeFromFavorite } from "../../../Reducer/favoriteSlice";
+import { AppDispatch, RootState } from "Store/Store";
+import { toggleFavorite  } from "../../../Reducer/favoriteSlice";
 
 interface Props {
   product: ListProduct;
 }
 
 export const Card2: React.FC<Props> = ({ product }) => {
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const products = useSelector((state: RootState) => state.products.items);
   const favorite = useSelector((state: RootState) => state.favorite.items);
@@ -52,13 +52,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
     }
 
     const inFavoriteIndex = favorite.findIndex(fav => fav.id === product.id);
-
-    if (inFavoriteIndex !== -1) {
-      dispatch(removeFromFavorite(product.id));
-    } else {
-      const productToAdd = products.find(prod => prod.id === product.id);
-      if (productToAdd) dispatch(addToFavorite(productToAdd));
-    }
+    dispatch(toggleFavorite(product.id));
   };
 
   const handerSortername = (name: string) => {

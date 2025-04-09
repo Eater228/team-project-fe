@@ -9,7 +9,7 @@ import { userService } from '../../Service/userService';
 import { useSelector } from 'react-redux';
 import { RootState } from 'Store/Store';
 import { useDispatch } from 'react-redux';
-import { addToFavorite, removeFromFavorite } from "../../Reducer/favoriteSlice";
+import { toggleFavorite } from "../../Reducer/favoriteSlice";
 import { fetchCategories } from '../../Reducer/categoriesSlice';
 import { AppDispatch } from '../../Store/Store';
 
@@ -132,11 +132,7 @@ export const InfoPage: React.FC = () => {
 
     const inFavoriteIndex = favorite.findIndex(fav => fav.id === product.id);
 
-    if (inFavoriteIndex !== -1) {
-      dispatch(removeFromFavorite(product.id));
-    } else {
-      dispatch(addToFavorite(product));
-    }
+    dispatch(toggleFavorite(product.id));
   };
 
   const inFavorite = () => {

@@ -1,9 +1,12 @@
+import { useSelector } from 'react-redux';
 import styles from './AllCategoriesPage.module.scss';
-import { categories } from '../CategoriesState/categories';
+// import { categories } from '../Categories';
 import { useNavigate } from 'react-router-dom';
+import { RootState } from 'Store/Store';
 
 export const AllCategoriesPage = () => {
   const navigate = useNavigate();
+  const categories = useSelector((state: RootState) => state.categories.categories);
 
   const handleCategoryClick = (categoryName: string) => {
     navigate(`/product?nameCategory=${categoryName}`);
