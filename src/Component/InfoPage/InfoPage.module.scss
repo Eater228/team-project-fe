@@ -251,6 +251,24 @@
       height: 42px;
       width: 42px;
     }
+
+    .viberWrapper {
+      position: relative;
+      display: inline-block;
+    }
+    
+    .viberLink {
+      display: flex;
+      align-items: center;
+      position: relative;
+    }
+    
+    .viberTextNumber {
+      width: 100%;
+      text-align: center;
+      // background-color: #ffffff;
+      // mask: url(/img/icons/Viber.svg) no-repeat center;
+    }
   }
 }
 
