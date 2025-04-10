@@ -26,12 +26,11 @@ export const fetchFavorites = createAsyncThunk(
 );
 
 export const toggleFavorite = createAsyncThunk(
-  'favorite/toggleFavorite', // Виправлено тип дії для точності
+  'favorite/toggleFavorite',
   async (productId: number, { rejectWithValue, dispatch }) => {
     try {
       await userService.toggleFavorite(productId);
-      // Оновлюємо весь список після зміни
-      await dispatch(fetchFavorites());
+      await dispatch(fetchFavorites()); // Оновлюємо весь список
       return productId;
     } catch (error: any) {
       return rejectWithValue(error.response?.data || error.message);
@@ -42,7 +41,14 @@ export const toggleFavorite = createAsyncThunk(
 const favoriteSlice = createSlice({
   name: "favorite",
   initialState,
-  reducers: {},
+  reducers: {
+    // Додано новий редюсер для очищення стану
+    clearFavorites: (state) => {
+      state.items = [];
+      state.loading = false;
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // Обробка отримання списку улюблених
@@ -61,12 +67,14 @@ const favoriteSlice = createSlice({
 
       // Обробка перемикання улюбленого
       .addCase(toggleFavorite.pending, (state) => {
-        state.error = null; // Очищаємо помилки при початку запиту
+        state.error = null;
       })
       .addCase(toggleFavorite.rejected, (state, action) => {
-        state.error = action.payload as string; // Фіксуємо помилку
+        state.error = action.payload as string;
       });
   },
 });
 
+// Експорт нового редюсера
+export const { clearFavorites } = favoriteSlice.actions;
 export default favoriteSlice.reducer;

@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '../../Store/Store';
 import { useNavigate } from 'react-router-dom';
 import { logout } from '../../Reducer/UsersSlice';
+import { clearFavorites } from '../../Reducer/favoriteSlice';
 import { LogoutModal } from '../LogoutModal/LogoutModal';
 import styles from './ProfileModal.module.scss';
 
@@ -18,6 +19,7 @@ export const ProfileModal: React.FC<ProfileModalProps> = ({ onClose }) => {
 
   const handleLogout = () => {
     dispatch(logout());
+    dispatch(clearFavorites());
     navigate('/Home');
     onClose();
   };

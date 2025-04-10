@@ -159,7 +159,7 @@ export const InfoPage: React.FC = () => {
     return `${day}.${month}.${year}`;
   };
 
-  // console.log(selerInfo)
+  console.log(product)
 
   return (
     <div className={styles.infoPage}>
