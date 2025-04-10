@@ -12,7 +12,7 @@ export const Notification: React.FC = () => {
           <img src="/img/icons/Notification.png" alt="Notification" />
         </div>
         <div className={styles.title}>
-          <h2>Notification</h2>
+          <h2>It`s important</h2>
           <p>
             Please verify your identity
             to participate in auctions
