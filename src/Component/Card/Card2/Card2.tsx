@@ -20,6 +20,17 @@ export const Card2: React.FC<Props> = ({ product }) => {
 
   const [timeLeft, setTimeLeft] = useState<string>("");
 
+  useEffect(() => {
+    setTimeLeft(calculateTimeLeft());
+
+    // Оновлення тільки раз у 15 хвилин
+    const interval = setInterval(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 15 * 60 * 1000);
+
+    return () => clearInterval(interval);
+  }, [product.close_time]); // Запускається тільки раз
+
   const calculateTimeLeft = () => {
     const endTime = new Date(product.close_time).getTime();
     const now = new Date().getTime();
@@ -34,33 +45,25 @@ export const Card2: React.FC<Props> = ({ product }) => {
     return days > 0 ? `${days}d ${hours}h` : `${hours}h ${minutes}m`;
   };
 
-  useEffect(() => {
-    setTimeLeft(calculateTimeLeft());
-
-    // Оновлення тільки раз у 15 хвилин
-    const interval = setInterval(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 15 * 60 * 1000);
-
-    return () => clearInterval(interval);
-  }, [product.close_time]); // Запускається тільки раз
-
-  const HandlerAddFavorite = () => {
-    if (!isLoggedIn) {
-      navigate('/auth');
-      return;
-    }
-
-    const inFavoriteIndex = favorite.findIndex(fav => fav.id === product.id);
-    dispatch(toggleFavorite(product.id));
-  };
-
   const handerSortername = (name: string) => {
     if (name.length <= 15) return name;
     
     const sorter = name.slice(0, 15);
     return `${sorter}...`;
   }
+
+  const HandlerAddFavorite = async () => {
+    if (!isLoggedIn) {
+      navigate('/auth');
+      return;
+    }
+    
+    try {
+      await dispatch(toggleFavorite(product.id)).unwrap();
+    } catch (error) {
+      console.error("Failed to toggle favorite:", error);
+    }
+  };
 
   const inFavorite = () => favorite.some(fav => fav.id === product.id);
 // console.log('product:', product);

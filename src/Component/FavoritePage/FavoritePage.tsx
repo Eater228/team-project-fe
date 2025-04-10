@@ -10,8 +10,9 @@ import { fetchFavorites } from '../../Reducer/favoriteSlice';
 
 export const FavoritePage: React.FC = () => {
   const dispatch = useDispatch<AppDispatch>();
-  const { items, loading, error } = useSelector((state: RootState) => state.favorite);
   const navigate = useNavigate();
+  const { items, loading, error } = useSelector((state: RootState) => state.favorite);
+  
   useEffect(() => {
     dispatch(fetchFavorites());
   }, [dispatch]);
@@ -22,7 +23,7 @@ export const FavoritePage: React.FC = () => {
   const handleBackToHome = () => {
     navigate('/Home');
   };
-console.log('favoriteItems:', items);
+
   return (
     <div className={styles.favoritePage}>
       {items.length > 0 ? (
