@@ -428,7 +428,7 @@
       cursor: pointer;
     }
 
-    button:first-of-type {
+    .confirmButton {
       background-color: #204dff;
       color: #fff;
 
@@ -437,7 +437,7 @@
       }
     }
 
-    button:last-of-type {
+    .cancelButton {
       background-color: #181717;
 
       &:hover {

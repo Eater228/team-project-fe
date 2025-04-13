@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { AxiosResponse } from 'axios';
 import classNames from 'classnames'; // Import classNames
@@ -12,6 +12,7 @@ import { useDispatch } from 'react-redux';
 import { toggleFavorite } from "../../Reducer/favoriteSlice";
 import { fetchCategories } from '../../Reducer/categoriesSlice';
 import { AppDispatch } from '../../Store/Store';
+import ModalForContact from '../../Component/ModalForContact/ModalForContact';
 
 
 export const InfoPage: React.FC = () => {
@@ -26,6 +27,16 @@ export const InfoPage: React.FC = () => {
   const isLoggedIn = useSelector((state: RootState) => state.userData.isLoggedIn);
   const favorite = useSelector((state: RootState) => state.favorite.items);
   const categories = useSelector((state: RootState) => state.categories.categories);
+
+  //Modal For Viber
+  const [showViberPopup, setShowViberPopup] = useState(false);
+  const viberButtonRef = useRef(null);
+
+  const handleViberClick = (e: { preventDefault: () => void; }) => {
+    e.preventDefault();
+    setShowViberPopup(true);
+  };
+  // Close modal
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -232,9 +243,25 @@ export const InfoPage: React.FC = () => {
           </div>
           <div className={styles.messengers}>
             {selerInfo?.viber && (
-              <a href={`viber://add?number=${selerInfo.viber}`} target="_blank" rel="noopener noreferrer">
-                <img src="/img/icons/Viber.svg" alt="Viber" />
-              </a>
+              <div className={styles.viberWrapper}>
+                <a
+                  href={`viber://add?number=${selerInfo.viber}`}
+                  onClick={handleViberClick}
+                  ref={viberButtonRef}
+                  className={styles.viberLink}
+                >
+                  <img src="/img/icons/Viber.svg" alt="Viber" />
+                </a>
+
+                <ModalForContact
+                  isOpen={showViberPopup}
+                  onClose={() => setShowViberPopup(false)}
+                  triggerRef={viberButtonRef}
+                >
+                  <span className={styles.viberTextNumber}>{selerInfo.viber}</span>
+                  {/* <div className={styles.viberIconSmall} /> */}
+                </ModalForContact>
+              </div>
             )}
             {selerInfo?.telegram && (
               <a href={`https://t.me/${selerInfo.telegram}`} target="_blank" rel="noopener noreferrer">
