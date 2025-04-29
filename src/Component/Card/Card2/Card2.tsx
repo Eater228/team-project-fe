@@ -57,7 +57,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
       navigate('/auth');
       return;
     }
-    
+    console.log('product:', product);
     try {
       await dispatch(toggleFavorite(product.id)).unwrap();
     } catch (error) {

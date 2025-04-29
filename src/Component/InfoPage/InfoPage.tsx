@@ -13,7 +13,20 @@ import { toggleFavorite } from "../../Reducer/favoriteSlice";
 import { fetchCategories } from '../../Reducer/categoriesSlice';
 import { AppDispatch } from '../../Store/Store';
 import ModalForContact from '../../Component/ModalForContact/ModalForContact';
+import BidModal from '../../Component/ModalForBid/BidModal';
+import { BalanceModal } from '../../Component/BalanceModal/BalanceModal';
+import { updateUser } from '../../Reducer/UsersSlice';
 
+// interface BidModalProps {
+//   isOpen: boolean;
+//   onClose: () => void;
+//   balance: number; // Balance of the user
+//   product: {
+//     images: { image: string }[];
+//     min_step: number;
+//     bids: { amount: number }[];
+//   };
+// }
 
 export const InfoPage: React.FC = () => {
   const { itemId } = useParams();  // Отримуємо ID лоту з URL
@@ -22,11 +35,39 @@ export const InfoPage: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [userDetails, setUserDetails] = useState<User[]>([]);
   const [selerInfo, setSelerInfo] = useState<User>();
+  const [refreshTrigger, setRefreshTrigger] = useState(false); // State for bid error
+  const [showBalanceModal, setShowBalanceModal] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
   const isLoggedIn = useSelector((state: RootState) => state.userData.isLoggedIn);
   const favorite = useSelector((state: RootState) => state.favorite.items);
   const categories = useSelector((state: RootState) => state.categories.categories);
+  const currentUser = useSelector((state: RootState) => state.userData.currentUser);
+
+  const [isRefreshing, setIsRefreshing] = useState(false); 
+
+  //modal for balance
+  const toggleBalanceModal = () => setShowBalanceModal(prev => !prev);
+  const handleAddBalance = async (amount: number) => {
+    try {
+      // Оновлюємо баланс через API
+      const updatedUser = await userService.updateProfile({
+        balance: (currentUser?.balance || 0) + amount
+      });
+
+      // Оновлюємо Redux store
+      console.log('updatedUser:', updatedUser);
+      dispatch(updateUser(updatedUser));
+    } catch (error) {
+      console.error('Error adding balance:', error);
+      throw error;
+    }
+  };
+
+  const handleBalanceClick = () => {
+    setShowBalanceModal(true);
+  };
+  //Close modal
 
   //Modal For Viber
   const [showViberPopup, setShowViberPopup] = useState(false);
@@ -37,6 +78,52 @@ export const InfoPage: React.FC = () => {
     setShowViberPopup(true);
   };
   // Close modal
+
+  // Molda for Bid
+  const [isBidModalOpen, setIsBidModalOpen] = useState(false);
+  const refreshProductData = () => {
+    setIsRefreshing(true); // Початок оновлення
+    if (itemId) {
+      userService.getLotById(itemId)
+        .then((response: AxiosResponse<Product>) => {
+          setProduct(response);
+          setIsRefreshing(false); // Успішне завершення
+        })
+        .catch(error => {
+          console.error(error);
+          setIsRefreshing(false); // Помилка
+        });
+    }
+  };
+
+  // const handleBid = async (amount: number) => {
+  //   if (itemId) {
+  //     await userService.makeBid(itemId, amount.toString())
+  //       .then(() => {
+  //         setBidError(''); // Clear error on success
+  //         // Optionally, refresh product data or handle success feedback
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error placing bid:", error.response.data.offered_price[0]);
+  //         setBidError(error.response.data.offered_price[0]); // Set error message
+  //       });
+  //   } else {
+  //     console.error("Error: itemId is undefined.");
+  //   }
+  // };
+
+  const handelOpenModal = () => {
+    setIsBidModalOpen(true);
+  }
+
+  const handleCloseModal = () => {
+    setIsBidModalOpen(false);
+  }
+
+  // const handleTopUp = () => {
+  //   console.log('Top up balance');
+  // };
+  //close modal
 
   useEffect(() => {
     dispatch(fetchCategories());
@@ -49,7 +136,7 @@ export const InfoPage: React.FC = () => {
       // Отримуємо дані лоту з бекенду за допомогою axios
       userService.getLotById(itemId)
         .then((response: AxiosResponse) => {
-          // console.log(response); // Логуємо data
+          console.log(response); // Логуємо data
           setProduct(response);  // Встановлюємо дані продукту
         })
         .catch((error) => {
@@ -170,7 +257,7 @@ export const InfoPage: React.FC = () => {
     return `${day}.${month}.${year}`;
   };
 
-  console.log(product)
+  // console.log(product)
 
   return (
     <div className={styles.infoPage}>
@@ -199,8 +286,12 @@ export const InfoPage: React.FC = () => {
           </button>
         </div>
         <div className={styles.imageButtonBlock}>
-          <div className={styles.buttonBuy}>Buy now</div>
-          <div className={styles.makeBet}>Make Bet</div>
+          <div
+            className={styles.buttonBuy}
+          >
+            Buy now
+          </div>
+          <div className={styles.makeBet} onClick={handelOpenModal}>Make Bet</div>
         </div>
       </div>
       <div className={styles.descriptionBlock}>
@@ -301,6 +392,25 @@ export const InfoPage: React.FC = () => {
           )}
         </div>
       </div>
+      <BidModal
+        itemId={itemId}
+        isOpen={isBidModalOpen}
+        onClose={handleCloseModal} // Закриття модального вікна
+        userBalance={currentUser?.balance || 0} // Замініть на реальний баланс
+        minBidStep={+product?.min_step || 0} // Мінімальний крок
+        lastBid={product?.bids[product.bids.length - 1]?.amount || 0} // Остання ставка
+        lotPhoto={product?.images[currentImageIndex]?.image || ''} // Зображення лоту
+        bids={product.bids} // Передаємо всі ставки
+        userDetails={userDetails.map(user => ({
+          id: user.id,
+          avatar: user.avatar || '',
+          firstName: user.firstName || '',
+          lastName: user.lastName || '',
+        }))} // Передаємо деталі користувачів
+        onBidSuccess={refreshProductData}
+        onTopUpBalance={handleBalanceClick}
+      />
+      {showBalanceModal && <BalanceModal onClose={toggleBalanceModal} onAddBalance={handleAddBalance} />}
     </div>
   );
 };
