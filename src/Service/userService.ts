@@ -30,7 +30,7 @@ export const userService = {
       const response = await client.patch('/account/profile/', profileData);
       // console.log('response:', response);
       return response;
-      
+
     } catch (error: any) {
       console.error('Error updating profile:', error.response || error);
       throw error;
@@ -61,7 +61,7 @@ export const userService = {
           'Content-Type': 'multipart/form-data',
         },
       });
-// console.log('response:', response);
+      // console.log('response:', response);
       return response;
     } catch (error: unknown) {
       console.error('Error creating auction lot:', error instanceof Error ? error.message : 'An unknown error occurred');
@@ -100,13 +100,13 @@ export const userService = {
   async getUserProfile(id: number): Promise<User> {
     try {
       const response = await client.get<User>(`/account/${id}/info`); // Вказуємо тип даних
-      
+
       return response; // Повертаємо тільки дані
     } catch (error: any) {
       console.error('Error fetching user profile:', error.response || error);
       throw error;
     }
-  }, 
+  },
   async getFavorites(): Promise<Product[]> {
     try {
       const response = await client.get<Product[]>('/account/favorites/');
@@ -125,7 +125,7 @@ export const userService = {
       throw error;
     }
   },
-  async getMyAuctions() : Promise<Product[]> {
+  async getMyAuctions(): Promise<Product[]> {
     try {
       const response = await client.get<Product[]>('/account/my-lots/');
       // console.log('response:', response);
@@ -134,5 +134,18 @@ export const userService = {
       console.error('Error fetching my auctions:', error.response || error);
       throw error;
     }
-  }
+  },
+  async makeBid(lotId: string, bid: string): Promise<any> {
+    const payload = {
+      "auction_lot": lotId,
+      "offered_price": bid
+    }
+    try {
+      const response = await client.post(`/api/auction-lots/${lotId}/bids/`, payload);
+      return response;
+    } catch (error: any) {
+      // console.error('Error fetching user bids:', error.response || error);
+      throw error;
+    }
+  },
 };
