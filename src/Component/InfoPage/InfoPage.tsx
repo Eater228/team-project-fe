@@ -286,11 +286,11 @@ export const InfoPage: React.FC = () => {
           </button>
         </div>
         <div className={styles.imageButtonBlock}>
-          <div
+          {/* <div
             className={styles.buttonBuy}
           >
             Buy now
-          </div>
+          </div> */}
           <div className={styles.makeBet} onClick={handelOpenModal}>Make Bet</div>
         </div>
       </div>
