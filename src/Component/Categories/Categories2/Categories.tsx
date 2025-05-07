@@ -50,7 +50,7 @@ export const Categories: React.FC = () => {
               {category.image ? (
                 <>
                   <img
-                    src={category.image}
+                    src={`http://localhost:8000${category.image}`}
                     alt={category.name}
                     className={`${styles.categoryImage} 
                             ${index === 0 ? styles.firstImage : ''} 

@@ -35,7 +35,7 @@ export const AllCategoriesPage = () => {
             className={styles.categoryItem}
             onClick={() => handleCategoryClick(category.name)}
           >
-            <img src={category.image} alt={category.name} className={styles.categoryImage} />
+            <img src={`http://localhost:8000${category.image}`} alt={category.name} className={styles.categoryImage} />
             <div className={styles.categoryName}>{category.name.split('_').join(' & ')}</div>
           </div>
         ))}
