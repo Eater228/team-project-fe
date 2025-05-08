@@ -314,17 +314,26 @@ export const Profile: React.FC = () => {
         <hr className={styles.divider} />
         <div className={styles.contactsSection}>
           <h3>Contacts</h3>
-          {Object.values(contactMap).every(actualKey => 
-          !currentUser?.phone_number || currentUser.phone_number === 'Not provided') && (
-            <div className={styles.warningMessage}>
-              Будь ласка, додайте номер телефону
-            </div>
-          )}
           {Object.keys(contactMap).map(contactType => {
-          const actualKey = contactMap[contactType as keyof typeof contactMap]; // Отримуємо реальний ключ
+            const actualKey = contactMap[contactType as keyof typeof contactMap]; // Отримуємо реальний ключ
+
+            const isPhoneMissing = 
+              contactType === 'phone' && (!currentUser?.phone_number || currentUser.phone_number === 'Not provided');
 
             return (
-              <div className={styles.formGroup} key={contactType}>
+              <div 
+                className={`${styles.formGroup} ${isPhoneMissing ? styles.highlight : ''}`} 
+                key={contactType}
+              >
+                <div className={styles.contactContainer}>
+                {isPhoneMissing && (
+                  <div className={styles.warningMessage}>
+                    <h3>Verify your identity by adding your <br /> phone number down below</h3>
+                    <p>It allows you to track lot’s statemnet and have direct contact with<br /> the 
+                      lot seller or winner of your lot right trough our telegram bot
+                    </p>
+                  </div>
+                )}
                 <label htmlFor={actualKey}>
                   {contactType.charAt(0).toUpperCase() + contactType.slice(1)}
                 </label>
@@ -342,11 +351,14 @@ export const Profile: React.FC = () => {
                     className={styles.inputDiv}
                   />
                 ) : (
-                  <div className={styles.inputDiv}>{currentUser?.[actualKey] || 'Not provided'}</div>
+                  <div className={styles.inputDiv}>
+                    {currentUser?.[actualKey as keyof typeof currentUser] || 'Not provided'}
+                  </div>
                 )}
                 <button className={styles.changePasswordButton} onClick={() => handleEditContact(actualKey)}>
                   {isEditingContact[actualKey] ? <img src='./img/icons/diskette.svg' /> : <img src='./img/icons/Pencil.svg' />}
                 </button>
+                </div>
               </div>
             );
           })}
