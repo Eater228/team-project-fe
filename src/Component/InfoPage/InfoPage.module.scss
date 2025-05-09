@@ -6,7 +6,7 @@
   justify-content: space-between;
   // align-items: center;
   padding: 48px;
-  background-color: #1C1C1D;
+  background-color: #1c1c1d;
 }
 
 .imageBlock {
@@ -102,21 +102,21 @@
     height: 64px;
     max-width: 209px;
     border-radius: 50px;
-    flex:1;
+    flex: 1;
   }
-  
+
   .makeBet {
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
     // border: 1px solid gray;
-    background-color: #204DFF;
+    background-color: #204dff;
     width: 100%;
     max-width: 434;
     height: 54px;
     border-radius: 50px;
-    flex:1;
+    flex: 1;
   }
 }
 
@@ -144,13 +144,12 @@
     text-align: center;
     font-size: 24px;
     font-weight: bold;
-  
+
     h2 {
       margin: 0;
     }
   }
 }
-
 
 .descript {
   font-size: 16px;
@@ -186,15 +185,23 @@
   display: flex;
   justify-content: space-between;
   width: 100%;
-  
-  .categoryName{
+
+  .categoryName {
     display: flex;
     align-items: center;
     justify-content: center;
     height: 48px;
     width: 180px;
     border-radius: 100px;
-    background-color: #59595A;
+    background-color: #59595a;
+
+    h2 {
+      font-weight: 500;
+      font-size: 15px;
+      // line-height: 150%;
+      // letter-spacing: -8%;
+      text-align: center;
+    }
   }
 }
 
@@ -204,50 +211,50 @@
   align-items: center;
   width: 100%;
   min-height: 68px;
-  background-color: #59595A;
+  background-color: #59595a;
   border-radius: 16px;
   font-size: 16px;
   margin-bottom: 20px;
 
   .contactIcons {
-  margin-left: 32px;
-  display: flex;
-  align-items: center;
-  gap: 20px;
-
-  // Новий контейнер для телефону
-  .phoneLink {
-    display: inline-flex; // Використовуємо inline-flex для природного вигляду тексту
+    margin-left: 32px;
+    display: flex;
     align-items: center;
-    gap: 8px; // Зменшуємо проміжок між іконкою і номером
-    
-    img {
-      width: 42px; // Зменшуємо розмір іконки
-      height: 42px;
-      vertical-align: middle; // Вирівнюємо по центру відносно тексту
+    gap: 20px;
+
+    // Новий контейнер для телефону
+    .phoneLink {
+      display: inline-flex; // Використовуємо inline-flex для природного вигляду тексту
+      align-items: center;
+      gap: 8px; // Зменшуємо проміжок між іконкою і номером
+
+      img {
+        width: 42px; // Зменшуємо розмір іконки
+        height: 42px;
+        vertical-align: middle; // Вирівнюємо по центру відносно тексту
+      }
+
+      .contactNumber {
+        font-size: 16px; // Налаштовуємо розмір шрифту як у звичайного тексту
+        line-height: 1.5; // Стандартний міжрядковий інтервал
+      }
     }
 
-    .contactNumber {
-      font-size: 16px; // Налаштовуємо розмір шрифту як у звичайного тексту
-      line-height: 1.5; // Стандартний міжрядковий інтервал
+    a {
+      text-decoration: none;
+      color: inherit;
+      // Додаємо ховер-ефект для індикації клікабельності
+      // &:hover {
+      //   opacity: 0.8;
+      // }
     }
   }
-
-  a {
-    text-decoration: none;
-    color: inherit;
-    // Додаємо ховер-ефект для індикації клікабельності
-    // &:hover {
-    //   opacity: 0.8;
-    // }
-  }
-}
 
   .messengers {
     display: flex;
     gap: 20px;
     margin-right: 32px;
-    
+
     img {
       height: 42px;
       width: 42px;
@@ -257,13 +264,13 @@
       position: relative;
       display: inline-block;
     }
-    
+
     .viberLink {
       display: flex;
       align-items: center;
       position: relative;
     }
-    
+
     .viberTextNumber {
       width: 100%;
       text-align: center;
@@ -308,7 +315,7 @@
     flex-direction: column;
     justify-content: center;
     align-items: flex-start;
-    background-color: #3B3B3C;
+    background-color: #3b3b3c;
     padding: 16px;
     border-radius: 8px;
     width: 100%;

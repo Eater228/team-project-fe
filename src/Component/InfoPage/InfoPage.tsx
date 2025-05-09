@@ -44,7 +44,7 @@ export const InfoPage: React.FC = () => {
   const categories = useSelector((state: RootState) => state.categories.categories);
   const currentUser = useSelector((state: RootState) => state.userData.currentUser);
 
-  const [isRefreshing, setIsRefreshing] = useState(false); 
+  const [isRefreshing, setIsRefreshing] = useState(false);
 
   //modal for balance
   const toggleBalanceModal = () => setShowBalanceModal(prev => !prev);
@@ -229,7 +229,7 @@ export const InfoPage: React.FC = () => {
     }
 
     const inFavoriteIndex = favorite.findIndex(fav => fav.id === product.id);
-
+    console.log('inFavoriteIndex:', product.id);
     dispatch(toggleFavorite(product.id));
   };
 
@@ -320,7 +320,9 @@ export const InfoPage: React.FC = () => {
         </div>
         <div className={styles.category}>
           <h3>Category:</h3>
-          <div className={styles.categoryName}>{findCategoryName()}</div>
+          <div className={styles.categoryName}>
+            <h2>{findCategoryName()}</h2>
+          </div>
         </div>
         <h3 className={styles.contacts}>Contacts</h3>
         <div className={styles.contactBlock}>
