@@ -12,7 +12,7 @@ export const CategoriesBaner: React.FC<CategoriesBanerProps> = ({ categoryName, 
       <div className={styles.banerTitleBlock}>
         <h2 className={styles.bannerTitle}>{categoryName}</h2>
       </div>
-      <img src={categoryImage} alt={categoryName} className={styles.bannerImage} />
+      <img src={`http://localhost:8000${categoryImage}`} alt={categoryName} className={styles.bannerImage} />
     </div>
   );
 };
