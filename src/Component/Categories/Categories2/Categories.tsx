@@ -49,6 +49,7 @@ export const Categories: React.FC = () => {
             >
               {category.image ? (
                 <>
+                  {/* {console.log(category.image)} */}
                   <img
                     src={`http://localhost:8000${category.image}`}
                     alt={category.name}

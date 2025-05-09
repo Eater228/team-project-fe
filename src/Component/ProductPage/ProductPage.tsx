@@ -48,6 +48,21 @@ export const ProductPage: React.FC = () => {
     return visibleProducts.slice(firstPageIndex, lastPageIndex);
   }, [count, currentPage, visibleProducts]);
 
+  const staticCategoryObj = [
+    { id: 1, name: 'Gadgets' },
+    { id: 2, name: 'Jewerly' },
+    { id: 3, name: 'Art and Antiques' },
+    { id: 4, name: 'Books' },
+    { id: 5, name: 'Records' },
+    { id: 6, name: 'Sports Equipment' },
+    { id: 7, name: 'Personal transport' },
+    { id: 8, name: 'Clocks' },
+    { id: 9, name: 'Collectibles' },
+    { id: 10, name: 'Clothing and Footwear' },
+    { id: 11, name: 'Household' },
+    { id: 12, name: 'Other' },
+  ];
+
   useEffect(() => {
     dispatch(fetchProducts());
   }, [dispatch]);
@@ -122,12 +137,15 @@ export const ProductPage: React.FC = () => {
       );
     }
 
-    // if (nameCategory) {
-    //   filteredProducts = filteredProducts.filter(product => {
-    //     console.log(product);
-    //     return product.category.toLocaleLowerCase() === nameCategory.toLocaleLowerCase();
-    //   });
-    // }
+    if (nameCategory) {
+      filteredProducts = filteredProducts.filter(product => {
+        const categoriId = staticCategoryObj.find(category => category.name.toLowerCase() === nameCategory.toLowerCase());
+        if (categoriId) {
+          console.log(product, categoriId.id);
+        }
+        return product.category_id === categoriId?.id;
+      });
+    }
 
     setCurrentPage(1);
     setVisibleProducts(filteredProducts);

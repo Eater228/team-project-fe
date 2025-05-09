@@ -66,7 +66,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
   };
 
   const inFavorite = () => favorite.some(fav => fav.id === product.id);
-console.log('inFavorite:', favorite.map(fav => fav.id));
+// console.log('inFavorite:', favorite.map(fav => fav.id));
   return (
     <div className={styles.container}>
       <NavLink to={`/info/${product.id}`} className={styles.image}>
