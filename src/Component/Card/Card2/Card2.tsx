@@ -5,7 +5,7 @@ import { NavLink, useNavigate } from "react-router-dom";
 import classNames from "classnames";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "Store/Store";
-import { toggleFavorite  } from "../../../Reducer/favoriteSlice";
+import { fetchFavorites, toggleFavorite  } from "../../../Reducer/favoriteSlice";
 
 interface Props {
   product: ListProduct;
@@ -19,7 +19,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
   const isLoggedIn = useSelector((state: RootState) => state.userData.isLoggedIn);
 
   const [timeLeft, setTimeLeft] = useState<string>("");
-
+  
   useEffect(() => {
     setTimeLeft(calculateTimeLeft());
 
@@ -57,7 +57,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
       navigate('/auth');
       return;
     }
-    console.log('product:', product);
+    console.log('product:', product.id);
     try {
       await dispatch(toggleFavorite(product.id)).unwrap();
     } catch (error) {
@@ -66,7 +66,7 @@ export const Card2: React.FC<Props> = ({ product }) => {
   };
 
   const inFavorite = () => favorite.some(fav => fav.id === product.id);
-// console.log('product:', product);
+console.log('inFavorite:', favorite.map(fav => fav.id));
   return (
     <div className={styles.container}>
       <NavLink to={`/info/${product.id}`} className={styles.image}>

@@ -125,7 +125,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  margin-bottom: 20px;
+  // margin-bottom: 20px;
 
   .inputLabel {
     padding: 10px 0 0 20px;
@@ -171,7 +171,7 @@
   width: 100%;
   height: 1px; /* Висота лінії */
   background-color: #3b3b3c; /* Колір лінії */
-  margin: 28px 0; /* Відступи */
+  margin: 15px 0; /* Відступи */
 }
 
 .buttonGroup {
@@ -278,14 +278,16 @@
   .noBids {
     font-size: 16px;
     color: #888;
+    padding: 0 0 15px 0 ;
   }
 }
 
 .error {
   color: #e53e3e;
   font-size: 14px;
-  text-align: center;
+  text-align: left;
   margin-top: 20px;
+  padding-left: 20px;
 }
 
 // Мобільна адаптація
