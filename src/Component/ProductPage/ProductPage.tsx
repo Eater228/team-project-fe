@@ -15,6 +15,7 @@ import { CategoriesBaner } from '../../Component/Categories/CategoriesBaner/Cate
 // import { categories } from '../../Component/Categories/CategoriesState/categories';
 import classNames from 'classnames';
 import { useDebouncedCallback } from 'use-debounce';
+import { NotFoundProducts } from '../../Component/NotFoundProduct/NotFoundProduct';
 
 export const ProductPage: React.FC = () => {
   const dispatch: AppDispatch = useDispatch();
@@ -140,9 +141,6 @@ export const ProductPage: React.FC = () => {
     if (nameCategory) {
       filteredProducts = filteredProducts.filter(product => {
         const categoriId = staticCategoryObj.find(category => category.name.toLowerCase() === nameCategory.toLowerCase());
-        if (categoriId) {
-          console.log(product, categoriId.id);
-        }
         return product.category_id === categoriId?.id;
       });
     }
@@ -190,7 +188,7 @@ export const ProductPage: React.FC = () => {
       (category) => category.name.toLowerCase() === nameCategory.toLowerCase()
     );
   }, [nameCategory, categories]);
-
+  console.log(visibleProducts)
   return (
     <div className={styles.productPage}>
       {categoryObj && (
@@ -218,17 +216,17 @@ export const ProductPage: React.FC = () => {
       <div className={styles.productList} ref={sectionRef}>
         {loading && <Loader />}
         {/* {error && <p>{error}</p>} */}
-        {visibleProducts.length !== 0 && (
+        {visibleProducts.length !== 0 ? (
           <>
             <CardList
               products={currentTableData.map(product => ({
                 ...product,
-                images: product.images.map(image => image.url) // assuming Image has a url property
+                images: product.images.map(image => image.url)
               }))}
               name={"You may like"}
               itemsPerPage={products.length}
             />
-            {/* <CardList products={currentTableData} name={"For you"} itemsPerPage={products.length} /> */}
+
             <Pagination
               className="pagination-bar"
               currentPage={currentPage}
@@ -237,7 +235,10 @@ export const ProductPage: React.FC = () => {
               onPageChange={page => setCurrentPage(page)}
             />
           </>
+        ) : (
+          <NotFoundProducts />
         )}
+
       </div>
       <div className={styles.bottomGap}></div>
     </div>

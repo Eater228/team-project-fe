@@ -22,6 +22,7 @@ export const AllCategoriesPage = () => {
   const handleCategoryClick = (categoryName: string) => {
     navigate(`/product?nameCategory=${categoryName}`);
   };
+const sortCategories = [...categories].sort((a, b) => a.id - b.id);
 
   return (
     <div className={styles.container}>
@@ -29,7 +30,7 @@ export const AllCategoriesPage = () => {
         <h2>All Categories</h2>
       </div>
       <div className={styles.gridCategoriesBlock}>
-        {categories.map((category) => (
+        {sortCategories.map((category) => (
           <div
             key={category.id}
             className={styles.categoryItem}

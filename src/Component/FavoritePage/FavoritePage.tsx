@@ -24,11 +24,22 @@ export const FavoritePage: React.FC = () => {
     navigate('/Home');
   };
 
+  const host = "http://localhost:8000";
+
+const updatedData = items.map(item => ({
+    ...item,
+    images: item.images.map(imageObj => ({
+        ...imageObj,
+        image: host + imageObj.image
+    }))
+}));
+
+console.log(updatedData)
   return (
     <div className={styles.favoritePage}>
-      {items.length > 0 ? (
+      {updatedData.length > 0 ? (
         <CardList
-          products={items.map(item => ({
+          products={updatedData.map(item => ({
             ...item,
             images: item.images.map(image => image.image),
           }))}
