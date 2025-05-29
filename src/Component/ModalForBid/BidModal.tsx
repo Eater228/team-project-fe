@@ -12,8 +12,13 @@ interface BidModalProps {
   lotPhoto: string;
   lastBid: number;
   onTopUpBalance: () => void;
-  bids: { amount: number; userId: number; time: string }[];
-  userDetails: { id: number; avatar: string; firstName: string; lastName: string }[];
+  bids: {
+    offered_price: number | string;
+    bid_time: string;
+    bidder_first_name: string;
+    bidder_last_name: string;
+    bidder_profile_pic: string;
+  }[];
 }
 
 const BidModal: React.FC<BidModalProps> = ({
@@ -27,74 +32,85 @@ const BidModal: React.FC<BidModalProps> = ({
   lastBid,
   onTopUpBalance,
   bids,
-  userDetails,
 }) => {
   const [bidAmount, setBidAmount] = useState('');
-  const [submitted, setSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
   const modalRef = useRef<HTMLDivElement>(null);
 
-  const minStep = useMemo(() => Number(minBidStep), [minBidStep]);
-  const minAllowedBid = useMemo(() => lastBid + minStep, [lastBid, minStep]);
+  const numericMinBidStep = useMemo(() => Number(minBidStep), [minBidStep]);
+  const minAllowedBid = useMemo(() => lastBid + numericMinBidStep, [lastBid, numericMinBidStep]);
 
-  const lastBidUser = useMemo(() => {
-    if (!bids.length) return null;
-    const lastBid = bids[bids.length - 1];
-    return userDetails.find(user => user.id === lastBid.userId);
-  }, [bids, userDetails]);
-
-  // useEffect(() => {
-  //   if (submitted && !error) {
-  //     onClose();
-  //   }
-  // }, [error, submitted, onClose]);
+  const lastBidEntry = useMemo(() => {
+    if (!bids || bids.length === 0) return null;
+    return bids[bids.length - 1];
+  }, [bids]);
 
   useEffect(() => {
     if (!isOpen) {
       setBidAmount('');
       setError('');
-      setSubmitted(false);
+      setIsSubmitting(false);
     }
   }, [isOpen]);
 
   const handleBidChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 6);
+    const value = e.target.value.replace(/[^0-9]/g, '').slice(0, 7);
     setBidAmount(value);
-    setError('');
-  }, []);
+    if (error) setError('');
+  }, [error]);
 
   const handleSubmitBid = useCallback(async () => {
     const numericBid = Number(bidAmount);
-  
-    if (!numericBid) {
-      setError("Please enter a bid amount");
+
+    if (!bidAmount || numericBid <= 0) {
+      setError("Please enter a bid amount.");
       return;
     }
     if (numericBid < minAllowedBid) {
-      setError(`Bid must be at least $${minAllowedBid}`);
+      setError(`Minimum bid: $${minAllowedBid.toFixed(2)}`);
       return;
     }
     if (numericBid > userBalance) {
-      setError("Insufficient balance");
+      setError("Insufficient balance.");
       return;
     }
-  
+
+    setIsSubmitting(true);
+    setError('');
+
     try {
       if (itemId) {
         await userService.makeBid(itemId, numericBid.toString());
-        setSubmitted(true);
         onBidSuccess?.();
         onClose();
+      } else {
+        setError("Lot ID is missing. Cannot place bid.");
+        setIsSubmitting(false);
       }
-    } catch (error) {
-      console.error("Error placing bid:", error);
-      setError(
-        (error as any)?.response?.data?.offered_price?.[0] 
-        || "Bid error"
-      );
+    } catch (err) {
+      console.error("Error during bid:", err);
+      const apiError = (err as any)?.response?.data;
+      const offeredPriceError = apiError?.offered_price?.[0];
+      const detailError = apiError?.detail;
+      
+      if (offeredPriceError) {
+        setError(offeredPriceError);
+      } else if (detailError) {
+          setError(detailError);
+      } else {
+        setError("An error occurred while placing the bid. Please try again.");
+      }
+      setIsSubmitting(false);
     }
-  }, [bidAmount, minAllowedBid, userBalance, itemId, onBidSuccess]);
-  
+  }, [
+    bidAmount,
+    minAllowedBid,
+    userBalance,
+    itemId,
+    onBidSuccess,
+    onClose,
+  ]);
 
   const handleOverlayClick = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
     if (modalRef.current && !modalRef.current.contains(e.target as Node)) {
@@ -105,66 +121,67 @@ const BidModal: React.FC<BidModalProps> = ({
   if (!isOpen) return null;
 
   return (
-    <div className={styles.modalOverlay} onClick={handleOverlayClick}>
+    <div className={styles.modalOverlay} onClick={handleOverlayClick} role="dialog" aria-modal="true">
       <div className={styles.modalContent} ref={modalRef}>
         <button className={styles.closeButton} onClick={onClose} aria-label="Close modal">×</button>
         
         <div className={styles.title}>
           <div className={styles.balance}>
             <h3>Your Balance</h3>
-            <p>${userBalance}</p>
+            <p>${userBalance.toFixed(2)}</p>
           </div>
           <div className={styles.step}>
             <h5>Minimum Bid Step</h5>
-            <p>${minBidStep}</p>
+            <p>${Number(minBidStep).toFixed(2)}</p>
           </div>
         </div>
 
-        {lotPhoto && <img src={lotPhoto} alt="Lot" className={styles.lotPhoto} />}
+        {lotPhoto && <img src={lotPhoto} alt="Lot Photo" className={styles.lotPhoto} />}
 
         <div className={styles.bids}>
           <h3>Last Bid</h3>
-          {bids.length ? (
+          {lastBidEntry ? (
             <div className={styles.bid}>
-              {lastBidUser?.avatar && (
+              {lastBidEntry.bidder_profile_pic && (
                 <img 
-                  src={lastBidUser.avatar} 
-                  alt="Bidder" 
+                  src={lastBidEntry.bidder_profile_pic} 
+                  alt={`${lastBidEntry.bidder_first_name || ''} ${lastBidEntry.bidder_last_name || ''}`} 
                   className={styles.bidUserImage}
                 />
               )}
               <div className={styles.bidDetails}>
                 <div className={styles.bidUserName}>
-                  {lastBidUser 
-                    ? `${lastBidUser.firstName} ${lastBidUser.lastName}`
-                    : 'Anonymous'}
+                  {`${lastBidEntry.bidder_first_name || ''} ${lastBidEntry.bidder_last_name || ''}`.trim() || 'Anonymous'}
                 </div>
                 <div className={styles.bidAmount}>
-                  Bided ${bids[bids.length - 1].amount}
+                  Bid: ${Number(lastBidEntry.offered_price).toFixed(2)}
                 </div>
                 <div className={styles.bidTime}>
-                  {new Date(bids[bids.length - 1].time).toLocaleString()}
+                  {new Date(lastBidEntry.bid_time).toLocaleString()}
                 </div>
               </div>
             </div>
           ) : (
-            <div className={styles.noBids}>No bids available</div>
+            <div className={styles.noBids}>No bids yet</div>
           )}
         </div>
 
         <div className={styles.formGroup}>
+          <label className={styles.inputLabel} htmlFor="bidAmountInput">
+            Enter your bid
+          </label>
           <input
-            id="bidAmount"
+            id="bidAmountInput"
             type="text"
+            inputMode="numeric"
+            pattern="[0-9]*"
             value={bidAmount}
             onChange={handleBidChange}
             className={styles.inputDiv}
-            aria-labelledby="bidAmountLabel"
+            aria-describedby={error ? "bidError" : undefined}
+            placeholder={`min. $${minAllowedBid.toFixed(2)}`}
           />
-          <label className={styles.inputLabel} htmlFor="bidAmount">
-            Enter your bid
-          </label>
-          {error && <div className={styles.error}>{error}</div>}
+          {error && <div id="bidError" className={styles.error} role="alert">{error}</div>}
         </div>
 
         <div className={styles.fullWidthLine} />
@@ -173,11 +190,15 @@ const BidModal: React.FC<BidModalProps> = ({
           <button 
             onClick={handleSubmitBid} 
             className={styles.bidButton}
-            disabled={submitted && !error}
+            disabled={isSubmitting || !bidAmount}
           >
-            Bid
+            {isSubmitting ? 'Submitting...' : 'Place Bid'}
           </button>
-          <button onClick={onTopUpBalance} className={styles.topUpButton}>
+          <button 
+            onClick={onTopUpBalance} 
+            className={styles.topUpButton}
+            disabled={isSubmitting}
+          >
             Top Up Balance
           </button>
         </div>

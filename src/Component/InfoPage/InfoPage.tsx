@@ -35,7 +35,6 @@ export const InfoPage: React.FC = () => {
   const [currentImageIndex, setCurrentImageIndex] = useState<number>(0);
   const [userDetails, setUserDetails] = useState<User[]>([]);
   const [selerInfo, setSelerInfo] = useState<User>();
-  const [refreshTrigger, setRefreshTrigger] = useState(false); // State for bid error
   const [showBalanceModal, setShowBalanceModal] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const navigate = useNavigate();
@@ -144,7 +143,7 @@ export const InfoPage: React.FC = () => {
         });
     }
   }, [itemId]);
-
+  console.log('product:', product);
   useEffect(() => {
     if (product) {
       const calculateTimeLeft = () => {
@@ -257,8 +256,11 @@ export const InfoPage: React.FC = () => {
     return `${day}.${month}.${year}`;
   };
 
-  // console.log(product)
-
+  const getNumericOfferedPrice = (price: number | string): number => {
+    const num = Number(price);
+    return isNaN(num) ? 0 : num;
+  };
+  
   return (
     <div className={styles.infoPage}>
       <div className={styles.imageBlock}>
@@ -373,42 +375,51 @@ export const InfoPage: React.FC = () => {
         </div>
         <div className={styles.bids}>
           <h3>Last Bids</h3>
-          {product.bids.length ? (
-            product.bids.slice(-3).reverse().map((bid, index) => {
-              const user = userDetails.find(user => user.id === bid.userId);
-              return (
+          {product.bids.length > 0 ? (
+            product.bids
+              .slice(-3)
+              .reverse()
+              .map((bid, index) => (
                 <div key={index} className={styles.bid}>
-                  <img src={user?.avatar} alt="User" className={styles.bidUserImage} />
+                  <img
+                    src={bid.bidder_profile_pic}
+                    alt="User"
+                    className={styles.bidUserImage}
+                  />
                   <div className={styles.bidDetails}>
                     <div className={styles.bidUserName}>
-                      {user ? `${user.firstName} ${user.lastName}` : 'Loading...'}
+                      {bid.bidder_first_name} {bid.bidder_last_name}
                     </div>
-                    <div className={styles.bidAmount}>Bided on your auction ${bid.amount}</div>
-                    <div className={styles.bidTime}>{new Date(bid.time).toLocaleString()}</div>
+                    <div className={styles.bidAmount}>
+                      Bided on your auction ${bid.offered_price}
+                    </div>
+                    <div className={styles.bidTime}>
+                      {new Date(bid.bid_time).toLocaleString()}
+                    </div>
                   </div>
                 </div>
-              );
-            })
+              ))
           ) : (
             <div className={styles.noBids}>No bids available</div>
           )}
+
         </div>
       </div>
+
       <BidModal
-        itemId={itemId}
+        itemId={itemId} // ID поточного лота
         isOpen={isBidModalOpen}
-        onClose={handleCloseModal} // Закриття модального вікна
-        userBalance={currentUser?.balance || 0} // Замініть на реальний баланс
-        minBidStep={+product?.min_step || 0} // Мінімальний крок
-        lastBid={product?.bids[product.bids.length - 1]?.amount || 0} // Остання ставка
-        lotPhoto={product?.images[currentImageIndex]?.image || ''} // Зображення лоту
-        bids={product.bids} // Передаємо всі ставки
-        userDetails={userDetails.map(user => ({
-          id: user.id,
-          avatar: user.avatar || '',
-          firstName: user.firstName || '',
-          lastName: user.lastName || '',
-        }))} // Передаємо деталі користувачів
+        onClose={handleCloseModal}
+        userBalance={currentUser?.balance || 0}
+        minBidStep={+product?.min_step || 0}
+        lastBid={ // Найвища сума ставки
+          product?.bids && product.bids.length > 0
+            ? getNumericOfferedPrice(product.bids[product.bids.length - 1].offered_price)
+            : 0
+        }
+        lotPhoto={product?.images[currentImageIndex]?.image || ''}
+        bids={product.bids || []} // Передаємо product.bids напряму (або порожній масив)
+        // userDetails проп більше не передається
         onBidSuccess={refreshProductData}
         onTopUpBalance={handleBalanceClick}
       />
